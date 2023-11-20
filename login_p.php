@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     if (is_used($email))
     {
         // TODO: check is password is correct [database]
-        echo("La password è corretta?");
+        echo("Accesso effettuato con successo");
     }
     else
     {

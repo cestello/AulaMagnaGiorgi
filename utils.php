@@ -21,3 +21,38 @@ function is_valid($password)
     
     return 0;
 }
+
+function input_is_valid($professore, $titolo, $data_inizio, $data_fine, $ora_inizio, $ora_fine)
+{
+    if ($professore == NULL)
+    {
+        return 1;
+    }
+
+    if ($titolo == NULL)
+    {
+        return 2;
+    }
+
+    if ($data_inizio == NULL)
+    {
+        return 3;
+    }
+
+    if ($data_fine == NULL)
+    {
+        return 4;
+    }
+
+    if ($ora_inizio == NULL)
+    {
+        return 5;
+    }
+
+    if ($ora_fine == NULL)
+    {
+        return 6;
+    }
+
+    return 0;
+}
