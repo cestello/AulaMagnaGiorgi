@@ -3,6 +3,7 @@
 function is_used($email)
 {
     // TODO: Controlla se esiste già un account legato a questa mail [database]
+    return true;
 }
 
 function is_valid($password)
@@ -20,5 +21,3 @@ function is_valid($password)
     
     return 0;
 }
-
-?>

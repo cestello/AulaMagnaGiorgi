@@ -1,19 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="it-IT">
     <head>
+        <title>
 
+        </title>
     </head>
 
     <body>
-        
+        <?php include("./prenotazione_p.php"); ?>
     </body>
 </html>
-
-<!--
-    PRENOTAZIONE
-        Nome Evento
-        Data (gg/mm/yyy)
-        Ora inizio
-        Ora fine
-        Descrizione (opz.)
--->
