@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 /*
 PRENOTAZIONE
     Professore                  (MAX 32 caratteri)
@@ -7,8 +7,9 @@ PRENOTAZIONE
     Data fine (gg/mm/yyy)       (MAX 10 caratteri)
     Ora inizio                  (MAX 5 caratteri)
     Ora fine                    (MAX 5 caratteri)
+
     Descrizione (opz.)          (MAX 512 caratteri)
-    Classi (opz.)
+    Classi (opz.)               (MAX 64 caratteri)
 */
 
 if ($_SERVER["METHOD_REQUEST"] == "POST")
@@ -22,9 +23,37 @@ if ($_SERVER["METHOD_REQUEST"] == "POST")
     $descrizione = $_POST["descrizione"];
     $classi = $_POST["classi"];
 
-    if (input_is_valid($professore, $titolo, $data_inizio, $data_fine, $ora_inizio, $ora_fine))
+    if ($status_code = input_is_valid($professore, $titolo, $data_inizio, $data_fine, $ora_inizio, $ora_fine))
     {
         // TODO: Aggiungere al database
+        if ($status_code == 0)
+        {
+            // TODO: Procedere con la prenotazione [database]
+        }
+        else if ($status_code == 1)
+        {
+            echo("Professore non definito");
+        }
+        else if ($status_code == 2)
+        {
+            echo("Titolo non definito");
+        }
+        else if ($status_code == 3)
+        {
+            echo("Data inizio non definito");
+        }
+        else if ($status_code == 4)
+        {
+            echo("Data fine non definito");
+        }
+        else if ($status_code == 5)
+        {
+            echo("Ora inizio non definito");
+        }
+        else if ($status_code == 6)
+        {
+            echo("Ora fine non definito");
+        }
         echo("Prenotazione");
     }
 }

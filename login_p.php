@@ -1,10 +1,7 @@
 <?php
 /*
-REGISTRAZIONE
-    Nome
-    Cognome
+    LOGIN
     Email
-    Username
     Pwd
 */
 

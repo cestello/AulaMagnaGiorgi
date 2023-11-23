@@ -1,5 +1,11 @@
-<?php
+<?php /** @noinspection ALL */
 
+/**
+ * Controlla se una mail è già stata utilizzata
+ *
+ * @param $email da controllare
+ * @return true
+ */
 function is_used($email)
 {
     // TODO: Controlla se esiste già un account legato a questa mail [database]
