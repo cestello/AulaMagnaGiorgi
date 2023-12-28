@@ -28,36 +28,41 @@ function is_valid($password)
     return 0;
 }
 
-function input_is_valid($professore, $titolo, $data_inizio, $data_fine, $ora_inizio, $ora_fine)
+function input_is_valid($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo, $descrizione)
 {
-    if ($professore == NULL)
+    if ($anno == NULL)
     {
         return 1;
     }
 
-    if ($titolo == NULL)
+    if ($mese == NULL)
     {
         return 2;
     }
 
-    if ($data_inizio == NULL)
+    if ($giorno == NULL)
     {
         return 3;
     }
 
-    if ($data_fine == NULL)
+    if ($ora_inizio == NULL)
     {
         return 4;
     }
 
-    if ($ora_inizio == NULL)
+    if ($ora_fine == NULL)
     {
         return 5;
     }
 
-    if ($ora_fine == NULL)
+    if ($titolo == NULL)
     {
         return 6;
+    }
+
+    if ($descrizione == NULL)
+    {
+        return 7;
     }
 
     return 0;

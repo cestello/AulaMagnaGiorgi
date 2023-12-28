@@ -2,17 +2,19 @@
 
 if ($_SERVER["METHOD_REQUEST"] == "POST")
 {
-    $professore = $_POST["professore"];
-    $titolo = $_POST["titolo"];
-    $data_inizio = $_POST["data-inizio"];
-    $data_fine = $_POST["data-fine"];
-    $ora_inizio = $_POST["ora-inizio"];
-    $ora_fine = $_POST["ora-fine"];
-    $descrizione = $_POST["descrizione"];
-    $classi = $_POST["classi"];
+    $anno = $_POST["year"];
+    $mese = $_POST["month"];
+//    $giorno = $_POST["day"];
+    $ora_inizio = $_POST["from"];
+    $ora_fine = $_POST["to"];
+    $titolo = $_POST["evento"];
+    $descrizione = $_POST["motivazione"];
 
-    if ($status_code = input_is_valid($professore, $titolo, $data_inizio, $data_fine, $ora_inizio, $ora_fine))
+    if ($status_code = input_is_valid($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo, $descrizione))
     {
+        header("Location ../html/NotFound.html");
+        exit;
+
         // TODO: Aggiungere al database
         if ($status_code == 0)
         {
@@ -20,27 +22,31 @@ if ($_SERVER["METHOD_REQUEST"] == "POST")
         }
         else if ($status_code == 1)
         {
-            echo("Professore non definito");
+            echo("Anno non valido");
         }
         else if ($status_code == 2)
         {
-            echo("Titolo non definito");
+            echo("Mese non valido");
         }
         else if ($status_code == 3)
         {
-            echo("Data inizio non definito");
+            echo("Giorno non valido");
         }
         else if ($status_code == 4)
         {
-            echo("Data fine non definito");
+            echo("Ora inizio non valida");
         }
         else if ($status_code == 5)
         {
-            echo("Ora inizio non definito");
+            echo("Ora fine non valida");
         }
         else if ($status_code == 6)
         {
-            echo("Ora fine non definito");
+            echo("Titolo non valido");
+        }
+        else if ($status_code == 7)
+        {
+            echo("Descrizione non valida");
         }
         echo("Prenotazione");
     }
