@@ -1,16 +1,4 @@
 <?php /** @noinspection ALL */
-/*
-PRENOTAZIONE
-    Professore                  (MAX 32 caratteri)
-    Titolo                      (MAX 32 caratteri)
-    Data inizio (gg/mm/yyyy)    (MAX 10 caratteri)
-    Data fine (gg/mm/yyy)       (MAX 10 caratteri)
-    Ora inizio                  (MAX 5 caratteri)
-    Ora fine                    (MAX 5 caratteri)
-
-    Descrizione (opz.)          (MAX 512 caratteri)
-    Classi (opz.)               (MAX 64 caratteri)
-*/
 
 if ($_SERVER["METHOD_REQUEST"] == "POST")
 {

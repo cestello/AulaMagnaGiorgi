@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="it-IT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,8 +48,7 @@
             margin-bottom: 20px;
             border-radius: 6px;
             box-sizing: border-box;
-            border: 1px solid ;
-            border-color: #3979cc;
+            border: 1px solid #3979cc;
         }
 
         #FormRegistrazione input[type="submit"] {
@@ -126,8 +125,7 @@
                 margin-bottom: 18px;
                 border-radius: 6px;
                 box-sizing: border-box;
-                border: 1px solid ;
-                border-color: #3979cc;
+                border: 1px solid #3979cc;
             }
         }
 
@@ -141,7 +139,7 @@
 <body>
 
 
-<form id="FormRegistrazione" onsubmit="return ValidationForm()">
+<form method="post" action="../php/registrazione.php" id="FormRegistrazione">
 
     <img src="../img/LogoGiorgi.png" alt="LogoGiorgi">
 
@@ -177,107 +175,15 @@
             Almeno un numero.<br>
             Almeno un carattere speciale.
         </div></label>
-    <input type="password" id="Password" name="Password"  required>
+    <input type="password" id="Password" name="Password" required>
 
     <label for="ConfermaPassword">Conferma Password: </label>
     <input type="password" id="ConfermaPassword" name="ConfermaPassword"  required>
-    <a  href="../Login/login.html" id="forgot-pass">Hai un account? Accedi</a> <br><br>
+    <a  href="./login.html" id="forgot-pass">Hai un account? Accedi</a> <br><br>
 
     <input type="submit" name="Invia">
 </form>
-<script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
 <script>
-    function ValidationForm(){
-        var Nome = document.getElementById("Nome").value;
-        var Cognome = document.getElementById("Cognome").value;
-        var Email = document.getElementById("Email").value;
-        var Password = document.getElementById("Password").value;
-        var ConfermaPassword = document.getElementById("ConfermaPassword").value;
-
-        if (
-            ControlloNome(Nome) &&
-            ControlloCognome(Cognome) &&
-            ControlloEmail(Email) &&
-            ControlloPassword(Password) &&
-            ControlloConfermaPassword(Password, ConfermaPassword)
-        ) {
-            // Tutti i controlli sono passati, puoi inviare il modulo
-            alert("Registazione effettuata");
-            return true;
-        }
-
-        // Se uno qualsiasi dei controlli fallisce, impedisci l'invio del modulo
-        return false;
-    }
-
-    function ControlloNome(Nome){
-        if(Nome.length > 35){
-            alert("Il nome può avere massimo 35 caratteri.");
-            return false;
-        }
-        return true;
-    }
-
-    function ControlloCognome(Cognome){
-        if(Cognome.length > 25){
-            alert("Il cognome può avere massimo 25 caratteri.");
-            return false;
-        }
-        return true;
-    }
-
-    function ControlloEmail(Email){
-        if (Email.length < 7) {
-            alert("L'email deve contenere almeno 7 caratteri");
-            return false;
-        }
-        if (Email.length > 64) {
-            alert("L'email può contenere massimo 64 caratteri");
-            return false;
-        }
-        return true;
-    }
-
-    function ControlloPassword(Password){
-        if (Password.length < 8) {
-            alert("La password deve contenere almeno 8 caratteri");
-            return false;
-        }
-        if (Password.length > 32) {
-            alert("La password può contenere massimo 32 caratteri");
-            return false;
-        }
-        var contieneMaiuscola = /[A-Z]/;
-        var contieneNumero = /\d/;
-        var contieneSpeciale = /[!@#$%^&*()_+]/;
-
-        if (!contieneMaiuscola.test(Password)) {
-            alert("La password deve contenere almeno una lettera maiuscola");
-            return false;
-        }
-
-        if (!contieneNumero.test(Password)) {
-            alert("La password deve contenere almeno un numero");
-            return false;
-        }
-
-        if (!contieneSpeciale.test(Password)) {
-            alert("La password deve contenere almeno un carattere speciale");
-            return false;
-        }
-
-        return true;
-    }
-
-    function ControlloConfermaPassword(Password, ConfermaPassword){
-        if(Password !== ConfermaPassword){
-            alert("La password non corrisponde");
-            return false;
-        }
-
-        return true;
-    }
-
 
     function nomeinfo()
     {
@@ -306,6 +212,6 @@
 
 </script>
 <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
-<?php include("./signin_p.php"); ?>
+<?php include("../php/registrazione.php") ?>
 </body>
 </html>

@@ -7,7 +7,7 @@ REGISTRAZIONE
     Pwd
 */
 
-include('./utils.php');
+include('../util/utils.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
