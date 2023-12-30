@@ -12,7 +12,7 @@ include('../util/utils.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
     $nome = $_POST["Nome"];
-    $cognome = $_POST["Nognome"];
+    $cognome = $_POST["Cognome"];
     $email = $_POST["Email"];
     $password = $_POST["Password"];
     $value = is_mail_valid($email);
@@ -33,14 +33,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         $status_code = is_valid($password);
         if ($status_code == 0)
         {
-            // TODO: manda al database
             $conn = connect_to_database();
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             } else {
-                $sql_query = "INSERT INTO utenti (email, passoword, nome, cognome, admin)
-                VALUES (" . $email . ", " . $password . ", " . $nome . ", " . $cognome . ", 0);";
-                echo(sql_query);
+                $sql_query = "INSERT INTO utenti (email, password, nome, cognome, admin)
+                VALUES ('" . $email . "', '" . $password . "', '" . $nome . "', '" . $cognome . "', 0);";
                 $query_answer = $conn->query($sql_query);
                 if($query_answer === FALSE) {
                     echo("Errore non previsto nella registrazione");

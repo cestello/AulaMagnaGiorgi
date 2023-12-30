@@ -9,34 +9,30 @@
 
 function connect_to_database() 
 {
-    $servername = "138.41.20.100";
+    $servername = "mysql.giorgi.edu";
     $username = "5aiu16";
     $password = "utenti";
     $dbname = "5ai23rizzello";
     $connection = new mysqli($servername, $username, $password, $dbname);
-
     return $connection;
 }
 
 function is_used($email)
 {
-    // true male
-    // false bene
-    
     $conn = connect_to_database();
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
         return true;
     }
 
-    $sql_query = "SELECT email FROM utenti WHERE email = '. $email . '";
-    echo(sql_query);
+    $sql_query = "SELECT email FROM utenti WHERE email = '". $email . "';";
 
     $query_answer = $conn->query($sql_query);
     if($query_answer->num_rows > 0) {
         $conn->close();
         return true;
     }
+
     $conn->close();
     return false;
 }
@@ -65,7 +61,7 @@ function is_mail_valid($email)
         return 1;
     }
 
-    if (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/gm', $password))
+    if (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $email))
     {
         return 2;
     }
