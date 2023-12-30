@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 die("Connection failed: " . $conn->connect_error);
             } else {
                 $sql_query = "INSERT INTO utenti (email, password, nome, cognome, admin)
-                VALUES ('" . $email . "', '" . $password . "', '" . $nome . "', '" . $cognome . "', 0);";
+                VALUES ('" . $email . "', '" . hash('sha256', $password) . "', '" . $nome . "', '" . $cognome . "', 0);";
                 $query_answer = $conn->query($sql_query);
                 if($query_answer === FALSE) {
                     echo("Errore non previsto nella registrazione");

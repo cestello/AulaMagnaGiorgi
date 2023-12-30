@@ -14,13 +14,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     if (is_used($email))
     {
         $conn = connect_to_database();
-        $sql_query = "SELECT email FROM utenti WHERE email = '". $email . "';";
+        $sql_query = "SELECT password FROM utenti WHERE email = '". $email . "';";
         $query_answer = $conn->query($sql_query);
         if($query_answer === FALSE) {
         } else {
             $row = $query_answer->fetch_assoc();
-            $db_password = $row["email"];
-            if($db_password == $password) {
+            $db_password = $row["password"];
+            if(hash('sha256', $password) === $db_password) {
                 echo("Accesso effettuato con successo");
             } else {
                 echo("Password errata");
@@ -32,4 +32,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
         echo("Account inesistente");
     }
-}
+}   
