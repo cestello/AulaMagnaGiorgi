@@ -11,19 +11,44 @@ include('../util/utils.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
-    $nome = $_POST["nome"];
-    $cognome = $_POST["cognome"];
-    $email = $_POST["email"];
-    $password = $_POST["password"];
+    $nome = $_POST["Nome"];
+    $cognome = $_POST["Nognome"];
+    $email = $_POST["Email"];
+    $password = $_POST["Password"];
+    $value = is_mail_valid($email);
 
-    if (!is_used($email))
+    if ($value != 0) 
+    {
+        if($value == 1) 
+        {
+            echo("La lunghezza deve essere tra 7 e 128 caratteri");
+        }
+        else 
+        {
+            echo("L'email inserita non e' valida");
+        }
+    } 
+    else if (!is_used($email))
     {
         $status_code = is_valid($password);
         if ($status_code == 0)
         {
             // TODO: manda al database
+            $conn = connect_to_database();
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            } else {
+                $sql_query = "INSERT INTO utenti (email, passoword, nome, cognome, admin)
+                VALUES (" . $email . ", " . $password . ", " . $nome . ", " . $cognome . ", 0);";
+                echo(sql_query);
+                $query_answer = $conn->query($sql_query);
+                if($query_answer === FALSE) {
+                    echo("Errore non previsto nella registrazione");
+                }
+                $conn->close();
+            }
             // TODO: redirect al login
-            echo("Redirect al login");
+            // echo("Redirect al login");
         }
         else if ($status_code == 1)
         {

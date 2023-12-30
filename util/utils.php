@@ -6,10 +6,39 @@
  * @param $email da controllare
  * @return true
  */
+
+function connect_to_database() 
+{
+    $servername = "138.41.20.100";
+    $username = "5aiu16";
+    $password = "utenti";
+    $dbname = "5ai23rizzello";
+    $connection = new mysqli($servername, $username, $password, $dbname);
+
+    return $connection;
+}
+
 function is_used($email)
 {
-    // TODO: Controlla se esiste già un account legato a questa mail [database]
-    return true;
+    // true male
+    // false bene
+    
+    $conn = connect_to_database();
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+        return true;
+    }
+
+    $sql_query = "SELECT email FROM utenti WHERE email = '. $email . '";
+    echo(sql_query);
+
+    $query_answer = $conn->query($sql_query);
+    if($query_answer->num_rows > 0) {
+        $conn->close();
+        return true;
+    }
+    $conn->close();
+    return false;
 }
 
 function is_valid($password)
@@ -21,6 +50,22 @@ function is_valid($password)
     }
 
     if (!preg_match('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/', $password))
+    {
+        return 2;
+    }
+    
+    return 0;
+}
+
+function is_mail_valid($email)
+{
+    $len_email = strlen($email);
+    if ($len_email < 7 || $len_email > 128)
+    {
+        return 1;
+    }
+
+    if (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/gm', $password))
     {
         return 2;
     }
