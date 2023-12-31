@@ -88,7 +88,7 @@
 
     <body>
         <div id="form-container">
-            <form method="post" action="../php/login.php" id="formLogin">
+            <form method="post" id="formLogin">
                 <img src="../img/LogoGiorgi.png" alt="LogoGiorgi">
                 <h1>Login</h1> <br>
 
@@ -99,12 +99,13 @@
                 <input type="password" id="password" name="password" required><br>
 
                 
-                <a class="forgot-pass" href="./registrazione.html" id="forgot-pass">Non hai un account? Registrati</a> <br><br>
+                <a class="forgot-pass" href="./registrazione.php" id="forgot-pass">Non hai un account? Registrati</a> <br><br>
 
                 <div id="submit">  
                     <input type="submit" value="Accedi">
                 </div>
             </form>
         </div>
+        <?php include("../php/login.php") ?>
     </body>
 </html>

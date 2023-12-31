@@ -96,7 +96,7 @@
     </head>
 
     <body>
-        <form method="post" action="../php/prenotazione.php" id="formCalendario">
+        <form method="post" id="formCalendario">
             <img src="../img/LogoGiorgi.png" alt="LogoGiorgi">
 
             <h1>Prenotazione</h1>
@@ -131,5 +131,6 @@
                 <input type="submit" value="Prenota">
             </div>
         </form>
+        <?php include("../php/prenotazione.php") ?>
     </body>
 </html>

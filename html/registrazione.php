@@ -139,7 +139,7 @@
 <body>
 
 
-<form method="post" action="../php/registrazione.php" id="FormRegistrazione">
+<form method="post" id="FormRegistrazione">
 
     <img src="../img/LogoGiorgi.png" alt="LogoGiorgi">
 
