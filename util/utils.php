@@ -8,7 +8,7 @@
  */
 
 const mainurl = "http://138.41.20.100/~rizzello2400/";
-function connect_to_database() 
+function connect_to_database()
 {
     $servername = "mysql.giorgi.edu";
     $username = "5aiu16";
@@ -25,10 +25,10 @@ function is_used($email)
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql_query = "SELECT email FROM utenti WHERE email = '". $email . "';";
+    $sql_query = "SELECT email FROM utenti WHERE email = '" . $email . "';";
 
     $query_answer = $conn->query($sql_query);
-    if($query_answer->num_rows > 0) {
+    if ($query_answer->num_rows > 0) {
         $conn->close();
         return true;
     }
@@ -40,16 +40,14 @@ function is_used($email)
 function is_valid($password, $confirm_password)
 {
     $len_pwd = strlen($password);
-    if ($len_pwd < 8 || $len_pwd > 32)
-    {
+    if ($len_pwd < 8 || $len_pwd > 32) {
         return 1;
     }
 
-    if (!preg_match('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/', $password))
-    {
+    if (!preg_match('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/', $password)) {
         return 2;
     }
-    
+
     if ($confirm_password != $password) {
         return 3;
 
@@ -60,53 +58,44 @@ function is_valid($password, $confirm_password)
 function is_mail_valid($email)
 {
     $len_email = strlen($email);
-    if ($len_email < 7 || $len_email > 128)
-    {
+    if ($len_email < 7 || $len_email > 128) {
         return 1;
     }
 
-    if (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $email))
-    {
+    if (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $email)) {
         return 2;
     }
-    
+
     return 0;
 }
 
 function input_is_valid($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo, $descrizione)
 {
-    if ($anno == NULL)
-    {
+    if ($anno == NULL) {
         return 1;
     }
 
-    if ($mese == NULL)
-    {
+    if ($mese == NULL) {
         return 2;
     }
 
-    if ($giorno == NULL)
-    {
+    if ($giorno == NULL) {
         return 3;
     }
 
-    if ($ora_inizio == NULL)
-    {
+    if ($ora_inizio == NULL) {
         return 4;
     }
 
-    if ($ora_fine == NULL)
-    {
+    if ($ora_fine == NULL) {
         return 5;
     }
 
-    if ($titolo == NULL)
-    {
+    if ($titolo == NULL) {
         return 6;
     }
 
-    if ($descrizione == NULL)
-    {
+    if ($descrizione == NULL) {
         return 7;
     }
 

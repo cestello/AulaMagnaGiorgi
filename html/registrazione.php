@@ -1,15 +1,16 @@
-<?php 
-    include('../util/utils.php');
-    include("../php/check_cookie.php");
-    if(check()) {
-        header("Location: " . $url . "index.php");
-        die();
-    }
-    include("../php/registrazione.php");
+<?php
+include('../util/utils.php');
+include("../php/check_cookie.php");
+if (check()) {
+    header("Location: " . $url . "index.php");
+    die();
+}
+include("../php/registrazione.php");
 ?>
 
 <!DOCTYPE html>
 <html lang="it-IT">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,8 +18,9 @@
     <style>
         body {
             font-family: 'Open Sans', sans-serif;
-            background: linear-gradient(to left, #b9cfec,  #b4c8d4);
+            background: linear-gradient(to left, #b9cfec, #b4c8d4);
         }
+
         #paper-window section {
             padding: 40px;
             background-color: #fff;
@@ -79,7 +81,7 @@
         }
 
 
-        #FormRegistrazione img{
+        #FormRegistrazione img {
             display: block;
             margin: 0 auto;
             width: 243px;
@@ -109,26 +111,27 @@
             transition: .5s;
         }
 
-        .fa-circle-question:hover{
+        .fa-circle-question:hover {
             color: #BC2047;
         }
 
-        @media (min-width: 768px){
-
-        }
+        @media (min-width: 768px) {}
 
 
-        @media (max-width: 767px){
-            #FormRegistrazione{
+        @media (max-width: 767px) {
+            #FormRegistrazione {
                 max-width: 90%;
             }
-            #FormRegistrazione img{
+
+            #FormRegistrazione img {
                 width: 45%;
                 height: 45%;
             }
-            #FormRegistrazione h1{
+
+            #FormRegistrazione h1 {
                 font-size: 30px;
             }
+
             #FormRegistrazione input {
                 width: 100%;
                 padding: 8px;
@@ -146,89 +149,93 @@
         }
     </style>
 </head>
+
 <body>
 
 
-<form method="post" id="FormRegistrazione">
+    <form method="post" id="FormRegistrazione">
 
-    <img src="../img/LogoGiorgi.png" alt="LogoGiorgi">
+        <img src="../img/LogoGiorgi.png" alt="LogoGiorgi">
 
-    <h1>Registrazione</h1>
+        <h1>Registrazione</h1>
 
-    <label for="Nome">Nome: <span class="fa-regular fa-circle-question" onmouseover="nomeinfo(true)" onmouseout="nomeinfo(false)"></span>
-        <div id="infonome" class="display notDisplay">
-            Numero minimo di caratteri: 2<br>
-            Numero massimo di caratteri: 64
-        </div>
-    </label>
-    <input type="text" id="Nome" name="Nome" minlength="2" maxlength="64" required>
+        <label for="Nome">Nome: <span class="fa-regular fa-circle-question" onmouseover="nomeinfo(true)"
+                onmouseout="nomeinfo(false)"></span>
+            <div id="infonome" class="display notDisplay">
+                Numero minimo di caratteri: 2<br>
+                Numero massimo di caratteri: 64
+            </div>
+        </label>
+        <input type="text" id="Nome" name="Nome" minlength="2" maxlength="64" required>
 
 
-    <label for="Cognome">Cognome: <span class="fa-regular fa-circle-question" onmouseover="cognomeinfo(true)" onmouseout="cognomeinfo(false)"></span>
-        <div id="infocognome" class="display notDisplay">
-            Numero minimo di caratteri: 2<br>
-            Numero massimo di caratteri: 64
-        </div>
-    </label>
-    <input type="text" id="Cognome" name="Cognome" minlength="2" maxlength="64" required>
+        <label for="Cognome">Cognome: <span class="fa-regular fa-circle-question" onmouseover="cognomeinfo(true)"
+                onmouseout="cognomeinfo(false)"></span>
+            <div id="infocognome" class="display notDisplay">
+                Numero minimo di caratteri: 2<br>
+                Numero massimo di caratteri: 64
+            </div>
+        </label>
+        <input type="text" id="Cognome" name="Cognome" minlength="2" maxlength="64" required>
 
-    <label for="Email">Email: <span class="fa-regular fa-circle-question" onmouseover="emailinfo(true)" onmouseout="emailinfo(false)"></span>
-        <div id="infoemail" class="display notDisplay">
-            Numero minimo di caratteri: 7<br>
-            Numero massimo di caratteri: 128
-        </div> </label>
-    <input type="email" id="Email" name="Email" minlength="7" maxlength="128" required>
+        <label for="Email">Email: <span class="fa-regular fa-circle-question" onmouseover="emailinfo(true)"
+                onmouseout="emailinfo(false)"></span>
+            <div id="infoemail" class="display notDisplay">
+                Numero minimo di caratteri: 7<br>
+                Numero massimo di caratteri: 128
+            </div>
+        </label>
+        <input type="email" id="Email" name="Email" minlength="7" maxlength="128" required>
 
-    <label for="Password">Password: <span class="fa-regular fa-circle-question" onmouseover="passwordinfo(true)" onmouseout="passwordinfo(false)"></span>
-        <div id="infopassword" class="display notDisplay">
-            Numero minimo di caratteri: 8<br>
-            Numero massimo di caratteri: 64<br>
-            Almeno una lettera maiuscola<br>
-            Almeno un numero<br>
-            Almeno un carattere speciale: #?!@$%^&*-
-        </div></label>
-    <input type="password" id="Password" name="Password" minlength="8" maxlength="64" required>
+        <label for="Password">Password: <span class="fa-regular fa-circle-question" onmouseover="passwordinfo(true)"
+                onmouseout="passwordinfo(false)"></span>
+            <div id="infopassword" class="display notDisplay">
+                Numero minimo di caratteri: 8<br>
+                Numero massimo di caratteri: 64<br>
+                Almeno una lettera maiuscola<br>
+                Almeno un numero<br>
+                Almeno un carattere speciale: #?!@$%^&*-
+            </div>
+        </label>
+        <input type="password" id="Password" name="Password" minlength="8" maxlength="64" required>
 
-    <label for="ConfermaPassword">Conferma Password: </label>
-    <input type="password" id="ConfermaPassword" name="ConfermaPassword"  required>
-    <a  href="./login.php" id="forgot-pass">Hai un account? Accedi</a> <br><br>
+        <label for="ConfermaPassword">Conferma Password: </label>
+        <input type="password" id="ConfermaPassword" name="ConfermaPassword" required>
+        <a href="./login.php" id="forgot-pass">Hai un account? Accedi</a> <br><br>
 
-    <input type="submit" name="Invia">
-    <?php
-        if(isset($_SESSION['message'])) {
-            echo($_SESSION['message']);
+        <input type="submit" name="Invia">
+        <?php
+        if (isset($_SESSION['message'])) {
+            echo ($_SESSION['message']);
         }
         unset($_SESSION['message']);
-    ?>
-</form>
-<script>
+        ?>
+    </form>
+    <script>
 
-    function nomeinfo()
-    {
-        let element = document.getElementById("infonome");
-        element.classList.toggle("notDisplay");
-    }
+        function nomeinfo() {
+            let element = document.getElementById("infonome");
+            element.classList.toggle("notDisplay");
+        }
 
-    function cognomeinfo()
-    {
-        let element = document.getElementById("infocognome");
-        element.classList.toggle("notDisplay");
-    }
+        function cognomeinfo() {
+            let element = document.getElementById("infocognome");
+            element.classList.toggle("notDisplay");
+        }
 
-    function emailinfo()
-    {
-        let element = document.getElementById("infoemail");
-        element.classList.toggle("notDisplay");
-    }
+        function emailinfo() {
+            let element = document.getElementById("infoemail");
+            element.classList.toggle("notDisplay");
+        }
 
-    function passwordinfo()
-    {
-        let element = document.getElementById("infopassword");
-        element.classList.toggle("notDisplay");
-    }
+        function passwordinfo() {
+            let element = document.getElementById("infopassword");
+            element.classList.toggle("notDisplay");
+        }
 
 
-</script>
-<script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
+    </script>
+    <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
 </body>
+
 </html>

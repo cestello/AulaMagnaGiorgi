@@ -17,7 +17,8 @@ $flag = check();
 <body>
     <div id="paper-back">
         <nav>
-            <div class="close"></div> <a href="#">Home</a> <a href="./html/calendario.html">Calendario</a> <?php
+            <div class="close"></div> <a href="#">Home</a> <a href="./html/calendario.html">Calendario</a>
+            <?php
             if ($flag) {
                 echo ("<a href='./php/logout.php'>Log Out</a>");
             } else {

@@ -1,125 +1,130 @@
 <?php
-    session_start();
-    include('../util/utils.php');
-    include("../php/check_cookie.php");
-    if(check()) {
-        header("Location: " . $url . "index.php");
-        die();
-    }
-    include("../php/login.php");
+session_start();
+include('../util/utils.php');
+include("../php/check_cookie.php");
+if (check()) {
+    header("Location: " . $url . "index.php");
+    die();
+}
+include("../php/login.php");
 ?>
 <!DOCTYPE html>
 <html lang="it-IT">
-    <head>
-        <title>Login</title>
-        <style>
-            body {
-                font-family: 'Open Sans', sans-serif;
-                background: linear-gradient(to left, #b9cfec,  #b4c8d4); 
-            }
 
-            #form-container {
-                display: block;
-                justify-content: center;
-                align-items: center;
-                max-width: 700px;
-                margin: 0 auto;
-                padding: 100px;
-            }
+<head>
+    <title>Login</title>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(to left, #b9cfec, #b4c8d4);
+        }
 
-            #formLogin {
-                
-                margin: 4% auto;
-                background: linear-gradient(to bottom, #b4c8d4, #3979cc);
-                padding: 35px;
-                border-radius: 15px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            
-                
-            }
+        #form-container {
+            display: block;
+            justify-content: center;
+            align-items: center;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 100px;
+        }
 
-            #formLogin h1 {
-                text-align: center;
-                color: #2370A6;
-                font-size: 36px;
-                margin-bottom: 33px;
-                font-family: 'Open Sans', sans-serif;
-            }
+        #formLogin {
 
-            #formLogin label {
-                display: block;
-                margin-bottom: 10px;
-                font-weight: bold;
-                font-size: 18px;
-                color: #ffffff;
-            }
-
-            #formLogin input {
-                width: 100%;
-                padding: 12px;
-                margin-bottom: 20px;
-                box-sizing: border-box;
-                border:1px solid #ccc;
-                border-radius: 6px;
-            }
-
-            #formLogin input[type="submit"] {
-                background-color: #043370;
-                color: white;
-                font-weight: bold;
-                font-size: 17px;
-                padding: 10px 15px;
-                cursor: pointer;
-                border: none;
-                transition: .5s;              
-            }
-
-            #formLogin input[type="submit"]:hover {
-                background-color: #BC2047;
-                transform: scale(1.03);
-            }
+            margin: 4% auto;
+            background: linear-gradient(to bottom, #b4c8d4, #3979cc);
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
 
-            #formLogin img{
-                display: block;
-                margin: 0 auto;
-                width: 243px;
-                height: 138px;
-            }
+        }
 
-            a {
-                color: #BC2047;
-                font-weight: bold;
+        #formLogin h1 {
+            text-align: center;
+            color: #2370A6;
+            font-size: 36px;
+            margin-bottom: 33px;
+            font-family: 'Open Sans', sans-serif;
+        }
 
-            }
-        </style>
-    </head>
+        #formLogin label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #ffffff;
+        }
 
-    <body>
-        <div id="form-container">
-            <form method="post" id="formLogin">
-                <img src="../img/LogoGiorgi.png" alt="LogoGiorgi">
-                <h1>Login</h1> <br>
+        #formLogin input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
 
-                <label for="username">Email: </label>
-                <input type="text" id="username" name="username" minlength="7" maxlength="128" required><br><br>
+        #formLogin input[type="submit"] {
+            background-color: #043370;
+            color: white;
+            font-weight: bold;
+            font-size: 17px;
+            padding: 10px 15px;
+            cursor: pointer;
+            border: none;
+            transition: .5s;
+        }
 
-                <label for="password">Password: </label>
-                <input type="password" id="password" name="password" minlength="8" maxlength="64" required><br>
+        #formLogin input[type="submit"]:hover {
+            background-color: #BC2047;
+            transform: scale(1.03);
+        }
 
-                <a class="forgot-pass" href="./registrazione.php" id="forgot-pass">Non hai un account? Registrati</a> <br><br>
 
-                <div id="submit">
-                    <input type="submit" value="Accedi">
-                    <span><?php
-                        if(isset($_SESSION['message'])) {
-                            echo($_SESSION['message']);
-                        }
-                        unset($_SESSION['message']);
-                    ?></span>
-                </div>
-            </form>
-        </div>
-        <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
-    </body>
+        #formLogin img {
+            display: block;
+            margin: 0 auto;
+            width: 243px;
+            height: 138px;
+        }
+
+        a {
+            color: #BC2047;
+            font-weight: bold;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="form-container">
+        <form method="post" id="formLogin">
+            <img src="../img/LogoGiorgi.png" alt="LogoGiorgi">
+            <h1>Login</h1> <br>
+
+            <label for="username">Email: </label>
+            <input type="text" id="username" name="username" minlength="7" maxlength="128" required><br><br>
+
+            <label for="password">Password: </label>
+            <input type="password" id="password" name="password" minlength="8" maxlength="64" required><br>
+
+            <a class="forgot-pass" href="./registrazione.php" id="forgot-pass">Non hai un account? Registrati</a>
+            <br><br>
+
+            <div id="submit">
+                <input type="submit" value="Accedi">
+                <span>
+                    <?php
+                    if (isset($_SESSION['message'])) {
+                        echo ($_SESSION['message']);
+                    }
+                    unset($_SESSION['message']);
+                    ?>
+                </span>
+            </div>
+        </form>
+    </div>
+    <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
+</body>
+
 </html>
