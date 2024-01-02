@@ -1,3 +1,13 @@
+<?php
+	session_start();
+    include('../util/utils.php');
+    include("../php/check_cookie.php");
+    if(check()) {
+        header("Location: " . $url . "index.php");
+        die();
+    }
+    include("../php/login.php");
+?>
 <!DOCTYPE html>
 <html lang="it-IT">
     <head>
@@ -84,7 +94,6 @@
             }
         </style>
     </head>
-    <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
 
     <body>
         <div id="form-container">
@@ -92,20 +101,25 @@
                 <img src="../img/LogoGiorgi.png" alt="LogoGiorgi">
                 <h1>Login</h1> <br>
 
-                <label for="username">Email: </label> 
-                <input type="text" id="username" name="username" required><br><br>
+                <label for="username">Email: </label>
+                <input type="text" id="username" name="username" minlength="7" maxlength="128" required><br><br>
 
-                <label for="password">Password: </label> 
-                <input type="password" id="password" name="password" required><br>
+                <label for="password">Password: </label>
+                <input type="password" id="password" name="password" minlength="8" maxlength="64" required><br>
 
-                
                 <a class="forgot-pass" href="./registrazione.php" id="forgot-pass">Non hai un account? Registrati</a> <br><br>
 
-                <div id="submit">  
+                <div id="submit">
                     <input type="submit" value="Accedi">
+                    <span><?php
+                        if(isset($_SESSION['message'])) {
+                            echo($_SESSION['message']);
+                        }
+                        unset($_SESSION['message']);
+                    ?></span>
                 </div>
             </form>
         </div>
-        <?php include("../php/login.php") ?>
+        <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
     </body>
 </html>

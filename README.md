@@ -17,10 +17,10 @@ LOGIN: Pesci8 e Sbriele
 + password [8, 32]
 
 REGISTRAZIONE: Nacci e Mochele
-+ nome      [3, 64]
-+ cognome   [3, 64]
++ nome      [2, 64]
++ cognome   [2, 64]
 + email     [7, 128]
-+ password  [8, 32]
++ password  [8, 64] -> hash 64
 
 CALENDARIO: Bislongo, Pierpy e Ironfly
 + ora 

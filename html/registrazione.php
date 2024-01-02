@@ -1,3 +1,13 @@
+<?php 
+    include('../util/utils.php');
+    include("../php/check_cookie.php");
+    if(check()) {
+        header("Location: " . $url . "index.php");
+        die();
+    }
+    include("../php/registrazione.php");
+?>
+
 <!DOCTYPE html>
 <html lang="it-IT">
 <head>
@@ -147,41 +157,49 @@
 
     <label for="Nome">Nome: <span class="fa-regular fa-circle-question" onmouseover="nomeinfo(true)" onmouseout="nomeinfo(false)"></span>
         <div id="infonome" class="display notDisplay">
-            Numero massimo di caratteri: 35.
+            Numero minimo di caratteri: 2<br>
+            Numero massimo di caratteri: 64
         </div>
     </label>
-    <input type="text" id="Nome" name="Nome"  required>
+    <input type="text" id="Nome" name="Nome" minlength="2" maxlength="64" required>
 
 
     <label for="Cognome">Cognome: <span class="fa-regular fa-circle-question" onmouseover="cognomeinfo(true)" onmouseout="cognomeinfo(false)"></span>
         <div id="infocognome" class="display notDisplay">
-            Numero massimo di caratteri: 25.
+            Numero minimo di caratteri: 2<br>
+            Numero massimo di caratteri: 64
         </div>
     </label>
-    <input type="text" id="Cognome" name="Cognome"  required>
+    <input type="text" id="Cognome" name="Cognome" minlength="2" maxlength="64" required>
 
     <label for="Email">Email: <span class="fa-regular fa-circle-question" onmouseover="emailinfo(true)" onmouseout="emailinfo(false)"></span>
         <div id="infoemail" class="display notDisplay">
-            Numero minimo di caratteri: 7.<br>
-            Numero massimo di caratteri: 64.
+            Numero minimo di caratteri: 7<br>
+            Numero massimo di caratteri: 128
         </div> </label>
-    <input type="email" id="Email" name="Email"  required>
+    <input type="email" id="Email" name="Email" minlength="7" maxlength="128" required>
 
     <label for="Password">Password: <span class="fa-regular fa-circle-question" onmouseover="passwordinfo(true)" onmouseout="passwordinfo(false)"></span>
         <div id="infopassword" class="display notDisplay">
-            Numero minimo di caratteri: 8.<br>
-            Numero massimo di caratteri: 32.<br>
-            Almeno una lettera maiuscola.<br>
-            Almeno un numero.<br>
-            Almeno un carattere speciale.
+            Numero minimo di caratteri: 8<br>
+            Numero massimo di caratteri: 64<br>
+            Almeno una lettera maiuscola<br>
+            Almeno un numero<br>
+            Almeno un carattere speciale: #?!@$%^&*-
         </div></label>
-    <input type="password" id="Password" name="Password" required>
+    <input type="password" id="Password" name="Password" minlength="8" maxlength="64" required>
 
     <label for="ConfermaPassword">Conferma Password: </label>
     <input type="password" id="ConfermaPassword" name="ConfermaPassword"  required>
-    <a  href="./login.html" id="forgot-pass">Hai un account? Accedi</a> <br><br>
+    <a  href="./login.php" id="forgot-pass">Hai un account? Accedi</a> <br><br>
 
     <input type="submit" name="Invia">
+    <?php
+        if(isset($_SESSION['message'])) {
+            echo($_SESSION['message']);
+        }
+        unset($_SESSION['message']);
+    ?>
 </form>
 <script>
 
@@ -212,6 +230,5 @@
 
 </script>
 <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
-<?php include("../php/registrazione.php") ?>
 </body>
 </html>

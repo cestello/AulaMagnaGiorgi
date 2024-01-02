@@ -23,7 +23,6 @@ function is_used($email)
     $conn = connect_to_database();
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
-        return true;
     }
 
     $sql_query = "SELECT email FROM utenti WHERE email = '". $email . "';";
