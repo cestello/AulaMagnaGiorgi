@@ -9,28 +9,25 @@ function check()
         $query_answer = $conn->query($sql_query);
         if ($query_answer === FALSE || $query_answer->num_rows === 0) {
             $_SESSION['message'] = "1 Nuh uh, 0 cookie vuln";
-            unset($_COOKIE['user']);
-            unset($_COOKIE['pass']);
+            include("./logout.php");
             $conn->close();
             return false;
         } else {
             $row = $query_answer->fetch_assoc();
             $db_password = $row["password"];
             if ($password === $db_password) {
-                $_SESSION['message'] = "Accesso effettuato con successo";
-                unset($_COOKIE['user']);
-                unset($_COOKIE['pass']);
+                $_SESSION['message'] = "Sei Loggato";
                 $conn->close();
                 return true;
             } else {
                 $_SESSION['message'] = "2 Nuh uh, 0 cookie vuln";
-                unset($_COOKIE['user']);
-                unset($_COOKIE['pass']);
+                include("./logout.php");
                 $conn->close();
                 return false;
             }
         }
     } else {
+        $_SESSION['message'] = $_COOKIE["user"];
         return false;
     }
 }

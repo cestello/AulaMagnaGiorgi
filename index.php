@@ -1,3 +1,9 @@
+<?php
+session_start();
+include('./util/utils.php');
+include("./php/check_cookie.php");
+$flag = check();
+?>
 <!DOCTYPE html>
 <html lang="it-IT">
 
@@ -11,27 +17,16 @@
 <body>
     <div id="paper-back">
         <nav>
-            <div class="close"></div>
-            <a href="#">Home</a>
-            <a href="./html/calendario.html">Calendario</a>
-            <?php
-            include('./util/utils.php');
-            include("./php/check_cookie.php");
-            if (!check()) {
-                echo("<a href='./html/login.php'>Log In</a>");
+            <div class="close"></div> <a href="#">Home</a> <a href="./html/calendario.html">Calendario</a> <?php
+            if ($flag) {
+                echo ("<a href='./php/logout.php'>Log Out</a>");
             } else {
-                echo("<a href='./php/logout.php'>Log Out</a>");
+                echo ("<a href='./html/login.php'>Log In</a>");
             }
-            echo($_SESSION['message']);
             ?>
         </nav>
     </div>
     <div id="paper-window">
-        <div class="login"><span>
-                <a href="./html/login.php" class="login">
-                    <img src="./img/LogoGiorgi.png" alt="Login" width="45" height="34">
-                </a>
-            </span></div>
         <div id="paper-front">
             <div class="hamburger"><span></span></div>
             <div id="sectionFormat">

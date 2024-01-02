@@ -3,7 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Calendario</title>
+        <title>
+            Calendario
+        </title>
         <style>
             body {
                 font-family: 'Open Sans', sans-serif;
@@ -112,8 +114,9 @@
     </head>
     
     <body>
-        <form method="post" action="../php/prenotazione.php" id="calendar-container">
+        <form method="post" action="http://138.41.20.100/~rizzello2400/html/prenotazione.php" id="calendar-container">
             <img src="../img/LogoGiorgi.png" alt="Logo">
+
             <label for="month">Seleziona il mese:</label>
             <select id="month" onchange="updateCalendar()">
                 <option value="0">Gennaio</option>
@@ -139,12 +142,14 @@
 
             <div id="calendar-container-inner">
                 <div id="calendar"></div>
-                </div>
+                <div>
                     <div id="popup-background" class="popup-background" onclick="closePopup()"></div>
                     <div id="popup" class="popup">
-                    <span class="close" onclick="closePopup()">X</span>
-                    <p id="selectedDate"></p> 
+                        <span class="close" onclick="closePopup()">X</span>
+                        <p id="selectedDate"></p> 
+                    </div>
                 </div>
+            </div>
         </form>
 
         <script>
@@ -218,6 +223,5 @@
             document.getElementById("year").value = currentDate.getFullYear().toString();
             generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
         </script>
-
-        </body>
+    </body>
 </html>

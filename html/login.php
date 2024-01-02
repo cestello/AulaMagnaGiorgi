@@ -1,5 +1,5 @@
 <?php
-	session_start();
+    session_start();
     include('../util/utils.php');
     include("../php/check_cookie.php");
     if(check()) {
