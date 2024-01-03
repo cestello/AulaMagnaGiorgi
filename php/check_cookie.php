@@ -27,7 +27,6 @@ function check()
             }
         }
     } else {
-        $_SESSION['message'] = $_COOKIE["user"];
         return false;
     }
 }

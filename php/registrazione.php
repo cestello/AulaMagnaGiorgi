@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 registra($conn, $email, $password, $nome, $cognome);
             }
             $conn->close();
-            header("Location: http://138.41.20.100/~rizzello2400/html/login.php");
+            header("Location: " . MAINURL . "html/login.php");
             die();
         }
     }

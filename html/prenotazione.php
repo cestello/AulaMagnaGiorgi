@@ -3,7 +3,7 @@ session_start();
 include('../util/utils.php');
 include("../php/check_cookie.php");
 if (!check()) {
-    header("Location: http://138.41.20.100/~rizzello2400/html/login.php");
+    header("Location: " . MAINURL . "html/login.php");
     die();
 }
 include("../php/prenotazione.php");

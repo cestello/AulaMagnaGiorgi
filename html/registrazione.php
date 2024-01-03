@@ -2,7 +2,7 @@
 include('../util/utils.php');
 include("../php/check_cookie.php");
 if (check()) {
-    header("Location: " . $url . "index.php");
+    header("Location: " . MAINURL . "index.php");
     die();
 }
 include("../php/registrazione.php");

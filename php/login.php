@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 setcookie("user", $email, time() + 86400 * 30, "/");
                 setcookie("pass", $db_password, time() + 86400 * 30, "/");
                 $conn->close();
-                header("Location: http://138.41.20.100/~rizzello2400/index.php");
+                header("Location: " . MAINURL . "index.php");
                 die();
             } else {
                 $_SESSION['message'] = "Password errata";
