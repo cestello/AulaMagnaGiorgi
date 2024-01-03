@@ -30,4 +30,26 @@ function check()
         return false;
     }
 }
+
+function check_admin()
+{
+    $email = $_COOKIE['user'];
+    $conn = connect_to_database();
+    $sql_query = "SELECT admin FROM utenti WHERE email = '" . $email . "';";
+    $query_answer = $conn->query($sql_query);
+    if ($query_answer === FALSE || $query_answer->num_rows === 0) {
+        $_SESSION['message'] = "1 Nuh uh, 0 cookie vuln";
+        include("./logout.php");
+        $conn->close();
+        return false;
+    } else {
+        $row = $query_answer->fetch_assoc();
+        $admin = $row["admin"];
+        if($admin == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
 ?>

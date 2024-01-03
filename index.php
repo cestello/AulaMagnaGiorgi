@@ -3,6 +3,9 @@ session_start();
 include("./util/utils.php");
 include("./php/check_cookie.php");
 $flag = check();
+$flag2 = false;
+if($flag)
+    $flag2 = check_admin();
 ?>
 <!DOCTYPE html>
 <html lang="it-IT">
@@ -17,9 +20,14 @@ $flag = check();
 <body>
     <div id="paper-back">
         <nav>
-            <div class="close"></div> <a href="#">Home</a> <a href="./html/calendario.html">Calendario</a>
+            <div class="close"></div> <a href="#">Home</a>
+            <a href="./html/calendario.html">Calendario</a>
             <?php
+            if ($flag && $flag2) {
+                echo ("<a href='./html/prenotazioni_admin.php'>Prenotazioni Admin</a>");
+            }
             if ($flag) {
+                echo ("<a href='./html/profilo.php'>Profilo</a>");
                 echo ("<a href='./php/logout.php'>Log Out</a>");
             } else {
                 echo ("<a href='./html/login.php'>Log In</a>");
