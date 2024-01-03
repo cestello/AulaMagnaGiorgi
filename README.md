@@ -1,5 +1,5 @@
 # AulaMagnaGiorgi
-Sito per l'aula magna del ITT G. Giorgi
+Sito per l'aula magna del ITT G. Giorgi, versione alpha [index](http://138.41.20.100/~rizzello2400/)
 
 ## PHP
 Daniele Greco, Francesco Damiano Capodieci, Vincenzo Cardea
