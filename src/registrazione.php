@@ -12,7 +12,7 @@ function mail_wrong($code)
     if ($code == 1) {
         $_SESSION['message'] = "La lunghezza dell'email deve essere tra 7 e 128 caratteri";
     } else if ($code == 2) {
-        $_SESSION['message'] = "L'email inserita non e' valida";
+        $_SESSION['message'] = "L'email inserita non &egrave; valida";
     } else {
         $_SESSION['message'] = "Email gi&agrave; utilizzata";
     }
@@ -27,7 +27,7 @@ function password_wrong($code)
             almeno una maiuscola,
             almeno una minuscola,
             almeno un numero,
-            almeno un carattere speciale [#?!@$%^&*-]";
+            almeno un carattere speciale #?!@$%^&*-";
     } else {
         $_SESSION['message'] = "Le password inserite sono diverse";
     }
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $status_code = is_valid($password, $confirm_password);
         if ($status_code != 0) {
-            password_wrong($code);
+            password_wrong($status_code);
         } else {
             $conn = connect_to_database();
             if ($conn->connect_error) {
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 registra($conn, $email, $password, $nome, $cognome);
             }
             $conn->close();
-            header("Location: " . MAINURL . "html/login.php");
+            header("Location: " . MAINURL . "public/login.php");
             die();
         }
     }

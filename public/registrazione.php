@@ -1,16 +1,15 @@
 <?php
-include('../util/utils.php');
-include("../php/check_cookie.php");
-if (check()) {
-    header("Location: " . MAINURL . "index.php");
-    die();
-}
-include("../php/registrazione.php");
+    include('../src/utils.php');
+    include("../src/check_cookie.php");
+    if (check()) {
+        header("Location: " . MAINURL . "index.php");
+        die();
+    }
+    include("../src/registrazione.php");
 ?>
 
 <!DOCTYPE html>
 <html lang="it-IT">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -151,51 +150,49 @@ include("../php/registrazione.php");
 </head>
 
 <body>
-
-
     <form method="post" id="FormRegistrazione">
-
-        <img src="../img/LogoGiorgi.png" alt="LogoGiorgi">
+        <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
 
         <h1>Registrazione</h1>
 
         <label for="Nome">Nome: <span class="fa-regular fa-circle-question" onmouseover="nomeinfo(true)"
                 onmouseout="nomeinfo(false)"></span>
-            <div id="infonome" class="display notDisplay">
+            <span id="infonome" class="display notDisplay">
                 Numero minimo di caratteri: 2<br>
                 Numero massimo di caratteri: 64
-            </div>
+            </span>
         </label>
         <input type="text" id="Nome" name="Nome" minlength="2" maxlength="64" required>
 
 
         <label for="Cognome">Cognome: <span class="fa-regular fa-circle-question" onmouseover="cognomeinfo(true)"
                 onmouseout="cognomeinfo(false)"></span>
-            <div id="infocognome" class="display notDisplay">
+            <span id="infocognome" class="display notDisplay">
                 Numero minimo di caratteri: 2<br>
                 Numero massimo di caratteri: 64
-            </div>
+            </span>
         </label>
         <input type="text" id="Cognome" name="Cognome" minlength="2" maxlength="64" required>
 
         <label for="Email">Email: <span class="fa-regular fa-circle-question" onmouseover="emailinfo(true)"
                 onmouseout="emailinfo(false)"></span>
-            <div id="infoemail" class="display notDisplay">
+            <span id="infoemail" class="display notDisplay">
                 Numero minimo di caratteri: 7<br>
                 Numero massimo di caratteri: 128
-            </div>
+            </span>
         </label>
         <input type="email" id="Email" name="Email" minlength="7" maxlength="128" required>
 
         <label for="Password">Password: <span class="fa-regular fa-circle-question" onmouseover="passwordinfo(true)"
                 onmouseout="passwordinfo(false)"></span>
-            <div id="infopassword" class="display notDisplay">
+            <span id="infopassword" class="display notDisplay">
                 Numero minimo di caratteri: 8<br>
                 Numero massimo di caratteri: 64<br>
                 Almeno una lettera maiuscola<br>
+                Almeno una lettera minuscola<br>
                 Almeno un numero<br>
                 Almeno un carattere speciale: #?!@$%^&*-
-            </div>
+            </span>
         </label>
         <input type="password" id="Password" name="Password" minlength="8" maxlength="64" required>
 
@@ -205,14 +202,13 @@ include("../php/registrazione.php");
 
         <input type="submit" name="Invia">
         <?php
-        if (isset($_SESSION['message'])) {
-            echo ($_SESSION['message']);
-        }
-        unset($_SESSION['message']);
+            if (isset($_SESSION['message'])) {
+                echo ($_SESSION['message']);
+            }
+            unset($_SESSION['message']);
         ?>
     </form>
     <script>
-
         function nomeinfo() {
             let element = document.getElementById("infonome");
             element.classList.toggle("notDisplay");
@@ -232,8 +228,6 @@ include("../php/registrazione.php");
             let element = document.getElementById("infopassword");
             element.classList.toggle("notDisplay");
         }
-
-
     </script>
     <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
 </body>

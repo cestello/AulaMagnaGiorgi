@@ -9,4 +9,3 @@ if (isset($_COOKIE["user"]) && isset($_COOKIE["pass"])) {
 
 header("Location: " . MAINURL2 . "index.php");
 die();
-?>

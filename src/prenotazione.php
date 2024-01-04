@@ -10,7 +10,7 @@ if ($_SERVER["METHOD_REQUEST"] == "POST") {
     $descrizione = $_POST["motivazione"];
 
     if ($status_code = input_is_valid($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo, $descrizione)) {
-        header("Location ../html/NotFound.html");
+        header("Location ../public/NotFound.html");
         exit;
 
         // TODO: Aggiungere al database

@@ -11,7 +11,6 @@ function check()
             $_SESSION['message'] = "1 Nuh uh, 0 cookie vuln";
             include("./logout.php");
             $conn->close();
-            return false;
         } else {
             $row = $query_answer->fetch_assoc();
             $db_password = $row["password"];
@@ -23,12 +22,10 @@ function check()
                 $_SESSION['message'] = "2 Nuh uh, 0 cookie vuln";
                 include("./logout.php");
                 $conn->close();
-                return false;
             }
         }
-    } else {
-        return false;
     }
+    return false;
 }
 
 function check_admin()
@@ -41,15 +38,10 @@ function check_admin()
         $_SESSION['message'] = "1 Nuh uh, 0 cookie vuln";
         include("./logout.php");
         $conn->close();
-        return false;
     } else {
         $row = $query_answer->fetch_assoc();
         $admin = $row["admin"];
-        if($admin == 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return $admin;
     }
+    return false;
 }
-?>

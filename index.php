@@ -1,17 +1,18 @@
 <?php
-session_start();
-include("./util/utils.php");
-include("./php/check_cookie.php");
-$flag = check();
-$flag2 = false;
-if($flag)
-    $flag2 = check_admin();
+    session_start();
+    include("./src/utils.php");
+    include("./src/check_cookie.php");
+    $flag = check();
+    $flag2 = false;
+    if ($flag) {
+        $flag2 = check_admin();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="it-IT">
 
 <head>
-    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./public/css/index.css">
     <title>
         Index
     </title>
@@ -20,17 +21,18 @@ if($flag)
 <body>
     <div id="paper-back">
         <nav>
-            <div class="close"></div> <a href="#">Home</a>
-            <a href="./html/calendario.html">Calendario</a>
+            <div class="close"></div> <a href="./index.php">Home</a>
+            <a href="./public/calendario.html">Calendario</a>
             <?php
             if ($flag && $flag2) {
-                echo ("<a href='./html/prenotazioni_admin.php'>Prenotazioni Admin</a>");
+                echo ("<a href=\"./public/prenotazioni_admin.php\">Prenotazioni Admin</a>");
             }
             if ($flag) {
-                echo ("<a href='./html/profilo.php'>Profilo</a>");
-                echo ("<a href='./php/logout.php'>Log Out</a>");
+                echo ("<a href=\"./public/profilo.php\">Profilo</a>");
+                echo ("<a href=\"./src/logout.php\">Log Out</a>");
             } else {
-                echo ("<a href='./html/login.php'>Log In</a>");
+                echo ("<a href=\"./public/login.php\">Log In</a>");
+                echo ("<a href=\"./public/registrazione.php\">Registrati</a>");
             }
             ?>
         </nav>
@@ -43,7 +45,7 @@ if($flag)
                 <section>
                     <div>
                         <a target="_blank" href="./gif/mosaico.gif" class="image">
-                            <img src="./gif/mosaico.gif" alt="Mosaico" width="800" height="200">
+                            <img src="./resources/mosaico.gif" alt="Mosaico" width="800" height="200">
                         </a>
                     </div>
                     <div>

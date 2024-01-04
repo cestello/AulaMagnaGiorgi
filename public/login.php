@@ -1,12 +1,12 @@
 <?php
 session_start();
-include('../util/utils.php');
-include("../php/check_cookie.php");
+include('../src/utils.php');
+include("../src/check_cookie.php");
 if (check()) {
     header("Location: " . MAINURL . "index.php");
     die();
 }
-include("../php/login.php");
+include("../src/login.php");
 ?>
 <!DOCTYPE html>
 <html lang="it-IT">
@@ -99,7 +99,7 @@ include("../php/login.php");
 <body>
     <div id="form-container">
         <form method="post" id="formLogin">
-            <img src="../img/LogoGiorgi.png" alt="LogoGiorgi">
+            <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
             <h1>Login</h1> <br>
 
             <label for="username">Email: </label>
@@ -124,6 +124,19 @@ include("../php/login.php");
             </div>
         </form>
     </div>
+
+    <script>
+        // $(".toggle-password").click(function () {
+        //     $(this).toggleClass("fa-eye fa-eye-slash");
+
+        //     let input = $($(this).attr("toggle"));
+        //     if (input.attr("type") == "password") {
+        //         input.attr("type", "text");
+        //     } else {
+        //         input.attr("type", "password");
+        //     }
+        // });
+    </script>
     <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
 </body>
 

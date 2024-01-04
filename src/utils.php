@@ -1,12 +1,5 @@
 <?php /** @noinspection ALL */
 
-/**
- * Controlla se una mail è già stata utilizzata
- *
- * @param $email da controllare
- * @return true
- */
-
 const MAINURL = "http://138.41.20.100/~rizzello2400/";
 function connect_to_database()
 {
