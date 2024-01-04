@@ -13,26 +13,31 @@
 
 <!DOCTYPE html>
 <html lang="it-IT">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profilo</title>
+
+    <title>
+        Profilo
+    </title>
 </head>
 
 <body>
     <h1>
         Email:
         <?php echo ($generalita[0]); ?>
-    </h1> <br>
+    </h1><br>
+
     <h1>
         Nome:
         <?php echo ($generalita[1]); ?>
-    </h1> <br>
+    </h1><br>
+
     <h1>
         Cognome:
         <?php echo ($generalita[2]); ?>
-    </h1> <br>
+    </h1><br>
+
     <h2> Lista Prenotazioni: <br>
         <?php
         foreach($lista_eventi as $row) {
@@ -49,13 +54,13 @@
         }
         ?>
     </h2>
+
     <form action="../src/logout.php">
         <input type="submit" value="Logout" />
     </form>
+
     <form action="../index.php">
         <input type="submit" value="Index" />
     </form>
-
 </body>
-
 </html>

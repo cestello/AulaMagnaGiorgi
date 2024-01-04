@@ -13,7 +13,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrazione Account</title>
+    <title>
+        Registrazione Account
+    </title>
     <style>
         body {
             font-family: 'Open Sans', sans-serif;
@@ -151,7 +153,9 @@
 
 <body>
     <form method="post" id="FormRegistrazione">
-        <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+        <a href="http://138.41.20.100/~rizzello2400/">
+            <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+        </a>
 
         <h1>Registrazione</h1>
 

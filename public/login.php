@@ -93,22 +93,30 @@ include("../src/login.php");
             font-weight: bold;
 
         }
+
+        .eye {
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
     <div id="form-container">
         <form method="post" id="formLogin">
-            <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
-            <h1>Login</h1> <br>
+            <a href="http://138.41.20.100/~rizzello2400/">
+                <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+            </a>
+            <h1>Login</h1><br>
 
             <label for="username">Email: </label>
             <input type="text" id="username" name="username" minlength="7" maxlength="128" required><br><br>
 
             <label for="password">Password: </label>
-            <input type="password" id="password" name="password" minlength="8" maxlength="64" required><br>
+            <input type="password" id="password" name="password" minlength="8" maxlength="64" required>
+            <!-- <span class="eye fa-solid fa-eye"></span> -->
+            <br>
 
-            <a class="forgot-pass" href="./registrazione.php" id="forgot-pass">Non hai un account? Registrati</a>
+            <a href="./registrazione.php">Non hai un account? Registrati</a>
             <br><br>
 
             <div id="submit">
@@ -127,13 +135,15 @@ include("../src/login.php");
 
     <script>
         // $(".toggle-password").click(function () {
-        //     $(this).toggleClass("fa-eye fa-eye-slash");
-
-        //     let input = $($(this).attr("toggle"));
+        //     let input = $(this);
         //     if (input.attr("type") == "password") {
         //         input.attr("type", "text");
+        //         input.classList.remove("fa-eye");
+        //         input.classList.add("fa-eye-slash");
         //     } else {
         //         input.attr("type", "password");
+        //         input.classList.remove("fa-eye-slash");
+        //         input.classList.add("fa-eye");
         //     }
         // });
     </script>

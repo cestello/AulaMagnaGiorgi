@@ -183,7 +183,9 @@ include("../src/prenotazione.php");
 
 <body>
     <form method="post" id="formCalendario">
-        <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+        <a href="http://138.41.20.100/~rizzello2400/">
+            <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+        </a>
 
         <h1>Prenotazione</h1>
 
@@ -289,21 +291,6 @@ include("../src/prenotazione.php");
         }
 
         function updateTable() {
-            let months = [
-                "Gennaio",
-                "Febbraio",
-                "Marzo",
-                "Aprile",
-                "Maggio",
-                "Giugno",
-                "Luglio",
-                "Agosto",
-                "Settembre",
-                "Ottobre",
-                "Novembre",
-                "Dicembre"
-            ];
-            
             let xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
@@ -312,9 +299,8 @@ include("../src/prenotazione.php");
             };
             
             let year = document.getElementById("year").value;
-            let monthIndex = parseInt(document.getElementById("month").value);
-            let month = months[monthIndex];
-            let URL = "https://138.41.20.100/~rizzello2400/src/gestione_calendario.php?year=" + encodeURIComponent(year) + "&month=" + encodeURIComponent(month);
+            let month = parseInt(document.getElementById("month").value);
+            let URL = "http://138.41.20.100/~rizzello2400/src/gestione_calendario.php?year=" + encodeURIComponent(year) + "&month=" + encodeURIComponent(month);
             xmlhttp.open("GET", URL, true);
             xmlhttp.send();
         }

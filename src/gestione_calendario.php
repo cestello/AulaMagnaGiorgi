@@ -1,23 +1,20 @@
 <?php
-
-$months = [
-    "Gennaio",
-    "Febbraio",
-    "Marzo",
-    "Aprile",
-    "Maggio",
-    "Giugno",
-    "Luglio",
-    "Agosto",
-    "Settembre",
-    "Ottobre",
-    "Novembre",
-    "Dicembre"
-];
-
 function generateCalendar($year, $month)
 {
-    global $months;
+    $months = [
+        "Gennaio",
+        "Febbraio",
+        "Marzo",
+        "Aprile",
+        "Maggio",
+        "Giugno",
+        "Luglio",
+        "Agosto",
+        "Settembre",
+        "Ottobre",
+        "Novembre",
+        "Dicembre"
+    ];
     $calendarHTML = '';
 
     $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
@@ -56,6 +53,14 @@ function generateCalendar($year, $month)
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $year = (int) $_REQUEST["year"];
-    $month = array_search($_REQUEST["month"], $months) + 1;
-    echo (generateCalendar($year, $month));
+    $month = $_REQUEST["month"] + 1;
+    if ($year < date("Y")) {
+        echo("Anno inserito non valido.");
+    }
+    else if ($month < 1 || $month > 12) {
+        echo("Mese inserito non valido.");
+    }
+    else {
+        echo (generateCalendar($year, $month));
+    }
 }

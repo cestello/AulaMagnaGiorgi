@@ -28,6 +28,7 @@
                 echo ("<a href=\"./public/prenotazioni_admin.php\">Prenotazioni Admin</a>");
             }
             if ($flag) {
+                echo ("<a href=\"./public/prenotazione.php\">Prenota</a>");
                 echo ("<a href=\"./public/profilo.php\">Profilo</a>");
                 echo ("<a href=\"./src/logout.php\">Log Out</a>");
             } else {
