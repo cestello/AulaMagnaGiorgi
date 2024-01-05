@@ -55,12 +55,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $year = (int) $_REQUEST["year"];
     $month = $_REQUEST["month"] + 1;
     if ($year < date("Y")) {
-        echo("Anno inserito non valido.");
-    }
-    else if ($month < 1 || $month > 12) {
-        echo("Mese inserito non valido.");
-    }
-    else {
+        echo ("Anno inserito non valido.");
+    } else if ($month < 1 || $month > 12) {
+        echo ("Mese inserito non valido.");
+    } else {
         echo (generateCalendar($year, $month));
     }
 }

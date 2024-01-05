@@ -2,10 +2,10 @@
     session_start();
     include("./src/utils.php");
     include("./src/check_cookie.php");
-    $flag = check();
-    $flag2 = false;
-    if ($flag) {
-        $flag2 = check_admin();
+    $is_logged_in = check();
+    $is_admin = false;
+    if ($is_logged_in) {
+        $is_admin = check_admin();
     }
 ?>
 <!DOCTYPE html>
@@ -22,17 +22,19 @@
     <div id="paper-back">
         <nav>
             <div class="close"></div> <a href="./index.php">Home</a>
-            <a href="./public/calendario.html">Calendario</a>
+            <a href="./public/calendario.php">Calendario</a>
             <?php
-            if ($flag && $flag2) {
-                echo ("<a href=\"./public/prenotazioni_admin.php\">Prenotazioni Admin</a>");
-            }
-            if ($flag) {
+            if ($is_logged_in) {
+                if ($is_admin) {
+                    echo ("<a href=\"./public/prenotazioni_admin.php\">Prenotazioni <br>Admin</a>");
+                } //else {
+                //     echo ("<a href=\"./public/prenotazione.php\">Prenota</a>");
+                // }
                 echo ("<a href=\"./public/prenotazione.php\">Prenota</a>");
                 echo ("<a href=\"./public/profilo.php\">Profilo</a>");
-                echo ("<a href=\"./src/logout.php\">Log Out</a>");
+                echo ("<a href=\"./src/logout.php\">Esci</a>");
             } else {
-                echo ("<a href=\"./public/login.php\">Log In</a>");
+                echo ("<a href=\"./public/login.php\">Accedi</a>");
                 echo ("<a href=\"./public/registrazione.php\">Registrati</a>");
             }
             ?>
