@@ -6,10 +6,6 @@ if (!check()) {
     header("Location: " . MAINURL . "public/login.php");
     die();
 }
-// if (check_admin()) {
-//     header("Location: " . MAINURL . "public/prenotazioni_admin.php");
-//     die();
-// }
 include("../src/prenotazione.php");
 ?>
 

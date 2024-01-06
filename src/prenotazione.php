@@ -1,4 +1,4 @@
-<?php /** @noinspection ALL */
+<?php
 
 if ($_SERVER["METHOD_REQUEST"] == "POST") {
     $anno = $_POST["year"];

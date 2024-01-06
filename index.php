@@ -27,9 +27,7 @@
             if ($is_logged_in) {
                 if ($is_admin) {
                     echo ("<a href=\"./public/prenotazioni_admin.php\">Prenotazioni <br>Admin</a>");
-                } //else {
-                //     echo ("<a href=\"./public/prenotazione.php\">Prenota</a>");
-                // }
+                }
                 echo ("<a href=\"./public/prenotazione.php\">Prenota</a>");
                 echo ("<a href=\"./public/profilo.php\">Profilo</a>");
                 echo ("<a href=\"./src/logout.php\">Esci</a>");

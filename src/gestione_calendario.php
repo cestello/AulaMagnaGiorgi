@@ -1,4 +1,5 @@
 <?php
+
 function generateCalendar($year, $month)
 {
     $months = [
