@@ -80,7 +80,7 @@ function updateYears(year) {
 */
 function updateTable() {
     const year = document.getElementById("year").value;
-    const month = parseInt(document.getElementById("month").value);
+    const month = document.getElementById("month").value;
     const URL = `http://138.41.20.100/~rizzello2400/src/gestione_calendario.php?year=${encodeURIComponent(year)}&month=${encodeURIComponent(month)}`;
 
     fetch(URL)
@@ -95,7 +95,7 @@ function updateTable() {
         })
         .catch(error => {
             if (error.name === 'TypeError') {
-                console.error('Errore di rete:', error.message);
+                console.error('Errore di rete: ', error.message);
             } else {
                 console.error('Si è verificato un errore imprevisto: ', error.message);
             }

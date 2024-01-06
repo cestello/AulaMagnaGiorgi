@@ -1,4 +1,5 @@
 <?php
+
 function check()
 {
     if (isset($_COOKIE['user']) && isset($_COOKIE['pass'])) {
