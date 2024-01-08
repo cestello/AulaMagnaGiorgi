@@ -9,18 +9,17 @@ function check()
         $sql_query = "SELECT password FROM utenti WHERE email = '" . $email . "';";
         $query_answer = $conn->query($sql_query);
         if ($query_answer === FALSE || $query_answer->num_rows === 0) {
-            $_SESSION['message'] = "1 Nuh uh, 0 cookie vuln";
+            $_SESSION['message'] = "1 Nuh uh, 0 cookie vulnerability";
             include("./logout.php");
             $conn->close();
         } else {
             $row = $query_answer->fetch_assoc();
             $db_password = $row["password"];
             if ($password === $db_password) {
-                $_SESSION['message'] = "Sei Loggato";
                 $conn->close();
                 return true;
             } else {
-                $_SESSION['message'] = "2 Nuh uh, 0 cookie vuln";
+                $_SESSION['message'] = "2 Nuh uh, 0 cookie vulnerability";
                 include("./logout.php");
                 $conn->close();
             }
@@ -36,7 +35,7 @@ function check_admin()
     $sql_query = "SELECT admin FROM utenti WHERE email = '" . $email . "';";
     $query_answer = $conn->query($sql_query);
     if ($query_answer === FALSE || $query_answer->num_rows === 0) {
-        $_SESSION['message'] = "1 Nuh uh, 0 cookie vuln";
+        $_SESSION['message'] = "1 Nuh uh, 0 cookie vulnerability";
         include("./logout.php");
         $conn->close();
     } else {

@@ -14,7 +14,6 @@ function genera_utente()
         $_SESSION['message'] = "Errore nel collegamento";
     } else {
         $row = $query_answer->fetch_assoc();
-        $_SESSION['message'] = "Ok";
         $nome = $row["nome"];
         $cognome = $row["cognome"];
     }

@@ -83,39 +83,6 @@
         th {
             background-color: #f2f2f2;
         }
-
-        .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 2;
-            border-radius: 10px;
-            width: 300px;
-            /* Larghezza fissa della finestra popup */
-        }
-
-        .popup-background {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1;
-        }
-
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-        }
     </style>
 </head>
 
@@ -144,7 +111,7 @@
         </div>
     </form>
 
-    <script src="http://138.41.20.100/~rizzello2400/public/js/script.js"></script>
+    <script src="https://138.41.20.100/~rizzello2400/public/js/script.js"></script>
     <script>
         // Iniziale generazione del calendario per il mese e l'anno correnti
         const currentDate = new Date();

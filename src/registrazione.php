@@ -1,4 +1,11 @@
 <?php
+/*
+REGISTRAZIONE
+    Nome
+    Cognome
+    Email
+    Pwd
+*/
 
 function mail_wrong($code)
 {

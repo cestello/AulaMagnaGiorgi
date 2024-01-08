@@ -1,4 +1,73 @@
 /**
+ * Aggiorna gli anni disponibili per la prenotazione
+ * 
+ * @param year anno corrente
+*/
+function updateYears(year) {
+    const YEARS = 2;
+    let years = "";
+    
+    let i;
+    for (i = 0; i < YEARS; i++) {
+        years += `<option value=\"${year + i}\">${year + i}</option>\n`;
+    }
+
+    document.getElementById("year").innerHTML = years;
+}
+
+/**
+ * Genera i mesi e imposta l'attributo selected al mese corrente 
+*/
+function updateMonths(currentMonthIndex) {
+    let months = [
+        "Gennaio",
+        "Febbraio",
+        "Marzo",
+        "Aprile",
+        "Maggio",
+        "Giugno",
+        "Luglio",
+        "Agosto",
+        "Settembre",
+        "Ottobre",
+        "Novembre",
+        "Dicembre"
+    ];    
+
+    let options = "";
+    let i;
+    for (i = 0; i < months.length; i++) {
+        options += `<option value=\"${i}\"`;
+        if (i === currentMonthIndex) {
+            options += ` selected`;
+        }    
+        options += `>${months[i]}</option>`
+    }    
+
+    document.getElementById("month").innerHTML = options;
+}    
+
+/**
+ * Input per selezionare un giorno del dato mese
+ */
+function updateDays(year, month, today) {
+    const numberOfDays = new Date(year, month, 0).getDate();
+    today = Math.min(today, numberOfDays);
+
+    let options = "";
+    let i;
+    for (i = 1; i <= numberOfDays; i++) {
+        options += `<option value="${i}"`;
+        if (i === today) {
+            options += ` selected`;
+        }
+        options += `>${i}</option>`;
+    }
+
+    document.getElementById("day").innerHTML = options;
+}
+
+/**
  * Visualizza gli orari considerati validi a partire
  * dall'orario selezionato.
 */
@@ -29,63 +98,16 @@ function validTime() {
 }
 
 /**
- * Genera i mesi e imposta l'attributo selected al mese corrente
-*/
-function updateMonths(currentMonthIndex) {
-    let months = [
-        "Gennaio",
-        "Febbraio",
-        "Marzo",
-        "Aprile",
-        "Maggio",
-        "Giugno",
-        "Luglio",
-        "Agosto",
-        "Settembre",
-        "Ottobre",
-        "Novembre",
-        "Dicembre"
-    ];
-
-    let options = "";
-    let i;
-    for (i = 0; i < months.length; i++) {
-        options += `<option value=\"${i}\"`;
-        if (i === currentMonthIndex) {
-            options += ` selected`;
-        }
-        options += `>${months[i]}</option>`
-    }
-
-    document.getElementById("month").innerHTML = options;
-}
-
-/**
- * Aggiorna gli anni disponibili per la prenotazione
- * 
- * @param year anno corrente
- */
-function updateYears(year) {
-    const YEARS = 2;
-    let years = "";
-    let i;
-    for (i = 0; i < YEARS; i++) {
-        years += `<option value=\"${year + i}\">${year + i}</option>\n`;
-    }
-    document.getElementById("year").innerHTML = years;
-}
-
-/**
  * Richiesta asincrona per aggiornare il calendario
 */
 function updateTable() {
     const year = document.getElementById("year").value;
     const month = document.getElementById("month").value;
     const URL = `http://138.41.20.100/~rizzello2400/src/gestione_calendario.php?year=${encodeURIComponent(year)}&month=${encodeURIComponent(month)}`;
-
+    
     fetch(URL)
-        .then(response => {
-            if (!response.ok) {
+    .then(response => {
+        if (!response.ok) {
                 throw new Error('Errore nella richiesta HTTP: ' + response.statusText);
             }
             return response.text();
@@ -100,4 +122,16 @@ function updateTable() {
                 console.error('Si è verificato un errore imprevisto: ', error.message);
             }
         });
+}
+
+/**
+ * Aggiorna la tabella e i giorni
+ */
+function update() {
+    updateTable();
+
+    const year = parseInt(document.getElementById("year").value);
+    const month = parseInt(document.getElementById("month").value) + 1;
+    const day = parseInt(document.getElementById("day").value);
+    updateDays(year, month, day);
 }

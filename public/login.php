@@ -93,10 +93,6 @@ include("../src/login.php");
             font-weight: bold;
 
         }
-
-        .eye {
-            cursor: pointer;
-        }
     </style>
 </head>
 
@@ -147,7 +143,7 @@ include("../src/login.php");
         //     }
         // });
     </script>
-    <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
+    <script src="http://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

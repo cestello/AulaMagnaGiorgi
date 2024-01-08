@@ -1,4 +1,9 @@
 <?php
+/*
+    LOGIN
+    Email
+    Pwd
+*/
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["username"];
@@ -14,7 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $row = $query_answer->fetch_assoc();
             $db_password = $row["password"];
             if (hash('sha256', $password) === $db_password) {
-                $_SESSION['message'] = "Accesso effettuato con successo";
                 setcookie("user", $email, time() + 86400 * 30, "/");
                 setcookie("pass", $db_password, time() + 86400 * 30, "/");
                 $conn->close();

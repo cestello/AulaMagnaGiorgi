@@ -45,7 +45,7 @@
                 <h1>Aula Magna</h1>
                 <section>
                     <div>
-                        <a target="_blank" href="./gif/mosaico.gif" class="image">
+                        <a target="_blank" href="./resources/mosaico.gif" class="image">
                             <img src="./resources/mosaico.gif" alt="Mosaico" width="800" height="200">
                         </a>
                     </div>

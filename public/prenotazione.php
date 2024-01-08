@@ -162,17 +162,6 @@ include("../src/prenotazione.php");
 
         }
 
-        #motivazione {
-            resize: none;
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-
-        }
-
         #from,
         #to {
             width: 100%;
@@ -193,14 +182,20 @@ include("../src/prenotazione.php");
 
         <h1>Prenotazione</h1>
 
+        <label for="year">Seleziona l'anno:</label>
+        <select name="year" id="year" onchange="update()" required>
+        </select>
+
         <label for="month">Seleziona il mese:</label>
-        <select id="month" onchange="updateTable()">
+        <select name="month" id="month" onchange="update()" required>
             <!-- Generati automaticamente per la selezione
                 automatica del mese corrente -->
         </select>
 
-        <label for="year">Seleziona l'anno:</label>
-        <select id="year" onchange="updateTable()">
+
+        <label for="day">Seleziona il giorno:</label>
+        <select name="day" id="day" required>
+            <!-- Giorni nel dato mese -->
         </select>
 
         <div id="calendar-container-inner">
@@ -211,7 +206,7 @@ include("../src/prenotazione.php");
         </div>
 
         <label for="from">Orario di inizio </label>
-        <select name="from" id="from" onchange="validTime()">
+        <select name="from" id="from" onchange="validTime()" required>
             <option value="0" selected>8:00</option>
             <option value="1">8:00</option>
             <option value="2">8:30</option>
@@ -228,23 +223,27 @@ include("../src/prenotazione.php");
         </select>
 
         <label for="to">Orario di fine</label>
-        <select name="to" id="to">
+        <select name="to" id="to" required>
             <!-- Genera in base all'orario di inizio selezionato -->
         </select>
 
-        <label for="evento">Nome dell'evento:</label>
-        <input type="text" id="evento" required>
+        <label for="titolo">Titolo dell'evento:</label>
+        <input type="text" name="titolo" id="titolo" required>
 
-        <label for="motivazione">Motivazione:</label>
-        <textarea id="motivazione" rows="6" cols="78" maxlength="50"></textarea>
+        <label for="descrizione">Descrizione:</label>
+        <textarea name="descrizione" id="descrizione" rows="6" cols="78" maxlength="50"></textarea>
         <br>
-
+        
         <div id="submit">
             <input type="submit" value="Prenota">
         </div>
+        <?php
+            if (isset($_SESSION['message'])) {
+                echo ("<h2>" . $_SESSION['message'] . "</h2>");
+            }
+            unset($_SESSION['message']);
+        ?>
     </form>
-
-    <?php include("../src/prenotazione.php") ?>
 
     <script src="http://138.41.20.100/~rizzello2400/public/js/script.js"></script>
     <script>
@@ -254,6 +253,7 @@ include("../src/prenotazione.php");
         updateMonths(currentDate.getMonth());
         updateYears(currentDate.getFullYear());
         updateTable();
+        updateDays(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
     </script>
 </body>
 

@@ -63,35 +63,76 @@ function is_mail_valid($email)
     return 0;
 }
 
-function input_is_valid($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo, $descrizione)
+function input_is_valid($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo)
 {
-    if ($anno == NULL) {
+    if (!isset($anno)) {
         return 1;
     }
 
-    if ($mese == NULL) {
+    if (!isset($mese)) {
         return 2;
     }
 
-    if ($giorno == NULL) {
+    if (!isset($giorno)) {
         return 3;
     }
 
-    if ($ora_inizio == NULL) {
+    if (!isset($ora_inizio)) {
         return 4;
     }
 
-    if ($ora_fine == NULL) {
+    if (!isset($ora_fine)) {
         return 5;
     }
 
-    if ($titolo == NULL) {
+    if (!isset($titolo)) {
         return 6;
     }
 
-    if ($descrizione == NULL) {
-        return 7;
+    return 0;
+}
+function check_ora($ora_inizio_0, $ora_fine_0, $ora_inizio_1, $ora_fine_1) {
+    $ora_inizio_0_int = intval(str_replace(":", "", $ora_inizio_0)) / 100;
+    $ora_fine_0_int = intval(str_replace(":", "", $ora_fine_0)) / 100;
+    $ora_inizio_1_int = intval(str_replace(":", "", $ora_inizio_1));
+    $ora_fine_1_int = intval(str_replace(":", "", $ora_fine_1));
+    if($ora_inizio_0_int >= $ora_inizio_1_int && $ora_inizio_0_int <= $ora_fine_1_int) {
+        return false;
+    }
+    if($ora_fine_0_int >= $ora_inizio_1_int && $ora_fine_0_int <= $ora_fine_1_int) {
+        return false;
     }
 
-    return 0;
+    return true;
+}
+
+function check_evento_esistente($data, $ora_inizio, $ora_fine) {
+    $conn = connect_to_database();
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    } else {
+        $sql_query = "SELECT * FROM eventi WHERE data='" . $data . "';";
+        $query_answer = $conn->query($sql_query);
+        if ($query_answer === FALSE) {
+            $_SESSION['message'] = "Errore non previsto nella registrazione";
+            $conn->close();
+            return false;
+        }
+
+        if ($query_answer->num_rows <= 0) {
+            $conn->close();
+            return true;
+        }
+
+        while ($row = $query_answer->fetch_assoc()) {
+            if(!check_ora($row["ora_inizio"], $row["ora_fine"], $ora_inizio, $ora_fine)) {
+                $_SESSION['message'] = "Orario gia' prenotato";
+                $conn->close();
+                return false;
+            }
+        }
+
+        $conn->close();
+        return true;
+    }
 }
