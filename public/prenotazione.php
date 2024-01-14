@@ -208,18 +208,16 @@ include("../src/prenotazione.php");
         <label for="from">Orario di inizio </label>
         <select name="from" id="from" onchange="validTime()" required>
             <option value="0" selected>8:00</option>
-            <option value="1">8:00</option>
-            <option value="2">8:30</option>
-            <option value="3">9:00</option>
-            <option value="4">9:30</option>
-            <option value="5">10:00</option>
-            <option value="6">10:30</option>
-            <option value="7">11:00</option>
-            <option value="8">11:30</option>
-            <option value="9">12:00</option>
-            <option value="10">12:30</option>
-            <option value="11">13:00</option>
-            <option value="12">13:30</option>
+            <option value="1">8:30</option>
+            <option value="2">9:00</option>
+            <option value="3">9:30</option>
+            <option value="4">10:00</option>
+            <option value="5">10:30</option>
+            <option value="6">11:00</option>
+            <option value="7">11:30</option>
+            <option value="8">12:00</option>
+            <option value="9">12:30</option>
+            <option value="10">13:00</option>
         </select>
 
         <label for="to">Orario di fine</label>

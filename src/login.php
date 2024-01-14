@@ -3,7 +3,8 @@
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["username"];
     $password = $_POST["password"];
-    if (is_used($email)) {
+    $conn = connect_to_database();
+    if (is_mail_used($email, $conn)) {
         $conn = connect_to_database();
         $sql_query = "SELECT password FROM utenti WHERE email = '" . $email . "';";
         $query_answer = $conn->query($sql_query);

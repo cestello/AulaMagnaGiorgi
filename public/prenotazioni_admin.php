@@ -98,6 +98,23 @@ include("../src/prenotazioni_admin.php");
         transform: scale(1.02);
     }
 
+    input[type="submit"] {
+        background-color: #043370;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: .5s;
+        margin-right: 5px;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #BC2047;
+        transform: scale(1.02);
+    }
+
     @media screen and (max-width: 600px) {
         .main-container {
             padding: 10px;
@@ -111,26 +128,33 @@ include("../src/prenotazioni_admin.php");
             width: 100%;
             margin: 10px 0;
         }
+
+        input[type="submit"] {
+            width: 100%;
+            margin: 10px 0;
+        }
     }
 </style>
 
 <body>
     <div class="main-container">
-        <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+        <a href="http://138.41.20.100/~rizzello2400/">
+            <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+        </a>
         <form>
             <h2>
                 <div class="events-container">
                     <?php
                     if ($_SERVER["REQUEST_METHOD"] == "GET" && sizeof($_GET) <= 0) {
-                        setup_prenotazioni();
+                        setup_prenotazioni(0);
                     }
+                    if (isset($_SESSION['message'])) {
+                        echo ($_SESSION['message']);
+                    }
+                    unset($_SESSION['message']);
                     ?>
                 </div>
             </h2><br>
-
-            <h3 id="response">
-
-                <h3>
         </form>
 
         <form action="../index.php">
@@ -149,7 +173,7 @@ include("../src/prenotazioni_admin.php");
                 })
                 .then(data => {
                     location.replace("http://138.41.20.100/~rizzello2400/public/prenotazioni_admin.php");
-                    // document.getElementById("html").innerHTML = data; // ?
+                    // document.getElementById("html").innerHTML = data;
                 })
                 .catch(error => {
                     if (error.name === 'TypeError') {

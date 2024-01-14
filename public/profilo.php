@@ -119,7 +119,9 @@ $lista_eventi = genera_eventi();
 
 <body>
     <div class="main-container">
-        <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+        <a href="http://138.41.20.100/~rizzello2400/">
+            <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+        </a>
         <div class="profile-container">
             <h1>Email:
                 <?php echo ($generalita[0]); ?>
@@ -135,20 +137,24 @@ $lista_eventi = genera_eventi();
         <div class="events-container">
             <h2>Lista Prenotazioni</h2>
             <?php
-            foreach ($lista_eventi as $row) {
-                echo ("Nome: " . $row["nome"] . "<br>");
-                echo ("Data: " . $row["data"] . "<br>");
-                echo ("Ora inizio: " . $row["ora_inizio"] . "<br>");
-                echo ("Ora fine: " . $row["ora_fine"] . "<br>");
-                echo ("Stato: ");
-                if ($row["stato"] == 0) {
-                    echo ("non visionato");
-                } else if ($row["stato"] == 1) {
-                    echo ("accettato");
-                } else {
-                    echo ("rifiutato");
+            if (sizeof($lista_eventi) <= 0) {
+                echo ("Nessun evento prenotato");
+            } else {
+                foreach ($lista_eventi as $row) {
+                    echo ("Nome: " . $row["nome"] . "<br>");
+                    echo ("Data: " . $row["data"] . "<br>");
+                    echo ("Ora inizio: " . $row["ora_inizio"] . "<br>");
+                    echo ("Ora fine: " . $row["ora_fine"] . "<br>");
+                    echo ("Stato: ");
+                    if ($row["stato"] == 0) {
+                        echo ("non visionato");
+                    } else if ($row["stato"] == 1) {
+                        echo ("accettato");
+                    } else {
+                        echo ("rifiutato");
+                    }
+                    echo ("<br><br>");
                 }
-                echo ("<br><br>");
             }
             ?>
         </div>

@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $is_successful = false;
-        if (!is_mail_used($conn, $email)) {
+        if (!is_mail_used($email, $conn)) {
             $status_code = is_password_valid($password, $confirm_password);
             if ($status_code != 0) {
                 invalid_password_message($status_code);
@@ -61,8 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $is_successful = registra($conn, $email, $password, $nome, $cognome);
             }
         }
-
         $conn->close();
+
         if ($is_successful) {
             // $to = "francescosalvatore.rizzello.05@ittgiorgi.edu.it";
             // $subject = "PHP Mail Test";

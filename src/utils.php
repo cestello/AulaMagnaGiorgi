@@ -12,22 +12,17 @@ function connect_to_database()
     return $connection;
 }
 
-function is_used($email)
+function is_mail_used($email, $conn)
 {
-    $conn = connect_to_database();
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
     $sql_query = "SELECT email FROM utenti WHERE email = '" . $email . "';";
 
     $query_answer = $conn->query($sql_query);
     if ($query_answer->num_rows > 0) {
         $conn->close();
+        $_SESSION["message"] = "Email gi&agrave utilizzata";
         return true;
     }
 
-    $conn->close();
     return false;
 }
 
@@ -61,18 +56,6 @@ function is_mail_valid($email)
     }
 
     return 0;
-}
-
-function is_mail_used($conn, $email)
-{
-    $sql_query = "SELECT email FROM utenti WHERE email = '" . $email . "';";
-    $query_answer = $conn->query($sql_query);
-    if ($query_answer === FALSE) {
-        return false;
-    }
-
-    $_SESSION['message'] = "Email gi&agrave; utilizzata";
-    return true;
 }
 
 function input_is_valid($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo)
@@ -110,10 +93,10 @@ function check_ora($ora_inizio_0, $ora_fine_0, $ora_inizio_1, $ora_fine_1)
     $ora_fine_0_int = intval(str_replace(":", "", $ora_fine_0)) / 100;
     $ora_inizio_1_int = intval(str_replace(":", "", $ora_inizio_1));
     $ora_fine_1_int = intval(str_replace(":", "", $ora_fine_1));
-    if ($ora_inizio_0_int >= $ora_inizio_1_int && $ora_inizio_0_int <= $ora_fine_1_int) {
+    if ($ora_inizio_0_int >= $ora_inizio_1_int && $ora_inizio_0_int < $ora_fine_1_int) {
         return false;
     }
-    if ($ora_fine_0_int >= $ora_inizio_1_int && $ora_fine_0_int <= $ora_fine_1_int) {
+    if ($ora_fine_0_int > $ora_inizio_1_int && $ora_fine_0_int <= $ora_fine_1_int) {
         return false;
     }
 

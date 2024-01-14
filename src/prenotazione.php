@@ -12,8 +12,6 @@ function prenota_evento($nome, $data, $ora_inizio, $ora_fine, $descrizione, $ema
         $query_answer = $conn->query($sql_query);
         if ($query_answer === FALSE) {
             $_SESSION['message'] = "Errore non previsto nella prenotazione";
-        } else {
-            $_SESSION['message'] = "Ok";
         }
         $conn->close();
         header("Location: " . MAINURL . "index.php");

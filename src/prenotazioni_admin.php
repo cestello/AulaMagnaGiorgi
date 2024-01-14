@@ -23,10 +23,10 @@ function gestisci_input($ID, $tipo)
     }
 }
 
-function setup_prenotazioni()
+function setup_prenotazioni($stato)
 {
     $conn = connect_to_database();
-    $sql_query = "SELECT * FROM eventi WHERE stato = 0;";
+    $sql_query = "SELECT * FROM eventi WHERE stato = " . $stato . ";";
     $query_answer = $conn->query($sql_query);
     if ($query_answer === FALSE) {
         $_SESSION['message'] = "Errore nel collegamento";
@@ -40,14 +40,20 @@ function setup_prenotazioni()
             echo ("Nessuna nuova prenotazione");
         } else {
             foreach ($records as $row) {
-                //TODO crea tabella da in una variabile e fare echo
                 echo ('<div class="events-container ' . $row["ID"] . '">');
-                echo ("Nome: " . $row["nome"] . "<br>" . "Richiesto da: " . $row["email"] . "<br>" . "Data: " . $row["data"] . "<br>");
+                echo ("Nome: " . $row["nome"] . "<br>" . "Richiesto da: " . $row["email"] . "<br>" .
+                    "Data: " . $row["data"] . " Dalle ore: " . $row["ora_inizio"] . " alle " . 
+                    $row["ora_fine"] . "<br>");
+                if (isset($row["descrizione"]) && $row["descrizione"] !== "") {
+                    echo ("Descrizione: " . $row["descrizione"] . "<br>");
+                }
                 echo ("<br>");
 
-                // Utilizza l'ID dell'evento come valore del pulsante
-                echo ('<input type="button" name="accetta" value="accetta" id="' . $row["ID"] . '" onClick="gestisci_richiesta(this.id, this.name)">');
-                echo ('<input type="button" name="rifiuta" value="rifiuta" id="' . $row["ID"] . '" onClick="gestisci_richiesta(this.id, this.name)">');
+                echo ('<input type="button" name="accetta" value="accetta" id="' .
+                    $row["ID"] . '" onClick="gestisci_richiesta(this.id, this.name)">');
+
+                echo ('<input type="button" name="rifiuta" value="rifiuta" id="' .
+                    $row["ID"] . '" onClick="gestisci_richiesta(this.id, this.name)">');
                 echo ("</div><br>");
             }
         }
@@ -59,6 +65,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && sizeof($_GET) > 0) {
     if (isset($_GET["ID"]) && isset($_GET["name"])) {
         gestisci_input($_REQUEST["ID"], $_REQUEST["name"]);
     } else {
-        echo ("errore");
+        $_SESSION["message"] = "Errore";
     }
 }
