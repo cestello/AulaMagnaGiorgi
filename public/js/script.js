@@ -6,7 +6,7 @@
 function updateYears(year) {
     const YEARS = 2;
     let years = "";
-    
+
     let i;
     for (i = 0; i < YEARS; i++) {
         years += `<option value=\"${year + i}\">${year + i}</option>\n`;
@@ -32,7 +32,7 @@ function updateMonths(currentMonthIndex) {
         "Ottobre",
         "Novembre",
         "Dicembre"
-    ];    
+    ];
 
     let options = "";
     let i;
@@ -40,12 +40,12 @@ function updateMonths(currentMonthIndex) {
         options += `<option value=\"${i}\"`;
         if (i === currentMonthIndex) {
             options += ` selected`;
-        }    
+        }
         options += `>${months[i]}</option>`
-    }    
+    }
 
     document.getElementById("month").innerHTML = options;
-}    
+}
 
 /**
  * Input per selezionare un giorno del dato mese
@@ -104,10 +104,10 @@ function updateTable() {
     const year = document.getElementById("year").value;
     const month = document.getElementById("month").value;
     const URL = `http://138.41.20.100/~rizzello2400/src/gestione_calendario.php?year=${encodeURIComponent(year)}&month=${encodeURIComponent(month)}`;
-    
+
     fetch(URL)
-    .then(response => {
-        if (!response.ok) {
+        .then(response => {
+            if (!response.ok) {
                 throw new Error('Errore nella richiesta HTTP: ' + response.statusText);
             }
             return response.text();

@@ -1,15 +1,16 @@
 <?php
-    include('../src/utils.php');
-    include("../src/check_cookie.php");
-    if (check()) {
-        header("Location: " . MAINURL . "index.php");
-        die();
-    }
-    include("../src/registrazione.php");
+include('../src/utils.php');
+include("../src/check_cookie.php");
+if (check()) {
+    header("Location: " . MAINURL . "index.php");
+    die();
+}
+include("../src/registrazione.php");
 ?>
 
 <!DOCTYPE html>
 <html lang="it-IT">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -206,10 +207,10 @@
 
         <input type="submit" name="Invia">
         <?php
-            if (isset($_SESSION['message'])) {
-                echo ($_SESSION['message']);
-            }
-            unset($_SESSION['message']);
+        if (isset($_SESSION['message'])) {
+            echo ($_SESSION['message']);
+        }
+        unset($_SESSION['message']);
         ?>
     </form>
     <script>

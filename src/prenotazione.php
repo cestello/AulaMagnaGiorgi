@@ -42,7 +42,6 @@ function converti_orario($orario)
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
     $anno = $_POST["year"];
     $mese = (intval($_POST["month"]) + 1);
     $giorno = $_POST["day"];

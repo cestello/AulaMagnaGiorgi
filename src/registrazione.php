@@ -1,24 +1,15 @@
 <?php
-/*
-REGISTRAZIONE
-    Nome
-    Cognome
-    Email
-    Pwd
-*/
 
-function mail_wrong($code)
+function invalid_mail_message($code)
 {
     if ($code == 1) {
         $_SESSION['message'] = "La lunghezza dell'email deve essere tra 7 e 128 caratteri";
     } else if ($code == 2) {
         $_SESSION['message'] = "L'email inserita non &egrave; valida";
-    } else {
-        $_SESSION['message'] = "Email gi&agrave; utilizzata";
     }
 }
 
-function password_wrong($code)
+function invalid_password_message($code)
 {
     if ($code == 1) {
         $_SESSION['message'] = "La lunghezza della password deve essere tra 8 e 32 caratteri";
@@ -40,7 +31,9 @@ function registra($conn, $email, $password, $nome, $cognome)
     $query_answer = $conn->query($sql_query);
     if ($query_answer === FALSE) {
         $_SESSION['message'] = "Errore non previsto nella registrazione";
+        return false;
     }
+    return true;
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -52,21 +45,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $value = is_mail_valid($email);
 
     if ($value != 0) {
-        mail_wrong($value);
+        invalid_mail_message($value);
     } else {
-        $status_code = is_valid($password, $confirm_password);
-        if ($status_code != 0) {
-            password_wrong($status_code);
-        } else {
-            $conn = connect_to_database();
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
+        $conn = connect_to_database();
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $is_successful = false;
+        if (!is_mail_used($conn, $email)) {
+            $status_code = is_password_valid($password, $confirm_password);
+            if ($status_code != 0) {
+                invalid_password_message($status_code);
             } else {
-                registra($conn, $email, $password, $nome, $cognome);
+                $is_successful = registra($conn, $email, $password, $nome, $cognome);
             }
-            $conn->close();
+        }
+
+        $conn->close();
+        if ($is_successful) {
+            // $to = "francescosalvatore.rizzello.05@ittgiorgi.edu.it";
+            // $subject = "PHP Mail Test";
+            // $message = "Messaggio di test\r\n";
+            // $headers = "From: vincenzo.cardea.05@ittgiorgi.edu.it";
+            // if (mail($to, $subject, $message, $headers)) {
+            //     echo "Messaggio inviato con successo!";
+            // } else {
+            //     echo "Errore nell'invio del messaggio.";
+            // }
             header("Location: " . MAINURL . "public/login.php");
-            die();
         }
     }
 }

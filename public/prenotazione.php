@@ -233,15 +233,15 @@ include("../src/prenotazione.php");
         <label for="descrizione">Descrizione:</label>
         <textarea name="descrizione" id="descrizione" rows="6" cols="78" maxlength="50"></textarea>
         <br>
-        
+
         <div id="submit">
             <input type="submit" value="Prenota">
         </div>
         <?php
-            if (isset($_SESSION['message'])) {
-                echo ("<h2>" . $_SESSION['message'] . "</h2>");
-            }
-            unset($_SESSION['message']);
+        if (isset($_SESSION['message'])) {
+            echo ("<h2>" . $_SESSION['message'] . "</h2>");
+        }
+        unset($_SESSION['message']);
         ?>
     </form>
 

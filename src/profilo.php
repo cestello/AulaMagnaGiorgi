@@ -2,6 +2,7 @@
 $nome = "";
 $cognome = "";
 $email = "";
+
 function genera_utente()
 {
     $conn = connect_to_database();

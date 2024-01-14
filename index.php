@@ -1,12 +1,12 @@
 <?php
-    session_start();
-    include("./src/utils.php");
-    include("./src/check_cookie.php");
-    $is_logged_in = check();
-    $is_admin = false;
-    if ($is_logged_in) {
-        $is_admin = check_admin();
-    }
+session_start();
+include("./src/utils.php");
+include("./src/check_cookie.php");
+$is_logged_in = check();
+$is_admin = false;
+if ($is_logged_in) {
+    $is_admin = check_admin();
+}
 ?>
 <!DOCTYPE html>
 <html lang="it-IT">

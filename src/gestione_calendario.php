@@ -1,5 +1,5 @@
 <?php
-function generateCalendar($year, $month)
+function generaCalendario($year, $month)
 {
     $months = [
         "Gennaio",
@@ -59,6 +59,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     } else if ($month < 1 || $month > 12) {
         echo ("Mese inserito non valido.");
     } else {
-        echo (generateCalendar($year, $month));
+        echo (generaCalendario($year, $month));
     }
 }

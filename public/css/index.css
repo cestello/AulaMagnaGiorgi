@@ -182,7 +182,9 @@ footer {
     position: relative;
 }
 
-.hamburger span, .hamburger span:before, .hamburger span:after {
+.hamburger span,
+.hamburger span:before,
+.hamburger span:after {
     display: block;
     width: 45px;
     height: 6px;
@@ -190,7 +192,8 @@ footer {
     border-radius: 2px;
 }
 
-.hamburger span:before, .hamburger span:after {
+.hamburger span:before,
+.hamburger span:after {
     content: '';
     position: absolute;
 }
@@ -212,7 +215,8 @@ footer {
     cursor: pointer;
 }
 
-.close:before, .close:after {
+.close:before,
+.close:after {
     content: '';
     position: absolute;
     display: block;

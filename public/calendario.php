@@ -111,7 +111,7 @@
         </div>
     </form>
 
-    <script src="https://138.41.20.100/~rizzello2400/public/js/script.js"></script>
+    <script src="http://138.41.20.100/~rizzello2400/public/js/script.js"></script>
     <script>
         // Iniziale generazione del calendario per il mese e l'anno correnti
         const currentDate = new Date();

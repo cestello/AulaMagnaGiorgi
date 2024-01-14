@@ -1,9 +1,4 @@
 <?php
-/*
-    LOGIN
-    Email
-    Pwd
-*/
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["username"];
@@ -14,7 +9,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $query_answer = $conn->query($sql_query);
         if ($query_answer === FALSE) {
             $_SESSION['message'] = "Errore nel Login";
-            $conn->close();
         } else {
             $row = $query_answer->fetch_assoc();
             $db_password = $row["password"];
@@ -26,9 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 die();
             } else {
                 $_SESSION['message'] = "Password errata";
-                $conn->close();
             }
         }
+        $conn->close();
     } else {
         $_SESSION['message'] = "Account inesistente";
     }
