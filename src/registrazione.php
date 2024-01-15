@@ -60,6 +60,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 $is_successful = registra($conn, $email, $password, $nome, $cognome);
             }
+        } else {
+            $_SESSION["message"] = "Email gi&agrave utilizzata";
         }
         $conn->close();
 

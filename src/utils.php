@@ -19,7 +19,6 @@ function is_mail_used($email, $conn)
     $query_answer = $conn->query($sql_query);
     if ($query_answer->num_rows > 0) {
         $conn->close();
-        $_SESSION["message"] = "Email gi&agrave utilizzata";
         return true;
     }
 
@@ -109,7 +108,7 @@ function check_evento_esistente($data, $ora_inizio, $ora_fine)
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     } else {
-        $sql_query = "SELECT * FROM eventi WHERE data='" . $data . "';";
+        $sql_query = "SELECT * FROM eventi WHERE data='" . $data . "' AND stato=1;";
         $query_answer = $conn->query($sql_query);
         if ($query_answer === FALSE) {
             $_SESSION['message'] = "Errore non previsto nella registrazione";
