@@ -1,4 +1,6 @@
 <?php
+session_abort();
+session_start();
 include('../src/utils.php');
 include("../src/check_cookie.php");
 if (check()) {
@@ -23,14 +25,7 @@ include("../src/registrazione.php");
             background: linear-gradient(to left, #b9cfec, #b4c8d4);
         }
 
-        #paper-window section {
-            padding: 40px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            margin: 50px auto;
-        }
-
+    
         #FormRegistrazione {
             max-width: 600px;
             margin: 4% auto;

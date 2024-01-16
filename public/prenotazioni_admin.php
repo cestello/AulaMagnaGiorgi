@@ -1,4 +1,5 @@
 <?php
+session_abort();
 session_start();
 include('../src/utils.php');
 include("../src/check_cookie.php");
@@ -148,6 +149,7 @@ include("../src/prenotazioni_admin.php");
                     if ($_SERVER["REQUEST_METHOD"] == "GET" && sizeof($_GET) <= 0) {
                         setup_prenotazioni(0);
                     }
+
                     if (isset($_SESSION['message'])) {
                         echo ($_SESSION['message']);
                     }

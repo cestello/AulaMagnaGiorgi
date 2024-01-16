@@ -1,4 +1,5 @@
 <?php
+session_abort();
 session_start();
 include('../src/utils.php');
 include("../src/check_cookie.php");
@@ -15,6 +16,8 @@ include("../src/prenotazione.php");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="http://138.41.20.100/~rizzello2400/public/css/style.css">
 
     <title>
         Prenotazione
@@ -183,11 +186,11 @@ include("../src/prenotazione.php");
         <h1>Prenotazione</h1>
 
         <label for="year">Seleziona l'anno:</label>
-        <select name="year" id="year" onchange="update()" required>
+        <select name="year" id="year" onchange="aggiorna()" required>
         </select>
 
         <label for="month">Seleziona il mese:</label>
-        <select name="month" id="month" onchange="update()" required>
+        <select name="month" id="month" onchange="aggiorna()" required>
             <!-- Generati automaticamente per la selezione
                 automatica del mese corrente -->
         </select>
@@ -206,7 +209,7 @@ include("../src/prenotazione.php");
         </div>
 
         <label for="from">Orario di inizio </label>
-        <select name="from" id="from" onchange="validTime()" required>
+        <select name="from" id="from" onchange="visualizzaOrariValidi()" required>
             <option value="0" selected>8:00</option>
             <option value="1">8:30</option>
             <option value="2">9:00</option>
@@ -226,7 +229,7 @@ include("../src/prenotazione.php");
         </select>
 
         <label for="titolo">Titolo dell'evento:</label>
-        <input type="text" name="titolo" id="titolo" required>
+        <input type="text" name="titolo" id="titolo" minlength="4" maxlength="64" required>
 
         <label for="descrizione">Descrizione:</label>
         <textarea name="descrizione" id="descrizione" rows="6" cols="78" maxlength="50"></textarea>
@@ -247,11 +250,11 @@ include("../src/prenotazione.php");
     <script>
         // Iniziale generazione del calendario per il mese e l'anno correnti
         const currentDate = new Date();
-        validTime();
-        updateMonths(currentDate.getMonth());
-        updateYears(currentDate.getFullYear());
-        updateTable();
-        updateDays(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+        visualizzaOrariValidi();
+        sceltaMesi(currentDate.getMonth());
+        sceltaAnni(currentDate.getFullYear());
+        aggiornaTabella();
+        sceltaGiorni(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
     </script>
 </body>
 

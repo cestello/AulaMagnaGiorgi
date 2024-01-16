@@ -19,6 +19,32 @@ function prenota_evento($nome, $data, $ora_inizio, $ora_fine, $descrizione, $ema
     }
 }
 
+function eseguiPrenotazione($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo, $descrizione, $email)
+{
+    $data = $anno . "-" . $mese . "-" . $giorno;
+    $status_code = input_is_valid($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo);
+    if (check_evento_esistente($data, $ora_inizio, $ora_fine)) {
+        if ($status_code === 0) {
+            // $_SESSION['message'] = "Ok";
+            prenota_evento($titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email);
+        } else if ($status_code === 1) {
+            $_SESSION['message'] = "Anno non valido";
+        } else if ($status_code === 2) {
+            $_SESSION['message'] = "Mese non valido";
+        } else if ($status_code === 3) {
+            $_SESSION['message'] = "Giorno non valido";
+        } else if ($status_code === 4) {
+            $_SESSION['message'] = "Ora d'inizio non valida";
+        } else if ($status_code === 5) {
+            $_SESSION['message'] = "Ora di fine non valida";
+        } else if ($status_code === 6) {
+            $_SESSION['message'] = "Titolo non valido";
+        } else {
+            $_SESSION['message'] = "Giorno selezionato non disponibile";
+        }
+    }
+}
+
 function converti_orario($orario)
 {
     $orari = array(
@@ -48,26 +74,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titolo = $_POST["titolo"];
     $descrizione = $_POST["descrizione"];
     $email = $_COOKIE['user'];
-    $data = $anno . "-" . $mese . "-" . $giorno;
 
-    // $_SESSION['message'] = "TEST " . $anno . $mese. $giorno . $ora_inizio . $ora_inizio;
-    $status_code = input_is_valid($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo);
-    if (check_evento_esistente($data, $ora_inizio, $ora_fine)) {
-        if ($status_code === 0) {
-            // $_SESSION['message'] = "Ok";
-            prenota_evento($titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email);
-        } else if ($status_code === 1) {
-            $_SESSION['message'] = "Anno non valido";
-        } else if ($status_code === 2) {
-            $_SESSION['message'] = "Mese non valido";
-        } else if ($status_code === 3) {
-            $_SESSION['message'] = "Giorno non valido";
-        } else if ($status_code === 4) {
-            $_SESSION['message'] = "Ora d'inizio non valida";
-        } else if ($status_code === 5) {
-            $_SESSION['message'] = "Ora di fine non valida";
-        } else if ($status_code === 6) {
-            $_SESSION['message'] = "Titolo non valido";
-        }
+    if ($year !== date("Y")) {
+        eseguiPrenotazione($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo, $descrizione, $email);
+    } else if ($giorno >= date("l") && $mese >= date("m")) {
+        eseguiPrenotazione($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo, $descrizione, $email);
+    } else {
+        $_SESSION['message'] = "Non &egrave; possibile prenotare in un giorno precedente a quello corrente.";
     }
+    echo ($_SESSION['messaggio']);
 }

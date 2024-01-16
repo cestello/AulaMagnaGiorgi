@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="http://138.41.20.100/~rizzello2400/public/css/style.css">
+
     <title>
         Calendario
     </title>
@@ -83,6 +85,8 @@
         th {
             background-color: #f2f2f2;
         }
+
+    
     </style>
 </head>
 
@@ -92,14 +96,15 @@
             <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
         </a>
 
+   
         <label for="month">Seleziona il mese:</label>
-        <select id="month" onchange="updateTable()">
+        <select id="month" onchange="aggiornaTabella()">
             <!-- Generati automaticamente per la selezione
                 automatica del mese corrente -->
         </select>
 
         <label for="year">Seleziona l'anno:</label>
-        <select id="year" onchange="updateTable()">
+        <select id="year" onchange="aggiornaTabella()">
             <!-- Generati automaticamente -->
         </select>
 
@@ -115,9 +120,9 @@
     <script>
         // Iniziale generazione del calendario per il mese e l'anno correnti
         const currentDate = new Date();
-        updateMonths(currentDate.getMonth());
-        updateYears(currentDate.getFullYear());
-        updateTable();
+        sceltaMesi(currentDate.getMonth());
+        sceltaAnni(currentDate.getFullYear());
+        aggiornaTabella();
     </script>
 </body>
 

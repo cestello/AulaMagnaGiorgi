@@ -1,4 +1,5 @@
 <?php
+session_abort();
 session_start();
 include("./src/utils.php");
 include("./src/check_cookie.php");
@@ -76,14 +77,12 @@ if ($is_logged_in) {
                     this.$hamburger.off('click');
                     $('#container, .hamburger').on('click', this.close.bind(this));
                     this.hamburgerFix(true);
-                    console.log('opening...');
                 },
                 close: function () {
                     this.$window.removeClass('tilt');
                     $('#container, .hamburger').off('click');
                     this.$hamburger.on('click', this.open.bind(this));
                     this.hamburgerFix(false);
-                    console.log('closing...');
                 },
                 updateTransformOrigin: function () {
                     let scrollTop = this.$window.scrollTop();

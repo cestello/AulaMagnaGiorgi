@@ -3,7 +3,7 @@
  * 
  * @param year anno corrente
 */
-function updateYears(year) {
+function sceltaAnni(year) {
     const YEARS = 2;
     let years = "";
 
@@ -18,7 +18,7 @@ function updateYears(year) {
 /**
  * Genera i mesi e imposta l'attributo selected al mese corrente 
 */
-function updateMonths(currentMonthIndex) {
+function sceltaMesi(currentMonthIndex) {
     let months = [
         "Gennaio",
         "Febbraio",
@@ -50,7 +50,7 @@ function updateMonths(currentMonthIndex) {
 /**
  * Input per selezionare un giorno del dato mese
  */
-function updateDays(year, month, today) {
+function sceltaGiorni(year, month, today) {
     const numberOfDays = new Date(year, month, 0).getDate();
     today = Math.min(today, numberOfDays);
 
@@ -71,7 +71,7 @@ function updateDays(year, month, today) {
  * Visualizza gli orari considerati validi a partire
  * dall'orario selezionato.
 */
-function validTime() {
+function visualizzaOrariValidi() {
     let initialTime = parseInt(document.getElementById("from").value);
     let times = [
         "8:00",
@@ -100,7 +100,7 @@ function validTime() {
 /**
  * Richiesta asincrona per aggiornare il calendario
 */
-function updateTable() {
+function aggiornaTabella() {
     const year = document.getElementById("year").value;
     const month = document.getElementById("month").value;
     const URL = `http://138.41.20.100/~rizzello2400/src/gestione_calendario.php?year=${encodeURIComponent(year)}&month=${encodeURIComponent(month)}`;
@@ -127,11 +127,11 @@ function updateTable() {
 /**
  * Aggiorna la tabella e i giorni
  */
-function update() {
-    updateTable();
+function aggiorna() {
+    aggiornaTabella();
 
     const year = parseInt(document.getElementById("year").value);
     const month = parseInt(document.getElementById("month").value) + 1;
     const day = parseInt(document.getElementById("day").value);
-    updateDays(year, month, day);
+    sceltaGiorni(year, month, day);
 }
