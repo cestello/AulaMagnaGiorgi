@@ -2,16 +2,16 @@
 Sito per l'aula magna del ITT G. Giorgi, versione alpha [index](http://138.41.20.100/~rizzello2400/)
 
 ## Organizzazione
-Francesco Damiano Capodieci
+Capo10
 
 ## PHP
-Vincenzo Cardea, Francesco Salvatore Rizzello
+xvinczx, cestello
 
 ## DB
-Francesco Salvatore Rizzello, Matteo De Vito
+cestello, Debito
 
 ## HTML / CSS / JS
-Daniele Greco <- Capocantiere
+Grechino <- Capocantiere
 
 # Progettazione
 
@@ -19,7 +19,7 @@ LOGIN: Pesci8 e Sbriele
 + email    [7, 128]
 + password [8, 32]
 
-REGISTRAZIONE: Nacci e Mochele
+REGISTRAZIONE: Lele e Mochele
 + nome      [2, 64]
 + cognome   [2, 64]
 + email     [7, 128]
