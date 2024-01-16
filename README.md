@@ -24,3 +24,14 @@ REGISTRAZIONE: Nacci e Mochele
 
 CALENDARIO: Bislongo, Pierpy e Ironfly
 + ora 
+
+INDEX: Morosita, Sabina
+
+PRENOTAZIONE: Pigi, Ciurlo
++ anno    [8:8]
++ mese    [2:2]
++ giorno   [2:2]
++ orario di inizio   [4:5]
++ orario di fine   [4:5]
++ titolo dell'evento   [4:64]
++ descrizione   [text]
