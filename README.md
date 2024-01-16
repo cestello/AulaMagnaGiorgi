@@ -38,3 +38,6 @@ PRENOTAZIONE: Pigi, Ciurlo
 + orario di fine   [4:5]
 + titolo dell'evento   [4:64]
 + descrizione   [text]
+
+PRENOTAZIONE ADMIN: Mochele
+PROFILO: Mochele
