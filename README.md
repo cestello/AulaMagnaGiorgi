@@ -40,4 +40,5 @@ PRENOTAZIONE: Pigi, Ciurlo
 + descrizione   [text]
 
 PRENOTAZIONE ADMIN: Mochele
+
 PROFILO: Mochele
