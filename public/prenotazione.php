@@ -56,9 +56,12 @@ include("../src/prenotazione.php");
         }
 
         #month,
-        #year {
+        #year,
+        #day {
+            height: 40px;
+            width: 160px;
+            text-align: center;
             margin-right: 10px;
-            width: min-content;
             padding: 10px;
             margin-bottom: 20px;
             box-sizing: border-box;
@@ -174,6 +177,7 @@ include("../src/prenotazione.php");
             border: 1px solid #ccc;
             border-radius: 6px;
         }
+
     </style>
 </head>
 
@@ -232,7 +236,7 @@ include("../src/prenotazione.php");
         <input type="text" name="titolo" id="titolo" minlength="4" maxlength="64" required>
 
         <label for="descrizione">Descrizione:</label>
-        <textarea name="descrizione" id="descrizione" rows="6" cols="78" maxlength="50"></textarea>
+        <textarea name="descrizione" id="descrizione" rows="6" cols="78" maxlength="50" style="resize: none;"></textarea>
         <br>
 
         <div id="submit">
