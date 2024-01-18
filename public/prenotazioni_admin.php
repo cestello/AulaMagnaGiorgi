@@ -160,7 +160,7 @@ include("../src/prenotazioni_admin.php");
         </form>
 
         <form action="../index.php">
-            <input type="submit" value="Home">
+            <input type="submit" value="Index">
         </form>
     </div>
     <script>
