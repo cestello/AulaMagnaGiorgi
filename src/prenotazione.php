@@ -1,16 +1,26 @@
 <?php
 
-function prenota_evento($nome, $data, $ora_inizio, $ora_fine, $descrizione, $email)
+/**
+ * Esegue la prenotazione vera e propria
+ * 
+ * @param string $titolo dell'evento
+ * @param string $data in cui avrà luogo l'evento
+ * @param string $ora_inizio ora di inizio
+ * @param string $ora_fine ora di fine
+ * @param string $descrizione dell'evento
+ * @param string $email della persona che sta prenotando
+ */
+function prenota_evento($titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email)
 {
     $conn = connect_to_database();
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     } else {
-        $sql_query = "INSERT INTO eventi(nome, data, ora_inizio, ora_fine, descrizione, email)
-                    VALUES('" . $nome . "', DATE '" . $data . "','" . $ora_inizio . "', '" . $ora_fine . "', '"
+        $sql_query = "INSERT INTO eventi(titolo, data, ora_inizio, ora_fine, descrizione, email)
+                    VALUES('" . $titolo . "', DATE '" . $data . "','" . $ora_inizio . "', '" . $ora_fine . "', '"
             . $descrizione . "', (SELECT email FROM utenti WHERE email='" . $email . "'));";
         $query_answer = $conn->query($sql_query);
-        if ($query_answer === FALSE) {
+        if ($query_answer === false) {
             $_SESSION['message'] = "Errore non previsto nella prenotazione";
         }
         $conn->close();
@@ -19,6 +29,19 @@ function prenota_evento($nome, $data, $ora_inizio, $ora_fine, $descrizione, $ema
     }
 }
 
+/**
+ * Controlla se esiste già un evento che si sovrappone con quello corrente.
+ * Inoltre, restituisce i messaggi di errore in base al codice ricevuto.
+ * 
+ * @param string $anno in cui ha luogo l'evento
+ * @param string $mese in cui ha luogo l'evento
+ * @param string $giorno in cui ha luogo l'evento
+ * @param string $ora_inizio ora di inizio
+ * @param string $ora_fine ora di fine
+ * @param string $titolo dell'evento
+ * @param string $descrizione dell'evento
+ * @param string $email del richiedente
+ */
 function eseguiPrenotazione($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo, $descrizione, $email)
 {
     $data = $anno . "-" . $mese . "-" . $giorno;
@@ -45,6 +68,12 @@ function eseguiPrenotazione($anno, $mese, $giorno, $ora_inizio, $ora_fine, $tito
     }
 }
 
+/**
+ * Converte l'indice ricevuto in input in uno degli orari consentiti
+ * 
+ * @param number $orario sottoforma di indice [0, 12)
+ * @return string orario sottoforma di stringa
+ */
 function converti_orario($orario)
 {
     $orari = array(
@@ -82,5 +111,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $_SESSION['message'] = "Non &egrave; possibile prenotare in un giorno precedente a quello corrente.";
     }
-    echo ($_SESSION['messaggio']);
+    echo $_SESSION['messaggio'];
 }

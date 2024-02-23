@@ -86,7 +86,16 @@
             background-color: #f2f2f2;
         }
 
-    
+        /* Modifica lo stile del link */
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        /* a:hover,
+        a:active {
+
+        } */
     </style>
 </head>
 
@@ -96,7 +105,7 @@
             <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
         </a>
 
-   
+
         <label for="month">Seleziona il mese:</label>
         <select id="month" onchange="aggiornaTabella()">
             <!-- Generati automaticamente per la selezione

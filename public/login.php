@@ -1,14 +1,20 @@
 <?php
 session_abort();
 session_start();
+
 include('../src/utils.php');
 include("../src/check_cookie.php");
+
+// Se l'utente è già loggato, viene reindirizzato all'index
 if (check()) {
     header("Location: " . MAINURL . "index.php");
     die();
 }
+
 include("../src/login.php");
+
 ?>
+
 <!DOCTYPE html>
 <html lang="it-IT">
 
@@ -110,7 +116,6 @@ include("../src/login.php");
 
             <label for="password">Password: </label>
             <input type="password" id="password" name="password" minlength="8" maxlength="64" required>
-            <!-- <span class="eye fa-solid fa-eye"></span> -->
             <br>
 
             <a href="./registrazione.php">Non hai un account? Registrati</a>
@@ -129,22 +134,6 @@ include("../src/login.php");
             </div>
         </form>
     </div>
-
-    <script>
-        // $(".toggle-password").click(function () {
-        //     let input = $(this);
-        //     if (input.attr("type") == "password") {
-        //         input.attr("type", "text");
-        //         input.classList.remove("fa-eye");
-        //         input.classList.add("fa-eye-slash");
-        //     } else {
-        //         input.attr("type", "password");
-        //         input.classList.remove("fa-eye-slash");
-        //         input.classList.add("fa-eye");
-        //     }
-        // });
-    </script>
-    <script src="http://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

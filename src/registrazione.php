@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Resistuisce messaggi in base al codice di errore
+ * riguardanti l'input dell'email
+ * 
+ * @param int $code codice di errore
+ */
 function invalid_mail_message($code)
 {
     if ($code == 1) {
@@ -9,6 +15,12 @@ function invalid_mail_message($code)
     }
 }
 
+/**
+ * Restituisce messaggi basati sul codice di errore 
+ * sull'input della password
+ * 
+ * @param int $code codice di errore
+ */
 function invalid_password_message($code)
 {
     if ($code == 1) {
@@ -24,12 +36,22 @@ function invalid_password_message($code)
     }
 }
 
+/**
+ * Effettua la registrazione di un utente 
+ * 
+ * @param mysqli $conn oggetto connessione
+ * @param string $email dell'utente
+ * @param string $password dell'utente
+ * @param string $nome dell'utente
+ * @param string $cognome dell'utente
+ * @return bool se la registrazione è andata a buon fine
+ */
 function registra($conn, $email, $password, $nome, $cognome)
 {
     $sql_query = "INSERT INTO utenti (email, password, nome, cognome, admin)
     VALUES ('" . $email . "', '" . hash('sha256', $password) . "', '" . $nome . "', '" . $cognome . "', 0);";
     $query_answer = $conn->query($sql_query);
-    if ($query_answer === FALSE) {
+    if ($query_answer === false) {
         $_SESSION['message'] = "Errore non previsto nella registrazione";
         return false;
     }

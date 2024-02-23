@@ -1,13 +1,18 @@
 <?php
 session_abort();
 session_start();
+
 include('../src/utils.php');
 include("../src/check_cookie.php");
+
+// Se l'utente non è loggato, viene reindirizzato al login
 if (!check()) {
     header("Location: " . MAINURL . "public/login.php");
     die();
 }
+
 include("../src/prenotazione.php");
+
 ?>
 
 <!DOCTYPE html>
@@ -95,6 +100,17 @@ include("../src/prenotazione.php");
         th {
             background-color: #f2f2f2;
         }
+
+        /* Modifica lo stile del link */
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        /* a:hover,
+        a:active {
+
+        } */
     </style>
 
     <style>
@@ -169,7 +185,8 @@ include("../src/prenotazione.php");
         }
 
         #from,
-        #to {
+        #to,
+        option {
             width: 100%;
             padding: 12px;
             margin-bottom: 20px;
@@ -177,7 +194,6 @@ include("../src/prenotazione.php");
             border: 1px solid #ccc;
             border-radius: 6px;
         }
-
     </style>
 </head>
 
@@ -244,7 +260,7 @@ include("../src/prenotazione.php");
         </div>
         <?php
         if (isset($_SESSION['message'])) {
-            echo ("<h2>" . $_SESSION['message'] . "</h2>");
+            echo "<h2>" . $_SESSION['message'] . "</h2>";
         }
         unset($_SESSION['message']);
         ?>
@@ -253,12 +269,12 @@ include("../src/prenotazione.php");
     <script src="http://138.41.20.100/~rizzello2400/public/js/script.js"></script>
     <script>
         // Iniziale generazione del calendario per il mese e l'anno correnti
-        const currentDate = new Date();
+        const CURRENTDATE = new Date();
         visualizzaOrariValidi();
-        sceltaMesi(currentDate.getMonth());
-        sceltaAnni(currentDate.getFullYear());
+        sceltaMesi(CURRENTDATE.getMonth());
+        sceltaAnni(CURRENTDATE.getFullYear());
         aggiornaTabella();
-        sceltaGiorni(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+        sceltaGiorni(CURRENTDATE.getFullYear(), CURRENTDATE.getMonth(), CURRENTDATE.getDate());
     </script>
 </body>
 

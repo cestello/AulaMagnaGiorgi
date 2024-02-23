@@ -2,19 +2,8 @@
 session_abort();
 session_start();
 
-include('../src/utils.php');
-include("../src/check_cookie.php");
-
-// Se l'utente non è loggato, viene reindirizzato al login
-if (!check()) {
-    header("Location: " . MAINURL . "public/login.php");
-    die();
-}
-
-include("../src/profilo.php");
-
-$generalita = genera_utente();
-$lista_eventi = genera_eventi();
+include_once "../src/utils.php";
+include_once "../src/eventi_giorno.php";
 
 ?>
 
@@ -26,8 +15,9 @@ $lista_eventi = genera_eventi();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
-        Profilo
+        Eventi giorno
     </title>
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -91,6 +81,25 @@ $lista_eventi = genera_eventi();
             margin-bottom: 10px;
         }
 
+        a {
+            background-color: #043370;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: .5s;
+            margin-right: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            background-color: #BC2047;
+            transform: scale(1.02);
+        }
+
         input[type="submit"] {
             background-color: #043370;
             color: #fff;
@@ -126,59 +135,42 @@ $lista_eventi = genera_eventi();
 
 <body>
     <div class="main-container">
-        <a href="http://138.41.20.100/~rizzello2400/">
+        <a style="all: unset;" href="http://138.41.20.100/~rizzello2400/">
             <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
         </a>
         <div class="profile-container">
-            <h1>Email:
-                <?php echo ($generalita[0]); ?>
-            </h1>
-            <h1>Nome:
-                <?php echo ($generalita[1]); ?>
-            </h1>
-            <h1>Cognome:
-                <?php echo ($generalita[2]); ?>
+            <h1>Eventi del giorno: <?php echo dataItaliana($_GLOBALS["data"]); ?>
+                <?php ?>
             </h1>
         </div>
 
-        <div class="events-container">
-            <h2>Lista Prenotazioni</h2>
+        <div class="events-container" id="contenitore-eventi">
             <?php
-            if (sizeof($lista_eventi) <= 0) {
-                echo ("Nessun evento prenotato");
-            } else {
-                foreach ($lista_eventi as $row) {
-                    echo ("Nome: " . $row["titolo"] . "<br>");
-                    echo ("Data: " . $row["data"] . "<br>");
-                    echo ("Ora inizio: " . $row["ora_inizio"] . "<br>");
-                    echo ("Ora fine: " . $row["ora_fine"] . "<br>");
-                    echo ("Stato: ");
-                    if ($row["stato"] === "0") {
-                        echo ("non visionato");
-                    } else if ($row["stato"] === "1") {
-                        echo ("accettato");
-                    } else if ($row["stato"] === "2") {
-                        echo ("rifiutato");
-                    } else if ($row["stato"] === "3") {
-                        echo ("annullato");
-                    } else {
-                        echo ("scaduto");
-                    }
-                    echo ("<br><br>");
-                }
-            }
+            echo $_GLOBALS["eventiHTML"];
             ?>
         </div>
 
 
         <div class="buttons-container">
-            <form action="../src/logout.php">
-                <input type="submit" value="Logout" />
-            </form>
+            <?php
+            if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                $data = date('Y-m-d', strtotime($_GLOBALS["data"] . PREVIOUS));
+            } else {
+                $data = date('Y-m-d', strtotime(date('Y-m-d') . PREVIOUS));
+            }
+            echo '<a href=' . MAINURL . generaLink($data) . '>';
+            ?>
+            Giorno precedente</a>
 
-            <form action="../index.php">
-                <input type="submit" value="Index" />
-            </form>
+            <?php
+            if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                $data = date('Y-m-d', strtotime($_GLOBALS["data"] . NEXT));
+            } else {
+                $data = date('Y-m-d', strtotime(date('Y-m-d') . NEXT));
+            }
+            echo '<a href=' . MAINURL . generaLink($data) . '>';
+            ?>
+            Giorno successivo</a>
         </div>
 
     </div>

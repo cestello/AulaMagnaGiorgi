@@ -5,6 +5,6 @@ if (isset($_COOKIE["user"]) && isset($_COOKIE["pass"])) {
     setcookie("pass", '', -1, '/');
 }
 
-include("./utils.php");
+include "./utils.php";
 header("Location: " . MAINURL);
 die();

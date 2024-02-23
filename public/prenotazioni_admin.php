@@ -1,17 +1,24 @@
 <?php
 session_abort();
 session_start();
+
 include('../src/utils.php');
 include("../src/check_cookie.php");
+
+// Se l'utente non è loggato, viene reindirizzato al login
 if (!check()) {
     header("Location: " . MAINURL . "public/login.php");
     die();
 }
+
+// Se l'utente non è admin, viene reindirizzato all'index
 if (!check_admin()) {
     header("Location: " . MAINURL . "index.php");
     die();
 }
+
 include("../src/prenotazioni_admin.php");
+
 ?>
 
 <!DOCTYPE html>
@@ -20,131 +27,142 @@ include("../src/prenotazioni_admin.php");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>
-        Profilo
+        Prenotazioni Admin
     </title>
-</head>
-<style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background: linear-gradient(to left, #b9cfec, #b4c8d4);
-        margin: 0;
-        padding: 0;
-    }
 
-    .main-container {
-        background: linear-gradient(to bottom, #b4c8d4, #3979cc);
-        max-width: 800px;
-        margin: 20px auto;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        border-radius: 8px;
-    }
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to left, #b9cfec, #b4c8d4);
+            margin: 0;
+            padding: 0;
+        }
 
-    img {
-        display: block;
-        margin: 0 auto;
-        width: 243px;
-        height: 138px;
-        padding: 5px;
-        margin-bottom: 10px;
-    }
-
-    h2 {
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    .events-container {
-        background-color: rgba(245, 245, 245, 0.7);
-        margin-bottom: 20px;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-    }
-
-    .events-container h2 {
-        margin-bottom: 10px;
-    }
-
-    .events-container p {
-        margin: 0;
-    }
-
-    .buttons-container {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-    }
-
-    .buttons-container form {
-        margin: 0;
-    }
-
-    input[type="button"] {
-        background-color: #043370;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: .5s;
-        margin-right: 5px;
-    }
-
-    input[type="button"]:hover {
-        background-color: #BC2047;
-        transform: scale(1.02);
-    }
-
-    input[type="submit"] {
-        background-color: #043370;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: .5s;
-        margin-right: 5px;
-    }
-
-    input[type="submit"]:hover {
-        background-color: #BC2047;
-        transform: scale(1.02);
-    }
-
-    @media screen and (max-width: 600px) {
         .main-container {
-            padding: 10px;
+            background: linear-gradient(to bottom, #b4c8d4, #3979cc);
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto;
+            width: 243px;
+            height: 138px;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .events-container {
+            background-color: rgba(245, 245, 245, 0.7);
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .events-container h2 {
+            margin-bottom: 10px;
+        }
+
+        .events-container p {
+            margin: 0;
         }
 
         .buttons-container {
-            flex-direction: column;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .buttons-container form {
+            margin: 0;
         }
 
         input[type="button"] {
-            width: 100%;
-            margin: 10px 0;
+            background-color: #043370;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: .5s;
+            margin-right: 5px;
+        }
+
+        input[type="button"]:hover {
+            background-color: #BC2047;
+            transform: scale(1.02);
         }
 
         input[type="submit"] {
-            width: 100%;
-            margin: 10px 0;
+            background-color: #043370;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: .5s;
+            margin-right: 5px;
         }
-    }
-</style>
+
+        input[type="submit"]:hover {
+            background-color: #BC2047;
+            transform: scale(1.02);
+        }
+
+        @media screen and (max-width: 600px) {
+            .main-container {
+                padding: 10px;
+            }
+
+            .buttons-container {
+                flex-direction: column;
+            }
+
+            input[type="button"] {
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            input[type="submit"] {
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
 
 <body>
     <div class="main-container">
-        <a href="http://138.41.20.100/~rizzello2400/">
-            <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
-        </a>
+        <!-- <a href="http://138.41.20.100/~rizzello2400/"> -->
+        <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+        <!-- </a> -->
+        <br>
+
         <form>
+            <div class="type-events-container" id="type-events-container">
+                <input type="button" name="nonvisionati" value="Non visionati" id="type-nonvisionati" onClick="gestisci_tipo_richiesta(this.id)">
+                <input type="button" name="accettati" value="Accettati" id="type-accettati" onClick="gestisci_tipo_richiesta(this.id)">
+                <input type="button" name="rifiutati" value="Rifiutati" id="type-rifiutati" onClick="gestisci_tipo_richiesta(this.id)">
+                <input type="button" name="annullati" value="Annullati" id="type-annullati" onClick="gestisci_tipo_richiesta(this.id)">
+                <input type="button" name="scaduti" value="Scaduti" id="type-scaduti" onClick="gestisci_tipo_richiesta(this.id)">
+            </div>
             <h2>
-                <div class="events-container">
+                <div class="events-container" id="events-container">
                     <?php
                     if ($_SERVER["REQUEST_METHOD"] == "GET" && sizeof($_GET) <= 0) {
                         setup_prenotazioni(0);
@@ -156,12 +174,14 @@ include("../src/prenotazioni_admin.php");
                     unset($_SESSION['message']);
                     ?>
                 </div>
+                <h1 id="closer"></h1>
             </h2><br>
         </form>
 
         <form action="../index.php">
             <input type="submit" value="Index">
         </form>
+
     </div>
     <script>
         function gestisci_richiesta(ID, name) {
@@ -175,7 +195,28 @@ include("../src/prenotazioni_admin.php");
                 })
                 .then(data => {
                     location.replace("http://138.41.20.100/~rizzello2400/public/prenotazioni_admin.php");
-                    // document.getElementById("html").innerHTML = data;
+                })
+                .catch(error => {
+                    if (error.name === 'TypeError') {
+                        console.error('Errore di rete: ', error.message);
+                    } else {
+                        console.error('Si è verificato un errore imprevisto: ', error.message);
+                    }
+                });
+        }
+
+        function gestisci_tipo_richiesta(ID) {
+            const URL = `http://138.41.20.100/~rizzello2400/src/gestione_prenotazioni.php?ID=${encodeURIComponent(ID)}`;
+            fetch(URL)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Errore nella richiesta HTTP: ' + response.statusText);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    // location.replace("http://138.41.20.100/~rizzello2400/public/prenotazioni_admin.php");
+                    document.getElementById("events-container").innerHTML = data;
                 })
                 .catch(error => {
                     if (error.name === 'TypeError') {
