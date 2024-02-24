@@ -2,16 +2,16 @@
 session_abort();
 session_start();
 
-include('../src/utils.php');
-include("../src/check_cookie.php");
+include_once "../src/utils.php";
+include_once "../src/check_cookie.php";
 
 // Se l'utente è già loggato, viene reindirizzato all'index
-if (check()) {
+if (controllaSeLoggato()) {
     header("Location: " . MAINURL . "index.php");
     die();
 }
 
-include("../src/login.php");
+include_once "../src/login.php";
 
 ?>
 
@@ -126,7 +126,7 @@ include("../src/login.php");
                 <span>
                     <?php
                     if (isset($_SESSION['message'])) {
-                        echo ($_SESSION['message']);
+                        echo $_SESSION['message'];
                     }
                     unset($_SESSION['message']);
                     ?>

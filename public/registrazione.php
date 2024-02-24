@@ -2,16 +2,17 @@
 session_abort();
 session_start();
 
-include('../src/utils.php');
-include("../src/check_cookie.php");
+include_once "../src/utils.php";
+include_once "../src/check_cookie.php";
 
 // Se l'utente è loggato, viene reindirizzato all'index
-if (check()) {
+if (controllaSeLoggato()) {
     header("Location: " . MAINURL . "index.php");
     die();
 }
 
-include("../src/registrazione.php");
+include_once "../src/registrazione.php";
+
 ?>
 
 <!DOCTYPE html>
@@ -159,7 +160,9 @@ include("../src/registrazione.php");
 
         <h1>Registrazione</h1>
 
-        <label for="Nome">Nome: <span class="fa-regular fa-circle-question" onmouseover="nomeinfo(true)" onmouseout="nomeinfo(false)"></span>
+        <label for="Nome">Nome:
+            <span class="fa-regular fa-circle-question" onmouseover="nomeinfo(true)" onmouseout="nomeinfo(false)">
+            </span>
             <span id="infonome" class="display notDisplay">
                 Numero minimo di caratteri: 2<br>
                 Numero massimo di caratteri: 64
@@ -168,7 +171,9 @@ include("../src/registrazione.php");
         <input type="text" id="Nome" name="Nome" minlength="2" maxlength="64" required>
 
 
-        <label for="Cognome">Cognome: <span class="fa-regular fa-circle-question" onmouseover="cognomeinfo(true)" onmouseout="cognomeinfo(false)"></span>
+        <label for="Cognome">Cognome:
+            <span class="fa-regular fa-circle-question" onmouseover="cognomeinfo(true)" onmouseout="cognomeinfo(false)">
+            </span>
             <span id="infocognome" class="display notDisplay">
                 Numero minimo di caratteri: 2<br>
                 Numero massimo di caratteri: 64
@@ -176,7 +181,8 @@ include("../src/registrazione.php");
         </label>
         <input type="text" id="Cognome" name="Cognome" minlength="2" maxlength="64" required>
 
-        <label for="Email">Email: <span class="fa-regular fa-circle-question" onmouseover="emailinfo(true)" onmouseout="emailinfo(false)"></span>
+        <label for="Email">Email: <span class="fa-regular fa-circle-question" onmouseover="emailinfo(true)"
+                onmouseout="emailinfo(false)"></span>
             <span id="infoemail" class="display notDisplay">
                 Numero minimo di caratteri: 7<br>
                 Numero massimo di caratteri: 128
@@ -184,7 +190,8 @@ include("../src/registrazione.php");
         </label>
         <input type="email" id="Email" name="Email" minlength="7" maxlength="128" required>
 
-        <label for="Password">Password: <span class="fa-regular fa-circle-question" onmouseover="passwordinfo(true)" onmouseout="passwordinfo(false)"></span>
+        <label for="Password">Password: <span class="fa-regular fa-circle-question" onmouseover="passwordinfo(true)"
+                onmouseout="passwordinfo(false)"></span>
             <span id="infopassword" class="display notDisplay">
                 Numero minimo di caratteri: 8<br>
                 Numero massimo di caratteri: 64<br>
@@ -203,7 +210,7 @@ include("../src/registrazione.php");
         <input type="submit" name="Invia">
         <?php
         if (isset($_SESSION['message'])) {
-            echo ($_SESSION['message']);
+            echo $_SESSION['message'];
         }
         unset($_SESSION['message']);
         ?>

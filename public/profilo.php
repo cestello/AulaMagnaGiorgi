@@ -2,19 +2,19 @@
 session_abort();
 session_start();
 
-include('../src/utils.php');
-include("../src/check_cookie.php");
+include_once "../src/utils.php";
+include_once "../src/check_cookie.php";
 
 // Se l'utente non è loggato, viene reindirizzato al login
-if (!check()) {
+if (!controllaSeLoggato()) {
     header("Location: " . MAINURL . "public/login.php");
     die();
 }
 
-include("../src/profilo.php");
+include_once "../src/profilo.php";
 
-$generalita = genera_utente();
-$lista_eventi = genera_eventi();
+$generalita = generaUtente();
+$lista_eventi = generaEventi();
 
 ?>
 
@@ -131,13 +131,13 @@ $lista_eventi = genera_eventi();
         </a>
         <div class="profile-container">
             <h1>Email:
-                <?php echo ($generalita[0]); ?>
+                <?php echo $generalita[0]; ?>
             </h1>
             <h1>Nome:
-                <?php echo ($generalita[1]); ?>
+                <?php echo $generalita[1]; ?>
             </h1>
             <h1>Cognome:
-                <?php echo ($generalita[2]); ?>
+                <?php echo $generalita[2]; ?>
             </h1>
         </div>
 
@@ -145,26 +145,26 @@ $lista_eventi = genera_eventi();
             <h2>Lista Prenotazioni</h2>
             <?php
             if (sizeof($lista_eventi) <= 0) {
-                echo ("Nessun evento prenotato");
+                echo "Nessun evento prenotato";
             } else {
                 foreach ($lista_eventi as $row) {
-                    echo ("Nome: " . $row["titolo"] . "<br>");
-                    echo ("Data: " . $row["data"] . "<br>");
-                    echo ("Ora inizio: " . $row["ora_inizio"] . "<br>");
-                    echo ("Ora fine: " . $row["ora_fine"] . "<br>");
-                    echo ("Stato: ");
+                    echo "Nome: " . $row["titolo"] . "<br>";
+                    echo "Data: " . $row["data"] . "<br>";
+                    echo "Ora inizio: " . $row["ora_inizio"] . "<br>";
+                    echo "Ora fine: " . $row["ora_fine"] . "<br>";
+                    echo "Stato: ";
                     if ($row["stato"] === "0") {
-                        echo ("non visionato");
-                    } else if ($row["stato"] === "1") {
-                        echo ("accettato");
-                    } else if ($row["stato"] === "2") {
-                        echo ("rifiutato");
-                    } else if ($row["stato"] === "3") {
-                        echo ("annullato");
+                        echo "non visionato";
+                    } elseif ($row["stato"] === "1") {
+                        echo "accettato";
+                    } elseif ($row["stato"] === "2") {
+                        echo "rifiutato";
+                    } elseif ($row["stato"] === "3") {
+                        echo "annullato";
                     } else {
-                        echo ("scaduto");
+                        echo "scaduto";
                     }
-                    echo ("<br><br>");
+                    echo "<br><br>";
                 }
             }
             ?>

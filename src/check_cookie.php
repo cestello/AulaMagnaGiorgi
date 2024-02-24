@@ -3,20 +3,20 @@
 /**
  * Controlla se l'utente è loggato o meno basandosi sui cookie
  * di sessione
- * 
+ *
  * @return bool se l'utente è loggato
  */
-function check()
+function controllaSeLoggato()
 {
     if (isset($_COOKIE['user']) && isset($_COOKIE['pass'])) {
         $email = $_COOKIE['user'];
         $password = $_COOKIE['pass'];
-        $conn = connect_to_database();
+        $conn = connectToDatabase();
         $sql_query = "SELECT password FROM utenti WHERE email = '" . $email . "';";
         $query_answer = $conn->query($sql_query);
         if ($query_answer === false || $query_answer->num_rows === 0) {
             $_SESSION['message'] = "1 Nuh uh, 0 cookie vulnerability";
-            include("./logout.php");
+            include_once "./logout.php";
             $conn->close();
         } else {
             $row = $query_answer->fetch_assoc();
@@ -26,7 +26,7 @@ function check()
                 return true;
             } else {
                 $_SESSION['message'] = "2 Nuh uh, 0 cookie vulnerability";
-                include("./logout.php");
+                include_once "./logout.php";
                 $conn->close();
             }
         }
@@ -37,23 +37,22 @@ function check()
 /**
  * Controlla se l'utente abbia i permessi di admin in base
  * ai cookie che possiede
- * 
+ *
  * @return bool se l'utente è un admin
  */
-function check_admin()
+function controllaSeAdmin()
 {
     $email = $_COOKIE['user'];
-    $conn = connect_to_database();
+    $conn = connectToDatabase();
     $sql_query = "SELECT admin FROM utenti WHERE email = '" . $email . "';";
     $query_answer = $conn->query($sql_query);
     if ($query_answer === false || $query_answer->num_rows === 0) {
         $_SESSION['message'] = "1 Nuh uh, 0 cookie vulnerability";
-        include("./logout.php");
+        include_once "./logout.php";
         $conn->close();
     } else {
         $row = $query_answer->fetch_assoc();
-        $admin = $row["admin"];
-        return $admin;
+        return $row["admin"];
     }
     return false;
 }

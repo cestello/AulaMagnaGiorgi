@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Effettua il login 
- * 
+ * Effettua il login
+ *
  * @param mysqli $conn connessione al database
  * @param string $email dell'utente
  * @param string $password dell'utente
  */
-function effettua_login($conn, $email, $password)
+function effettuaLogin($conn, $email, $password)
 {
     $sql_query = "SELECT password FROM utenti WHERE email = '" . $email . "';";
 
@@ -33,8 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["username"];
     $password = $_POST["password"];
 
-    if (is_mail_used($email, connect_to_database())) {
-        effettua_login(connect_to_database(), $email, $password);
+    if (isMailUsed($email, connectToDatabase())) {
+        effettuaLogin(connectToDatabase(), $email, $password);
     } else {
         $_SESSION['message'] = "Account inesistente";
     }

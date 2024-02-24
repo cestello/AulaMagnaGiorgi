@@ -99,9 +99,6 @@ function visualizzaOrariValidi() {
     let i;
     for (i = orarioInizio + 1; i < ORARI.length; ++i) {
         nuoviOrari += `<option value=\"${i}\"`;
-        if (orarioFine > orarioInizio + 1 && i === orarioFine) {
-            nuoviOrari += ` selected`;
-        }
         nuoviOrari += `>${ORARI[i]}</option>`;
     }
     document.getElementById("to").innerHTML = nuoviOrari;

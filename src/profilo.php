@@ -5,12 +5,12 @@ $email = "";
 
 /**
  * Raccoglie le informazioni dell'utente e ne genera il profilo personale
- * 
+ *
  * @return array dati dell'utente
  */
-function genera_utente()
+function generaUtente()
 {
-    $conn = connect_to_database();
+    $conn = connectToDatabase();
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
@@ -35,15 +35,20 @@ function genera_utente()
 
 /**
  * Raccoglie gli eventi legati all'utente per disporli sul proprio profilo
- * 
+ *
  * @return array record di eventi
  */
-function genera_eventi()
+function generaEventi()
 {
-    $conn = connect_to_database();
+    $conn = connectToDatabase();
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    
     $email = $_COOKIE["user"];
     $sql_query = "SELECT * FROM eventi WHERE email = '" . $email . "';";
     $records = array();
+    
     $query_answer = $conn->query($sql_query);
     if ($query_answer === false) {
         $_SESSION['message'] = "Errore nel collegamento";
@@ -52,6 +57,7 @@ function genera_eventi()
             $records[] = $row;
         }
     }
+    
     $conn->close();
     return $records;
 }

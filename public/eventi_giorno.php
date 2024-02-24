@@ -5,6 +5,29 @@ session_start();
 include_once "../src/utils.php";
 include_once "../src/eventi_giorno.php";
 
+/**
+ * INTERFACCIA CON IL FRONTEND
+ * Gestisce la generazione del codice HTML da inserire nella lista degli eventi
+ * giornalieri
+ *
+ * @param string $titolo dell'evento
+ * @param string $data dell'evento
+ * @param string $oraInizio orario di inizio
+ * @param string $oraFine orario di fine
+ * @param string $descrizione dell'evento
+ * @param string $email dell'utente richiedente
+ * @param string $stato dell'evento
+ * @return string codice HTML rappresentante un evento
+ */
+function generaHTML($titolo, $data, $oraInizio, $oraFine, $descrizione, $email, $stato) {
+    $codiceHTML = "<p>";
+    $codiceHTML .= $titolo . " " . $data . " " . $oraInizio . " ";
+    $codiceHTML .= $oraFine . " " . $descrizione . " " . $email . " ";
+    $codiceHTML .= $stato;
+    $codiceHTML .= "</p>";
+    return $codiceHTML;
+}
+
 ?>
 
 <!DOCTYPE html>

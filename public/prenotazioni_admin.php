@@ -2,22 +2,22 @@
 session_abort();
 session_start();
 
-include('../src/utils.php');
-include("../src/check_cookie.php");
+include_once "../src/utils.php";
+include_once "../src/check_cookie.php";
 
 // Se l'utente non è loggato, viene reindirizzato al login
-if (!check()) {
+if (!controllaSeLoggato()) {
     header("Location: " . MAINURL . "public/login.php");
     die();
 }
 
 // Se l'utente non è admin, viene reindirizzato all'index
-if (!check_admin()) {
+if (!controllaSeAdmin()) {
     header("Location: " . MAINURL . "index.php");
     die();
 }
 
-include("../src/prenotazioni_admin.php");
+include_once "../src/prenotazioni_admin.php";
 
 ?>
 
@@ -148,28 +148,35 @@ include("../src/prenotazioni_admin.php");
 
 <body>
     <div class="main-container">
-        <!-- <a href="http://138.41.20.100/~rizzello2400/"> -->
-        <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
-        <!-- </a> -->
+        <?php
+        echo '<a href="' . generaLinkRisorsa() . '">';
+        echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
+        ?>
+        </a>
         <br>
 
         <form>
             <div class="type-events-container" id="type-events-container">
-                <input type="button" name="nonvisionati" value="Non visionati" id="type-nonvisionati" onClick="gestisci_tipo_richiesta(this.id)">
-                <input type="button" name="accettati" value="Accettati" id="type-accettati" onClick="gestisci_tipo_richiesta(this.id)">
-                <input type="button" name="rifiutati" value="Rifiutati" id="type-rifiutati" onClick="gestisci_tipo_richiesta(this.id)">
-                <input type="button" name="annullati" value="Annullati" id="type-annullati" onClick="gestisci_tipo_richiesta(this.id)">
-                <input type="button" name="scaduti" value="Scaduti" id="type-scaduti" onClick="gestisci_tipo_richiesta(this.id)">
+                <input type="button" name="nonvisionati" value="Non visionati" id="type-nonvisionati"
+                    onClick="gestisci_tipo_richiesta(this.id)">
+                <input type="button" name="accettati" value="Accettati" id="type-accettati"
+                    onClick="gestisci_tipo_richiesta(this.id)">
+                <input type="button" name="rifiutati" value="Rifiutati" id="type-rifiutati"
+                    onClick="gestisci_tipo_richiesta(this.id)">
+                <input type="button" name="annullati" value="Annullati" id="type-annullati"
+                    onClick="gestisci_tipo_richiesta(this.id)">
+                <input type="button" name="scaduti" value="Scaduti" id="type-scaduti"
+                    onClick="gestisci_tipo_richiesta(this.id)">
             </div>
             <h2>
                 <div class="events-container" id="events-container">
                     <?php
-                    if ($_SERVER["REQUEST_METHOD"] == "GET" && sizeof($_GET) <= 0) {
-                        setup_prenotazioni(0);
+                    if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
+                        setupPrenotazioni(0);
                     }
 
                     if (isset($_SESSION['message'])) {
-                        echo ($_SESSION['message']);
+                        echo $_SESSION['message'];
                     }
                     unset($_SESSION['message']);
                     ?>
@@ -185,7 +192,8 @@ include("../src/prenotazioni_admin.php");
     </div>
     <script>
         function gestisci_richiesta(ID, name) {
-            const URL = `http://138.41.20.100/~rizzello2400/public/prenotazioni_admin.php?ID=${encodeURIComponent(ID)}&name=${encodeURIComponent(name)}`;
+            const URL = `http://138.41.20.100/~rizzello2400/public/prenotazioni_admin.php?
+                ID=${encodeURIComponent(ID)}&name=${encodeURIComponent(name)}`;
             fetch(URL)
                 .then(response => {
                     if (!response.ok) {
@@ -193,7 +201,7 @@ include("../src/prenotazioni_admin.php");
                     }
                     return response.text();
                 })
-                .then(data => {
+                .then(data => { 
                     location.replace("http://138.41.20.100/~rizzello2400/public/prenotazioni_admin.php");
                 })
                 .catch(error => {
@@ -206,7 +214,8 @@ include("../src/prenotazioni_admin.php");
         }
 
         function gestisci_tipo_richiesta(ID) {
-            const URL = `http://138.41.20.100/~rizzello2400/src/gestione_prenotazioni.php?ID=${encodeURIComponent(ID)}`;
+            const URL = `http://138.41.20.100/~rizzello2400/src/gestione_prenotazioni.php?
+                ID=${encodeURIComponent(ID)}`;
             fetch(URL)
                 .then(response => {
                     if (!response.ok) {

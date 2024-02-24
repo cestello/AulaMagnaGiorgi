@@ -2,16 +2,16 @@
 session_abort();
 session_start();
 
-include('../src/utils.php');
-include("../src/check_cookie.php");
+include_once "../src/utils.php";
+include_once "../src/check_cookie.php";
 
 // Se l'utente non è loggato, viene reindirizzato al login
-if (!check()) {
+if (!controllaSeLoggato()) {
     header("Location: " . MAINURL . "public/login.php");
     die();
 }
 
-include("../src/prenotazione.php");
+include_once "../src/prenotazione.php";
 
 ?>
 
@@ -252,7 +252,8 @@ include("../src/prenotazione.php");
         <input type="text" name="titolo" id="titolo" minlength="4" maxlength="64" required>
 
         <label for="descrizione">Descrizione:</label>
-        <textarea name="descrizione" id="descrizione" rows="6" cols="78" maxlength="50" style="resize: none;"></textarea>
+        <textarea name="descrizione" id="descrizione" rows="6" cols="78" maxlength="50"
+            style="resize: none;"></textarea>
         <br>
 
         <div id="submit">

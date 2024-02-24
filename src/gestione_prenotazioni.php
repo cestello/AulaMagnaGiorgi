@@ -1,33 +1,35 @@
 <?php
 
-include 'utils.php';
+include_once "./utils.php";
 
 /**
- * 
+ * Trova il tipo di stato richiesto
+ *
+ * @param string $tipo di stato
  */
-function trova_tipo($tipo)
+function trovaTipo($tipo)
 {
     if($tipo === "type-nonvisionati") {
-        setup_prenotazioni(0);
-    } else if($tipo === "type-accettati") {
-        setup_prenotazioni(1);
-    } else if($tipo === "type-rifiutati") {
-        setup_prenotazioni(2);
-    } else if($tipo === "type-annullati") {
-        setup_prenotazioni(3);
-    } else if($tipo === "type-scaduti") {
-        setup_prenotazioni(4);
+        setupPrenotazioni(0);
+    } elseif ($tipo === "type-accettati") {
+        setupPrenotazioni(1);
+    } elseif ($tipo === "type-rifiutati") {
+        setupPrenotazioni(2);
+    } elseif ($tipo === "type-annullati") {
+        setupPrenotazioni(3);
+    } elseif ($tipo === "type-scaduti") {
+        setupPrenotazioni(4);
     } else {
-        echo("Tipo errato");
+        echo "Tipo errato";
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "GET" && sizeof($_GET) > 0) {
+if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
     if (isset($_GET["ID"]) && $_GET["ID"] !== null) {
-        trova_tipo($_REQUEST["ID"]);
+        trovaTipo($_REQUEST["ID"]);
     } else {
-        echo("ID non valido");
+        echo "ID non valido";
     }
 } else {
-    echo("Tipo di richiesta errato");
+    echo "Tipo di richiesta errato";
 }

@@ -1,10 +1,10 @@
 <?php
 
-require_once "./utils.php";
+include_once "./utils.php";
 
 /**
  * Conta la durata di un singolo evento in minuti
- * 
+ *
  * @param string $fine ora di fine
  * @param string $inizio ora di inizio
  * @return int durata dell'evento in minuti
@@ -24,7 +24,7 @@ function contaDurata($fine, $inizio)
 /**
  * Calcola la percentuale di minuti occupati dagli eventi
  * nell'arco di una giornata
- * 
+ *
  * @param int $anno della prenotazione
  * @param int $mese della prenotazione
  * @param int $giorno prenotato
@@ -32,7 +32,7 @@ function contaDurata($fine, $inizio)
  */
 function calcolaMinutiOccupati($anno, $mese, $giorno)
 {
-    $conn = connect_to_database();
+    $conn = connectToDatabase();
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
@@ -64,7 +64,7 @@ function calcolaMinutiOccupati($anno, $mese, $giorno)
 /**
  * Restituisce il colore da assegnare ad una cella in base
  * alla percentuale di minuti occupati nella giornata
- * 
+ *
  * @param int $percentualeOreOccupate percentuale di tempo occupata in un dato giorno
  * @return string colore della cella
  */
@@ -85,17 +85,13 @@ function impostaColore($percentualeOreOccupate)
 }
 
 /**
- * Genera la struttura HTML di base della tabella che 
+ * Genera la struttura HTML di base della tabella che
  * costituisce il calendario
- * 
+ *
  * @return string codice HTML dell'intestazione della tabella
  */
 function strutturaTabella()
 {
-    // $date = DateTime::createFromFormat('!m', $month);
-    // $monthName = $date->format('F');
-
-    // $calendarHTML = '<h3>' . $monthName . ' ' . $year . '</h3>';
     $calendarHTML = '<table>';
     $calendarHTML .= '<tr>';
     $calendarHTML .= '<th>Lun</th>';
@@ -113,7 +109,7 @@ function strutturaTabella()
 
 /**
  * Genera il codice HTML del calendario sottoforma di tabella
- * 
+ *
  * @param int $anno scelto
  * @param int $mese da visualizzare
  * @return string codice HTML della tabella

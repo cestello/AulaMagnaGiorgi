@@ -1,66 +1,80 @@
 <?php
 
 /**
- * 
+ * Effettua l'aggiornamento dello stato
+ *
+ * @param int $valore dello stato
+ * @param int $id dell'evento
  */
-function update_stato($value, $ID)
+function aggiornaStato($valore, $id)
 {
-    $conn = connect_to_database();
-    $sql_query = "UPDATE eventi SET stato = " . $value . " WHERE ID = " . $ID . ";";
+    $conn = connectToDatabase();
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    
+    $sql_query = "UPDATE eventi SET stato = " . $valore . " WHERE ID = " . $id . ";";
     $query_answer = $conn->query($sql_query);
     if ($query_answer === false) {
         $_SESSION['message'] = "Errore nel collegamento";
         $conn->close();
         return;
     }
+
     $conn->close();
 }
 
 /**
- * 
+ *
  */
-function set_scaduto($ID)
+function impostaScaduto($id)
 {
     //TODO
 }
 
 /**
- * 
+ * Gestisce una prenotazione
+ *
+ * @param int $valore dello stato
+ * @param int $id dell'evento
  */
-function gestisci_prenotazione($value, $ID)
+function gestisciPrenotazione($valore, $id)
 {
-    if ($value === 1) {
-        $tmp = getDataByID($ID);
+    if ($valore === 1) {
+        $tmp = getDataByID($id);
         $tmp[1] = substr($tmp[1], 0, -3);
         $tmp[2] = substr($tmp[2], 0, -3); //ok
-        if (!check_evento_esistente($tmp[0], $tmp[1], $tmp[2])) {
+        if (!checkEventoEsistente($tmp[0], $tmp[1], $tmp[2])) {
             $_SESSION["message"] = "Giorno gia' prenotato";
         } else {
-            update_stato($value, $ID);
+            aggiornaStato($valore, $id);
         }
     } else {
-        update_stato($value, $ID);
+        aggiornaStato($valore, $id);
     }
 }
 
 /**
- * 
+ * Gestisce l'input
+ *
+ * @param int $id dell'evento
+ * @param string $tipo di azione
  */
-function gestisci_input($ID, $tipo)
+function gestisciInput($id, $tipo)
 {
     if ($tipo === "accetta") {
-        gestisci_prenotazione(1, $ID);
-    } else if ($tipo === "rifiuta") {
-        gestisci_prenotazione(2, $ID);
-    } else if ($tipo === "annulla") {
-        gestisci_prenotazione(3, $ID);
+        gestisciPrenotazione(1, $id);
+    } elseif ($tipo === "rifiuta") {
+        gestisciPrenotazione(2, $id);
+    } elseif ($tipo === "annulla") {
+        gestisciPrenotazione(3, $id);
     } else {
         $_SESSION["message"] = "I valori della richiesta GET sono settati male";
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "GET" && sizeof($_GET) > 0) {
+if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
     if (isset($_GET["ID"]) && isset($_GET["name"])) {
-        gestisci_input($_REQUEST["ID"], $_REQUEST["name"]);
+        gestisciInput($_REQUEST["ID"], $_REQUEST["name"]);
     }
 }

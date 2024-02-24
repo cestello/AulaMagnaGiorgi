@@ -11,7 +11,7 @@ include_once "../src/utils.php";
  */
 function generaEventi($data)
 {
-    $conn = connect_to_database();
+    $conn = connectToDatabase();
     $sql_query = "SELECT * FROM eventi WHERE data='" . $data . "' AND stato=1;";
     $query_answer = $conn->query($sql_query);
     $risposta = "";
@@ -25,11 +25,8 @@ function generaEventi($data)
 
         if (!empty($records)) {
             foreach ($records as $row) {
-                $risposta .= "<p>";
-                $risposta .= $row["titolo"] . " " . $row["data"] . " " . $row["ora_inizio"] . " ";
-                $risposta .= $row["ora_fine"] . " " . $row["descrizione"] . " " . $row["email"] . " ";
-                $risposta .= $row["stato"];
-                $risposta .= "</p>";
+                $risposta = generaHTML($row["titolo"], $row["data"], $row["ora_inizio"],
+                    $row["ora_fine"], $row["descrizione"], $row["email"], $row["stato"]);
             }
         } else {
             $risposta = "Nessun evento presente";
@@ -65,7 +62,7 @@ function ottieniAnno($data)
 }
 
 /**
- * Ottieni il mese da una stringa in un formato che possiede 
+ * Ottieni il mese da una stringa in un formato che possiede
  * il mese nel mezzo (formato necessariamente da 2 caratteri)
  *
  * @param string $data in formato stringa
@@ -91,7 +88,7 @@ function ottieniGiorno($data)
 /**
  * Se la data fornita non è completa degli zeri prima di giorni
  * e mesi, viene completata per facilitarne manipolazioni e confronti
- * 
+ *
  * @param string $data in formato stringa
  * @return string la data completa
  */
@@ -99,8 +96,7 @@ function completaData($data)
 {
     if (strlen($data) === 8) {
         $data = substr($data, 0, 5) . "0" . substr($data, 5, 2) . "0" . substr($data, 7, 2);
-    }
-    elseif (strlen($data) === 9) {
+    } elseif (strlen($data) === 9) {
         // 0123456789
         // 2222-11-00
         if ($data[6] == "-") {
@@ -115,18 +111,19 @@ function completaData($data)
 /**
  * Fornisce la data nel formato comunemente utilizzato in Italia ('d-m-Y') a partire
  * dal formato internazionale ('Y-m-d')
- * 
+ *
  * @param string $data nel formato internazionale
  * @return string data nel formato italiano
  */
-function dataItaliana($data) {
+function dataItaliana($data)
+{
     $data = completaData($data);
     return ottieniGiorno($data) . "/" . ottieniMese($data) . "/" . ottieniAnno($data);
 }
 
 /**
  * Genera il link alla pagina del giorno precedente e successivo
- * 
+ *
  * @param string $data in formato stringa
  * @return string link della pagina
  */
@@ -145,23 +142,25 @@ $_GLOBALS["data"] = null;
 const PREVIOUS = '-1 day';
 const NEXT = '+1 day';
 
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
+if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
     $anno = $_GET["anno"];
     $mese = $_GET["mese"];
     $giorno = $_GET["giorno"];
 
-    if (empty($_GET)) {
-        $_GLOBALS["eventiHTML"] = generaEventi(date('Y-m-d'));
+    $data = $anno . "-" . $mese . "-" . $giorno;
+    $data = completaData($data);
+    if (convalidaData($data)) {
+        $_GLOBALS["data"] = $data;
+        $_GLOBALS["eventiHTML"] = generaEventi($data);
     } else {
-        $data = $anno . "-" . $mese . "-" . $giorno;
-        $data = completaData($data);
-        if (convalidaData($data)) {
-            $_GLOBALS["data"] = $data;
-            $_GLOBALS["eventiHTML"] = generaEventi($data);
-        } else {
-            $_GLOBALS["eventiHTML"] = "Data inserita non valida";
-        }
+        $_GLOBALS["eventiHTML"] = "Data inserita non valida";
     }
 } else {
-    $_GLOBALS["eventiHTML"] = generaEventi(date('Y-m-d'));
+    $anno = date('Y');
+    $mese = date('m');
+    $giorno = date('d');
+    $data = $anno . "-" . $mese . "-" . $giorno;
+    $data = completaData($data);
+    $_GLOBALS["data"] = $data;
+    $_GLOBALS["eventiHTML"] = generaEventi($data);
 }
