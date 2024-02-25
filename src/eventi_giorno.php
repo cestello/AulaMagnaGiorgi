@@ -6,12 +6,16 @@ include_once "../src/utils.php";
  * Restituisce una stringa HTML contenente tutti gli eventi
  * della data contenuta nel parametro
  *
- * @param string data da controllare
+ * @param string $data da controllare
  * @return string codice HTML
  */
 function generaEventi($data)
 {
     $conn = connectToDatabase();
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
     $sql_query = "SELECT * FROM eventi WHERE data='" . $data . "' AND stato=1;";
     $query_answer = $conn->query($sql_query);
     $risposta = "";
@@ -25,8 +29,15 @@ function generaEventi($data)
 
         if (!empty($records)) {
             foreach ($records as $row) {
-                $risposta = generaHTML($row["titolo"], $row["data"], $row["ora_inizio"],
-                    $row["ora_fine"], $row["descrizione"], $row["email"], $row["stato"]);
+                $risposta = generaHTML(
+                    $row["titolo"],
+                    $row["data"],
+                    $row["ora_inizio"],
+                    $row["ora_fine"],
+                    $row["descrizione"],
+                    $row["email"],
+                    $row["stato"]
+                );
             }
         } else {
             $risposta = "Nessun evento presente";
@@ -136,31 +147,25 @@ function generaLink($data)
     return $stringa;
 }
 
-$_GLOBALS["eventiHTML"] = "";
-$_GLOBALS["data"] = null;
-
-const PREVIOUS = '-1 day';
-const NEXT = '+1 day';
-
 if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
     $anno = $_GET["anno"];
     $mese = $_GET["mese"];
     $giorno = $_GET["giorno"];
-
-    $data = $anno . "-" . $mese . "-" . $giorno;
-    $data = completaData($data);
-    if (convalidaData($data)) {
-        $_GLOBALS["data"] = $data;
-        $_GLOBALS["eventiHTML"] = generaEventi($data);
-    } else {
-        $_GLOBALS["eventiHTML"] = "Data inserita non valida";
-    }
 } else {
     $anno = date('Y');
     $mese = date('m');
     $giorno = date('d');
-    $data = $anno . "-" . $mese . "-" . $giorno;
-    $data = completaData($data);
+}
+
+$_GLOBALS["eventiHTML"] = "";
+$_GLOBALS["data"] = "";
+
+$data = $anno . "-" . $mese . "-" . $giorno;
+$data = completaData($data);
+if (convalidaData($data)) {
     $_GLOBALS["data"] = $data;
     $_GLOBALS["eventiHTML"] = generaEventi($data);
+} else {
+    $_GLOBALS["data"] = "0000-00-00";
+    $_GLOBALS["eventiHTML"] = "Data inserita non valida";
 }

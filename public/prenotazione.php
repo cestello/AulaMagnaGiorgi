@@ -7,7 +7,7 @@ include_once "../src/check_cookie.php";
 
 // Se l'utente non è loggato, viene reindirizzato al login
 if (!controllaSeLoggato()) {
-    header("Location: " . MAINURL . "public/login.php");
+    header("Location: " . generaLinkRisorsa("public/login.php"));
     die();
 }
 
@@ -199,8 +199,10 @@ include_once "../src/prenotazione.php";
 
 <body>
     <form method="post" id="formCalendario">
-        <a href="http://138.41.20.100/~rizzello2400/">
-            <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+        <?php
+        echo '<a href="' . generaLinkRisorsa() . '">';
+        echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
+        ?>
         </a>
 
         <h1>Prenotazione</h1>
@@ -267,7 +269,9 @@ include_once "../src/prenotazione.php";
         ?>
     </form>
 
-    <script src="http://138.41.20.100/~rizzello2400/public/js/script.js"></script>
+    <?php
+    echo '<script src="' . generaLinkRisorsa("public/js/script.js") . '"></script>';
+    ?>
     <script>
         // Iniziale generazione del calendario per il mese e l'anno correnti
         const CURRENTDATE = new Date();

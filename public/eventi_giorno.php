@@ -6,6 +6,16 @@ include_once "../src/utils.php";
 include_once "../src/eventi_giorno.php";
 
 /**
+ * Giorno precedente
+ */
+const PREVIOUS = '-1 day';
+
+/**
+ * Giorno successivo
+ */
+const NEXT = '+1 day';
+
+/**
  * INTERFACCIA CON IL FRONTEND
  * Gestisce la generazione del codice HTML da inserire nella lista degli eventi
  * giornalieri
@@ -19,7 +29,8 @@ include_once "../src/eventi_giorno.php";
  * @param string $stato dell'evento
  * @return string codice HTML rappresentante un evento
  */
-function generaHTML($titolo, $data, $oraInizio, $oraFine, $descrizione, $email, $stato) {
+function generaHTML($titolo, $data, $oraInizio, $oraFine, $descrizione, $email, $stato)
+{
     $codiceHTML = "<p>";
     $codiceHTML .= $titolo . " " . $data . " " . $oraInizio . " ";
     $codiceHTML .= $oraFine . " " . $descrizione . " " . $email . " ";
@@ -148,7 +159,7 @@ function generaHTML($titolo, $data, $oraInizio, $oraFine, $descrizione, $email, 
                 flex-direction: column;
             }
 
-            input[type="submit"] {
+            a {
                 width: 100%;
                 margin: 10px 0;
             }
@@ -158,11 +169,14 @@ function generaHTML($titolo, $data, $oraInizio, $oraFine, $descrizione, $email, 
 
 <body>
     <div class="main-container">
-        <a style="all: unset;" href="http://138.41.20.100/~rizzello2400/">
-            <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+        <?php
+        echo '<a style="all: unset; cursor: pointer;" href="' . generaLinkRisorsa() . '">';
+        echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
+        ?>
         </a>
         <div class="profile-container">
-            <h1>Eventi del giorno: <?php echo dataItaliana($_GLOBALS["data"]); ?>
+            <h1>Eventi del giorno:
+                <?php echo dataItaliana($_GLOBALS["data"]); ?>
                 <?php ?>
             </h1>
         </div>

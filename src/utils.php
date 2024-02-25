@@ -6,10 +6,31 @@
 const MAINURL = "http://138.41.20.100/~rizzello2400/";
 
 /**
+ * Lunghezza minima della password
+ */
+const MIN_LUNGHEZZA_PWD = 8;
+
+/**
+ * Lunghezza massima della password
+ */
+const MAX_LUNGHEZZA_PWD = 64;
+
+/**
+ * Minima lunghezza dell'email
+ */
+const MIN_LUNGHEZZA_EMAIL = 7;
+
+/**
+ * Massima lunghezza dell'email
+ */
+const MAX_LUNGHEZZA_EMAIL = 128;
+
+/**
  * Ritorna un link ad una risorsa il cui percorso
- * è passato come parametro
+ * è concatenato alla root (src/utils.php -> MAINURL)
  *
  * @param string $percorsoRisorsa per la quale generare il link
+ * @return string MAINURL concatenato al parametro
  */
 function generaLinkRisorsa($percorsoRisorsa = "")
 {
@@ -64,7 +85,7 @@ function isMailUsed($email, $conn)
 function isPasswordValid($password, $confermaPassword)
 {
     $lunghezza = strlen($password);
-    if ($lunghezza < 8 || $lunghezza > 32) {
+    if ($lunghezza < MIN_LUNGHEZZA_PWD || $lunghezza > MAX_LUNGHEZZA_PWD) {
         return 1;
     }
 
@@ -72,7 +93,7 @@ function isPasswordValid($password, $confermaPassword)
         return 2;
     }
 
-    if ($confermaPassword != $password) {
+    if ($confermaPassword !== $password) {
         return 3;
     }
 
@@ -89,7 +110,7 @@ function isPasswordValid($password, $confermaPassword)
 function isMailValid($email)
 {
     $lunghezza = strlen($email);
-    if ($lunghezza < 7 || $lunghezza > 128) {
+    if ($lunghezza < MIN_LUNGHEZZA_EMAIL || $lunghezza > MAX_LUNGHEZZA_EMAIL) {
         return 1;
     }
 
@@ -238,7 +259,7 @@ function checkEventoEsistente($data, $ora_inizio, $ora_fine, $tipo = false)
  * @param int $id dell'evento
  * @return array record contenente data e orari dell'evento
  */
-function getDataByID($id)
+function ottieniDataDaID($id)
 {
     $conn = connectToDatabase();
     if ($conn->connect_error) {
@@ -336,11 +357,11 @@ function setupPrenotazioni($stato)
         if (isset($row["descrizione"]) && $row["descrizione"] !== "") {
             echo "Descrizione: " . $row["descrizione"] . "<br>";
         }
+
         echo "<br>";
-
         setupTipoPrenotazioni($stato, $row["ID"]);
-
         echo "</div><br>";
     }
+
     $conn->close();
 }

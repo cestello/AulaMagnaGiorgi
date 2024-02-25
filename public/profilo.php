@@ -7,7 +7,7 @@ include_once "../src/check_cookie.php";
 
 // Se l'utente non è loggato, viene reindirizzato al login
 if (!controllaSeLoggato()) {
-    header("Location: " . MAINURL . "public/login.php");
+    header("Location: " . generaLinkRisorsa("public/login.php"));
     die();
 }
 
@@ -91,7 +91,7 @@ $lista_eventi = generaEventi();
             margin-bottom: 10px;
         }
 
-        input[type="submit"] {
+        a {
             background-color: #043370;
             color: #fff;
             border: none;
@@ -100,9 +100,11 @@ $lista_eventi = generaEventi();
             border-radius: 5px;
             cursor: pointer;
             transition: .5s;
+            text-decoration: none;
+            font-weight: bold;
         }
 
-        input[type="submit"]:hover {
+        a:hover {
             background-color: #BC2047;
             transform: scale(1.03);
         }
@@ -116,7 +118,7 @@ $lista_eventi = generaEventi();
                 flex-direction: column;
             }
 
-            input[type="submit"] {
+            a {
                 width: 100%;
                 margin: 10px 0;
             }
@@ -126,8 +128,10 @@ $lista_eventi = generaEventi();
 
 <body>
     <div class="main-container">
-        <a href="http://138.41.20.100/~rizzello2400/">
-            <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+        <?php
+        echo '<a style="all: unset; cursor: pointer;" href="' . generaLinkRisorsa() . '">';
+        echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
+        ?>
         </a>
         <div class="profile-container">
             <h1>Email:
@@ -172,15 +176,11 @@ $lista_eventi = generaEventi();
 
 
         <div class="buttons-container">
-            <form action="../src/logout.php">
-                <input type="submit" value="Logout" />
-            </form>
-
-            <form action="../index.php">
-                <input type="submit" value="Index" />
-            </form>
+            <?php
+            echo '<a href="' . generaLinkRisorsa("src/logout.php") . '">Logout</a>';
+            echo '<a href="' . generaLinkRisorsa() . '">Index</a>';
+            ?>
         </div>
-
     </div>
 </body>
 

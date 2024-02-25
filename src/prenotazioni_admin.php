@@ -12,7 +12,7 @@ function aggiornaStato($valore, $id)
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    
+
     $sql_query = "UPDATE eventi SET stato = " . $valore . " WHERE ID = " . $id . ";";
     $query_answer = $conn->query($sql_query);
     if ($query_answer === false) {
@@ -41,7 +41,7 @@ function impostaScaduto($id)
 function gestisciPrenotazione($valore, $id)
 {
     if ($valore === 1) {
-        $tmp = getDataByID($id);
+        $tmp = ottieniDataDaID($id);
         $tmp[1] = substr($tmp[1], 0, -3);
         $tmp[2] = substr($tmp[2], 0, -3); //ok
         if (!checkEventoEsistente($tmp[0], $tmp[1], $tmp[2])) {

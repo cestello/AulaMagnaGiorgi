@@ -44,11 +44,11 @@ function generaEventi()
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    
+
     $email = $_COOKIE["user"];
     $sql_query = "SELECT * FROM eventi WHERE email = '" . $email . "';";
     $records = array();
-    
+
     $query_answer = $conn->query($sql_query);
     if ($query_answer === false) {
         $_SESSION['message'] = "Errore nel collegamento";
@@ -57,7 +57,7 @@ function generaEventi()
             $records[] = $row;
         }
     }
-    
+
     $conn->close();
     return $records;
 }

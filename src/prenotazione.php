@@ -16,18 +16,18 @@ function prenotaEvento($titolo, $data, $ora_inizio, $ora_fine, $descrizione, $em
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    
+
     $sql_query = "INSERT INTO eventi(titolo, data, ora_inizio, ora_fine, descrizione, email)
         VALUES('" . $titolo . "', DATE '" . $data . "','" . $ora_inizio . "', '" . $ora_fine . "', '"
         . $descrizione . "', (SELECT email FROM utenti WHERE email='" . $email . "'));";
-    
+
     $query_answer = $conn->query($sql_query);
     if ($query_answer === false) {
         $_SESSION['message'] = "Errore non previsto nella prenotazione";
     }
-    
+
     $conn->close();
-    header("Location: " . MAINURL . "index.php");
+    header("Location: " . generaLinkRisorsa());
     die();
 }
 

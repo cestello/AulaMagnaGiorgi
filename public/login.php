@@ -1,4 +1,5 @@
 <?php
+
 session_abort();
 session_start();
 
@@ -7,7 +8,7 @@ include_once "../src/check_cookie.php";
 
 // Se l'utente è già loggato, viene reindirizzato all'index
 if (controllaSeLoggato()) {
-    header("Location: " . MAINURL . "index.php");
+    header("Location: " . generaLinkRisorsa());
     die();
 }
 
@@ -106,8 +107,10 @@ include_once "../src/login.php";
 <body>
     <div id="form-container">
         <form method="post" id="formLogin">
-            <a href="http://138.41.20.100/~rizzello2400/">
-                <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+            <?php
+            echo '<a href="' . generaLinkRisorsa() . '">';
+            echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
+            ?>
             </a>
             <h1>Login</h1><br>
 
@@ -118,7 +121,9 @@ include_once "../src/login.php";
             <input type="password" id="password" name="password" minlength="8" maxlength="64" required>
             <br>
 
-            <a href="./registrazione.php">Non hai un account? Registrati</a>
+            <?php
+            echo '<a href="' . generaLinkRisorsa("public/registrazione.php") . '">Non hai un account? Registrati</a>';
+            ?>
             <br><br>
 
             <div id="submit">

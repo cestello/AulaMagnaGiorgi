@@ -7,7 +7,7 @@ include_once "../src/check_cookie.php";
 
 // Se l'utente è loggato, viene reindirizzato all'index
 if (controllaSeLoggato()) {
-    header("Location: " . MAINURL . "index.php");
+    header("Location: " . generaLinkRisorsa());
     die();
 }
 
@@ -154,8 +154,10 @@ include_once "../src/registrazione.php";
 
 <body>
     <form method="post" id="FormRegistrazione">
-        <a href="http://138.41.20.100/~rizzello2400/">
-            <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+        <?php
+        echo '<a href="' . generaLinkRisorsa() . '">';
+        echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
+        ?>
         </a>
 
         <h1>Registrazione</h1>
@@ -205,7 +207,12 @@ include_once "../src/registrazione.php";
 
         <label for="ConfermaPassword">Conferma Password: </label>
         <input type="password" id="ConfermaPassword" name="ConfermaPassword" required>
-        <a href="./login.php" id="forgot-pass">Hai un account? Accedi</a> <br><br>
+
+        <?php
+        echo '<a id="forgot-pass" href="' . generaLinkRisorsa("public/login.php");
+        echo '">Hai gi&agrave; un account? Accedi</a>';
+        ?>
+        <br><br>
 
         <input type="submit" name="Invia">
         <?php

@@ -12,6 +12,10 @@ function controllaSeLoggato()
         $email = $_COOKIE['user'];
         $password = $_COOKIE['pass'];
         $conn = connectToDatabase();
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
         $sql_query = "SELECT password FROM utenti WHERE email = '" . $email . "';";
         $query_answer = $conn->query($sql_query);
         if ($query_answer === false || $query_answer->num_rows === 0) {
@@ -44,6 +48,10 @@ function controllaSeAdmin()
 {
     $email = $_COOKIE['user'];
     $conn = connectToDatabase();
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
     $sql_query = "SELECT admin FROM utenti WHERE email = '" . $email . "';";
     $query_answer = $conn->query($sql_query);
     if ($query_answer === false || $query_answer->num_rows === 0) {

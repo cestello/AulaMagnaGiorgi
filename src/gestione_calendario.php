@@ -92,19 +92,19 @@ function impostaColore($percentualeOreOccupate)
  */
 function strutturaTabella()
 {
-    $calendarHTML = '<table>';
-    $calendarHTML .= '<tr>';
-    $calendarHTML .= '<th>Lun</th>';
-    $calendarHTML .= '<th>Mar</th>';
-    $calendarHTML .= '<th>Mer</th>';
-    $calendarHTML .= '<th>Gio</th>';
-    $calendarHTML .= '<th>Ven</th>';
-    $calendarHTML .= '<th>Sab</th>';
-    $calendarHTML .= '<th>Dom</th>';
-    $calendarHTML .= '</tr>';
-    $calendarHTML .= '<tr>';
+    $calendarioHTML = '<table>';
+    $calendarioHTML .= '<tr>';
+    $calendarioHTML .= '<th>Lun</th>';
+    $calendarioHTML .= '<th>Mar</th>';
+    $calendarioHTML .= '<th>Mer</th>';
+    $calendarioHTML .= '<th>Gio</th>';
+    $calendarioHTML .= '<th>Ven</th>';
+    $calendarioHTML .= '<th>Sab</th>';
+    $calendarioHTML .= '<th>Dom</th>';
+    $calendarioHTML .= '</tr>';
+    $calendarioHTML .= '<tr>';
 
-    return $calendarHTML;
+    return $calendarioHTML;
 }
 
 /**

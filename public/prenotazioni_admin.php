@@ -7,13 +7,13 @@ include_once "../src/check_cookie.php";
 
 // Se l'utente non è loggato, viene reindirizzato al login
 if (!controllaSeLoggato()) {
-    header("Location: " . MAINURL . "public/login.php");
+    header("Location: " . generaLinkRisorsa("public/login.php"));
     die();
 }
 
 // Se l'utente non è admin, viene reindirizzato all'index
 if (!controllaSeAdmin()) {
-    header("Location: " . MAINURL . "index.php");
+    header("Location: " . generaLinkRisorsa());
     die();
 }
 
@@ -107,7 +107,7 @@ include_once "../src/prenotazioni_admin.php";
             transform: scale(1.02);
         }
 
-        input[type="submit"] {
+        a {
             background-color: #043370;
             color: #fff;
             border: none;
@@ -117,9 +117,11 @@ include_once "../src/prenotazioni_admin.php";
             border-radius: 5px;
             transition: .5s;
             margin-right: 5px;
+            text-decoration: none;
+            font-weight: bold;
         }
 
-        input[type="submit"]:hover {
+        a:hover {
             background-color: #BC2047;
             transform: scale(1.02);
         }
@@ -138,7 +140,7 @@ include_once "../src/prenotazioni_admin.php";
                 margin: 10px 0;
             }
 
-            input[type="submit"] {
+            a {
                 width: 100%;
                 margin: 10px 0;
             }
@@ -149,7 +151,7 @@ include_once "../src/prenotazioni_admin.php";
 <body>
     <div class="main-container">
         <?php
-        echo '<a href="' . generaLinkRisorsa() . '">';
+        echo '<a style="all: unset; cursor: pointer;" href="' . generaLinkRisorsa() . '">';
         echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
         ?>
         </a>
@@ -185,10 +187,9 @@ include_once "../src/prenotazioni_admin.php";
             </h2><br>
         </form>
 
-        <form action="../index.php">
-            <input type="submit" value="Index">
-        </form>
-
+        <?php
+        echo '<a href="' . generaLinkRisorsa() . '">Index</a>';
+        ?>
     </div>
     <script>
         function gestisci_richiesta(ID, name) {

@@ -4,13 +4,13 @@
  * Resistuisce messaggi in base al codice di errore
  * riguardanti l'input dell'email
  *
- * @param int $code codice di errore
+ * @param int $codice codice di errore
  */
-function messaggioMailNonValida($code)
+function messaggioMailNonValida($codice)
 {
-    if ($code == 1) {
+    if ($codice == 1) {
         $_SESSION['message'] = "La lunghezza dell'email deve essere tra 7 e 128 caratteri";
-    } elseif ($code == 2) {
+    } elseif ($codice == 2) {
         $_SESSION['message'] = "L'email inserita non &egrave; valida";
     }
 }
@@ -21,11 +21,11 @@ function messaggioMailNonValida($code)
  *
  * @param int $code codice di errore
  */
-function messaggioPasswordNonValida($code)
+function messaggioPasswordNonValida($codice)
 {
-    if ($code == 1) {
+    if ($codice == 1) {
         $_SESSION['message'] = "La lunghezza della password deve essere tra 8 e 32 caratteri";
-    } elseif ($code == 2) {
+    } elseif ($codice == 2) {
         $_SESSION['message'] = "Parametri non rispettati:
             almeno una maiuscola,
             almeno una minuscola,
@@ -50,7 +50,7 @@ function registra($conn, $email, $password, $nome, $cognome)
 {
     $sql_query = "INSERT INTO utenti (email, password, nome, cognome, admin)
     VALUES ('" . $email . "', '" . hash('sha256', $password) . "', '" . $nome . "', '" . $cognome . "', 0);";
-    
+
     $query_answer = $conn->query($sql_query);
     if ($query_answer === false) {
         $_SESSION['message'] = "Errore non previsto nella registrazione";
@@ -65,32 +65,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cognome = $_POST["Cognome"];
     $email = $_POST["Email"];
     $password = $_POST["Password"];
-    $confirm_password = $_POST["ConfermaPassword"];
-    $value = isMailValid($email);
+    $confermaPassword = $_POST["ConfermaPassword"];
+    $codiceErrore = isMailValid($email);
 
-    if ($value != 0) {
-        messaggioMailNonValida($value);
+    if ($codiceErrore != 0) {
+        messaggioMailNonValida($codiceErrore);
     } else {
         $conn = connectToDatabase();
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $is_successful = false;
+        $successo = false;
         if (!isMailUsed($email, $conn)) {
-            $status_code = isPasswordValid($password, $confirm_password);
+            $status_code = isPasswordValid($password, $confermaPassword);
             if ($status_code != 0) {
                 messaggioPasswordNonValida($status_code);
             } else {
-                $is_successful = registra($conn, $email, $password, $nome, $cognome);
+                $successo = registra($conn, $email, $password, $nome, $cognome);
             }
         } else {
             $_SESSION["message"] = "Email gi&agrave utilizzata";
         }
         $conn->close();
 
-        if ($is_successful) {
-            header("Location: " . MAINURL . "public/login.php");
+        if ($successo) {
+            header("Location: " . generaLinkRisorsa("public/login.php"));
         }
     }
 }

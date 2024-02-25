@@ -21,7 +21,7 @@ function effettuaLogin($conn, $email, $password)
             setcookie("user", $email, time() + 86400 * 30, "/");
             setcookie("pass", $db_password, time() + 86400 * 30, "/");
             $conn->close();
-            header("Location: " . MAINURL . "index.php");
+            header("Location: " . generaLinkRisorsa());
             die();
         } else {
             $_SESSION['message'] = "Password errata";

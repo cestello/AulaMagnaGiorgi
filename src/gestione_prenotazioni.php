@@ -9,7 +9,7 @@ include_once "./utils.php";
  */
 function trovaTipo($tipo)
 {
-    if($tipo === "type-nonvisionati") {
+    if ($tipo === "type-nonvisionati") {
         setupPrenotazioni(0);
     } elseif ($tipo === "type-accettati") {
         setupPrenotazioni(1);
