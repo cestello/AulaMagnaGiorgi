@@ -1,3 +1,9 @@
+<?php
+
+include_once "../src/utils.php";
+
+?>
+
 <!DOCTYPE html>
 <html lang="it-IT">
 
@@ -78,7 +84,6 @@
             border: 1px solid #ddd;
             padding: 20px;
             text-align: center;
-            cursor: pointer;
             font-weight: bold;
         }
 
@@ -86,17 +91,28 @@
             background-color: #f2f2f2;
         }
 
-    
+        /* Modifica lo stile del link */
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        /* a:hover,
+        a:active {
+
+        } */
     </style>
 </head>
 
 <body>
-    <form method="post" action="http://138.41.20.100/~rizzello2400/public/prenotazione.php" id="calendar-container">
-        <a href="http://138.41.20.100/~rizzello2400/">
-            <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+    <div id="calendar-container">
+        <?php
+        echo '<a href="' . generaLinkRisorsa() . '">';
+        echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
+        ?>
         </a>
 
-   
+
         <label for="month">Seleziona il mese:</label>
         <select id="month" onchange="aggiornaTabella()">
             <!-- Generati automaticamente per la selezione
@@ -114,9 +130,11 @@
 
             </div>
         </div>
-    </form>
-
-    <script src="http://138.41.20.100/~rizzello2400/public/js/script.js"></script>
+    </div>
+    
+    <?php
+    echo '<script src="' . generaLinkRisorsa("public/js/script.js") . '"></script>';
+    ?>
     <script>
         // Iniziale generazione del calendario per il mese e l'anno correnti
         const currentDate = new Date();

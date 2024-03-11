@@ -1,13 +1,18 @@
 <?php
 session_abort();
 session_start();
-include('../src/utils.php');
-include("../src/check_cookie.php");
-if (!check()) {
-    header("Location: " . MAINURL . "public/login.php");
+
+include_once "../src/utils.php";
+include_once "../src/check_cookie.php";
+
+// Se l'utente non è loggato, viene reindirizzato al login
+if (!controllaSeLoggato()) {
+    header("Location: " . generaLinkRisorsa("public/login.php"));
     die();
 }
-include("../src/prenotazione.php");
+
+include_once "../src/prenotazione.php";
+
 ?>
 
 <!DOCTYPE html>
@@ -95,6 +100,17 @@ include("../src/prenotazione.php");
         th {
             background-color: #f2f2f2;
         }
+
+        /* Modifica lo stile del link */
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        /* a:hover,
+        a:active {
+
+        } */
     </style>
 
     <style>
@@ -162,14 +178,9 @@ include("../src/prenotazione.php");
             height: 138px;
         }
 
-        a {
-            color: #BC2047;
-            font-weight: bold;
-
-        }
-
         #from,
-        #to {
+        #to,
+        option {
             width: 100%;
             padding: 12px;
             margin-bottom: 20px;
@@ -177,14 +188,15 @@ include("../src/prenotazione.php");
             border: 1px solid #ccc;
             border-radius: 6px;
         }
-
     </style>
 </head>
 
 <body>
     <form method="post" id="formCalendario">
-        <a href="http://138.41.20.100/~rizzello2400/">
-            <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+        <?php
+        echo '<a href="' . generaLinkRisorsa() . '">';
+        echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
+        ?>
         </a>
 
         <h1>Prenotazione</h1>
@@ -236,7 +248,8 @@ include("../src/prenotazione.php");
         <input type="text" name="titolo" id="titolo" minlength="4" maxlength="64" required>
 
         <label for="descrizione">Descrizione:</label>
-        <textarea name="descrizione" id="descrizione" rows="6" cols="78" maxlength="50" style="resize: none;"></textarea>
+        <textarea name="descrizione" id="descrizione" rows="6" cols="78" maxlength="50"
+            style="resize: none;"></textarea>
         <br>
 
         <div id="submit">
@@ -244,21 +257,25 @@ include("../src/prenotazione.php");
         </div>
         <?php
         if (isset($_SESSION['message'])) {
-            echo ("<h2>" . $_SESSION['message'] . "</h2>");
+            echo '<h2 style="color:white;">' . $_SESSION['message'] . '</h2>';
         }
         unset($_SESSION['message']);
         ?>
     </form>
 
-    <script src="http://138.41.20.100/~rizzello2400/public/js/script.js"></script>
+    <?php
+    echo '<script src="' . generaLinkRisorsa("public/js/script.js") . '"></script>';
+    ?>
     <script>
         // Iniziale generazione del calendario per il mese e l'anno correnti
-        const currentDate = new Date();
+        const CURRENTDATE = new Date();
+        const ANNO = CURRENTDATE.getFullYear();
+        const MESE = CURRENTDATE.getMonth();
         visualizzaOrariValidi();
-        sceltaMesi(currentDate.getMonth());
-        sceltaAnni(currentDate.getFullYear());
+        sceltaAnni(ANNO);
+        sceltaMesi(MESE);
+        sceltaGiorni(ANNO, MESE, CURRENTDATE.getDate());
         aggiornaTabella();
-        sceltaGiorni(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
     </script>
 </body>
 

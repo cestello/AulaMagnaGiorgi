@@ -1,14 +1,18 @@
 <?php
 session_abort();
 session_start();
-include("./src/utils.php");
-include("./src/check_cookie.php");
-$is_logged_in = check();
-$is_admin = false;
-if ($is_logged_in) {
-    $is_admin = check_admin();
+
+include_once "./src/utils.php";
+include_once "./src/check_cookie.php";
+
+$loggato = controllaSeLoggato();
+$admin = false;
+if ($loggato) {
+    $admin = controllaSeAdmin();
 }
+
 ?>
+
 <!DOCTYPE html>
 <html lang="it-IT">
 
@@ -25,16 +29,17 @@ if ($is_logged_in) {
             <div class="close"></div> <a href="./index.php">Home</a>
             <a href="./public/calendario.php">Calendario</a>
             <?php
-            if ($is_logged_in) {
-                if ($is_admin) {
-                    echo ("<a href=\"./public/prenotazioni_admin.php\">Prenotazioni <br>Admin</a>");
+            if ($loggato) {
+                if ($admin) {
+                    echo '<a href="' . generaLinkRisorsa("public/prenotazioni_admin.php?ID=type-nonvisionati");
+                    echo '">Prenotazioni <br>Admin</a>';
                 }
-                echo ("<a href=\"./public/prenotazione.php\">Prenota</a>");
-                echo ("<a href=\"./public/profilo.php\">Profilo</a>");
-                echo ("<a href=\"./src/logout.php\">Esci</a>");
+                echo '<a href="' . generaLinkRisorsa("public/prenotazione.php") . '">Prenota</a>';
+                echo '<a href="' . generaLinkRisorsa("public/profilo.php") . '">Profilo</a>';
+                echo '<a href="' . generaLinkRisorsa("src/logout.php") . '">Esci</a>';
             } else {
-                echo ("<a href=\"./public/login.php\">Accedi</a>");
-                echo ("<a href=\"./public/registrazione.php\">Registrati</a>");
+                echo '<a href="' . generaLinkRisorsa("public/login.php") . '">Accedi</a>';
+                echo '<a href="' . generaLinkRisorsa("public/registrazione.php") . '">Registrati</a>';
             }
             ?>
         </nav>
@@ -46,8 +51,17 @@ if ($is_logged_in) {
                 <h1>Aula Magna</h1>
                 <section>
                     <div>
-                        <a target="_blank" href="./resources/mosaico.gif" class="image">
-                            <img src="./resources/mosaico.gif" alt="Mosaico" width="800" height="200">
+                        <?php
+                        $linkMosaico = generaLinkRisorsa("resources/mosaico.gif");
+
+                        $tag = '<a target="_blank" href="' . $linkMosaico;
+                        $tag .= '" class="image">';
+                        echo $tag;
+
+                        $tag = '<img src="' . $linkMosaico;
+                        $tag .= '" alt="Mosaico" width="800" height="200">';
+                        echo $tag;
+                        ?>
                         </a>
                     </div>
                     <div>
@@ -62,6 +76,7 @@ if ($is_logged_in) {
                 </section>
             </div>
         </div>
+
         <!-- JAVASCRIPT -->
         <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
         <script id="rendered-js">

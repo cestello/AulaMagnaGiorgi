@@ -1,13 +1,18 @@
 <?php
 session_abort();
 session_start();
-include('../src/utils.php');
-include("../src/check_cookie.php");
-if (check()) {
-    header("Location: " . MAINURL . "index.php");
+
+include_once "../src/utils.php";
+include_once "../src/check_cookie.php";
+
+// Se l'utente è loggato, viene reindirizzato all'index
+if (controllaSeLoggato()) {
+    header("Location: " . generaLinkRisorsa());
     die();
 }
-include("../src/registrazione.php");
+
+include_once "../src/registrazione.php";
+
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +30,7 @@ include("../src/registrazione.php");
             background: linear-gradient(to left, #b9cfec, #b4c8d4);
         }
 
-    
+
         #FormRegistrazione {
             max-width: 600px;
             margin: 4% auto;
@@ -149,14 +154,17 @@ include("../src/registrazione.php");
 
 <body>
     <form method="post" id="FormRegistrazione">
-        <a href="http://138.41.20.100/~rizzello2400/">
-            <img src="../resources/LogoGiorgi.png" alt="LogoGiorgi">
+        <?php
+        echo '<a href="' . generaLinkRisorsa() . '">';
+        echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
+        ?>
         </a>
 
         <h1>Registrazione</h1>
 
-        <label for="Nome">Nome: <span class="fa-regular fa-circle-question" onmouseover="nomeinfo(true)"
-                onmouseout="nomeinfo(false)"></span>
+        <label for="Nome">Nome:
+            <span class="fa-regular fa-circle-question" onmouseover="nomeinfo(true)" onmouseout="nomeinfo(false)">
+            </span>
             <span id="infonome" class="display notDisplay">
                 Numero minimo di caratteri: 2<br>
                 Numero massimo di caratteri: 64
@@ -165,8 +173,9 @@ include("../src/registrazione.php");
         <input type="text" id="Nome" name="Nome" minlength="2" maxlength="64" required>
 
 
-        <label for="Cognome">Cognome: <span class="fa-regular fa-circle-question" onmouseover="cognomeinfo(true)"
-                onmouseout="cognomeinfo(false)"></span>
+        <label for="Cognome">Cognome:
+            <span class="fa-regular fa-circle-question" onmouseover="cognomeinfo(true)" onmouseout="cognomeinfo(false)">
+            </span>
             <span id="infocognome" class="display notDisplay">
                 Numero minimo di caratteri: 2<br>
                 Numero massimo di caratteri: 64
@@ -198,12 +207,17 @@ include("../src/registrazione.php");
 
         <label for="ConfermaPassword">Conferma Password: </label>
         <input type="password" id="ConfermaPassword" name="ConfermaPassword" required>
-        <a href="./login.php" id="forgot-pass">Hai un account? Accedi</a> <br><br>
+
+        <?php
+        echo '<a id="forgot-pass" href="' . generaLinkRisorsa("public/login.php");
+        echo '">Hai gi&agrave; un account? Accedi</a>';
+        ?>
+        <br><br>
 
         <input type="submit" name="Invia">
         <?php
         if (isset($_SESSION['message'])) {
-            echo ($_SESSION['message']);
+            echo $_SESSION['message'];
         }
         unset($_SESSION['message']);
         ?>

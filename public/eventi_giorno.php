@@ -3,18 +3,41 @@ session_abort();
 session_start();
 
 include_once "../src/utils.php";
-include_once "../src/check_cookie.php";
+include_once "../src/eventi_giorno.php";
 
-// Se l'utente non è loggato, viene reindirizzato al login
-if (!controllaSeLoggato()) {
-    header("Location: " . generaLinkRisorsa("public/login.php"));
-    die();
+/**
+ * Giorno precedente
+ */
+const PREVIOUS = '-1 day';
+
+/**
+ * Giorno successivo
+ */
+const NEXT = '+1 day';
+
+/**
+ * INTERFACCIA CON IL FRONTEND
+ * Gestisce la generazione del codice HTML da inserire nella lista degli eventi
+ * giornalieri
+ *
+ * @param string $titolo dell'evento
+ * @param string $data dell'evento
+ * @param string $oraInizio orario di inizio
+ * @param string $oraFine orario di fine
+ * @param string $descrizione dell'evento
+ * @param string $email dell'utente richiedente
+ * @param string $stato dell'evento
+ * @return string codice HTML rappresentante un evento
+ */
+function generaHTML($titolo, $data, $oraInizio, $oraFine, $descrizione, $email, $stato)
+{
+    $codiceHTML = "<p>";
+    $codiceHTML .= $titolo . " " . $data . " " . $oraInizio . " ";
+    $codiceHTML .= $oraFine . " " . $descrizione . " " . $email . " ";
+    $codiceHTML .= $stato;
+    $codiceHTML .= "</p>";
+    return $codiceHTML;
 }
-
-include_once "../src/profilo.php";
-
-$generalita = generaUtente();
-$lista_eventi = generaEventi();
 
 ?>
 
@@ -26,8 +49,9 @@ $lista_eventi = generaEventi();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
-        Profilo
+        Eventi giorno
     </title>
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -97,14 +121,31 @@ $lista_eventi = generaEventi();
             border: none;
             padding: 10px 20px;
             font-size: 16px;
-            border-radius: 5px;
             cursor: pointer;
+            border-radius: 5px;
             transition: .5s;
+            margin-right: 5px;
             text-decoration: none;
             font-weight: bold;
         }
 
         a:hover {
+            background-color: #BC2047;
+            transform: scale(1.02);
+        }
+
+        input[type="submit"] {
+            background-color: #043370;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: .5s;
+        }
+
+        input[type="submit"]:hover {
             background-color: #BC2047;
             transform: scale(1.03);
         }
@@ -134,55 +175,41 @@ $lista_eventi = generaEventi();
         ?>
         </a>
         <div class="profile-container">
-            <h1>Email:
-                <?php echo $generalita["email"]; ?>
-            </h1>
-            <h1>Nome:
-                <?php echo $generalita["nome"]; ?>
-            </h1>
-            <h1>Cognome:
-                <?php echo $generalita["cognome"]; ?>
+            <h1>Eventi del giorno:
+                <?php echo dataItaliana($_GLOBALS["data"]); ?>
+                <?php ?>
             </h1>
         </div>
 
-        <div class="events-container">
-            <h2>Lista Prenotazioni</h2>
+        <div class="events-container" id="contenitore-eventi">
             <?php
-            if (sizeof($lista_eventi) <= 0) {
-                echo "Nessun evento prenotato";
-            } else {
-                foreach ($lista_eventi as $row) {
-                    echo "Nome: " . $row["titolo"] . "<br>";
-                    echo "Data: " . $row["data"] . "<br>";
-                    echo "Ora inizio: " . $row["ora_inizio"] . "<br>";
-                    echo "Ora fine: " . $row["ora_fine"] . "<br>";
-                    echo "Stato: ";
-                    if ($row["stato"] === 0) {
-                        echo "non visionato";
-                    } elseif ($row["stato"] === 1) {
-                        echo "accettato";
-                    } elseif ($row["stato"] === 2) {
-                        echo "rifiutato";
-                    } elseif ($row["stato"] === 3) {
-                        echo "annullato";
-                    } elseif ($row["stato"] === 4) {
-                        echo "scaduto";
-                    } else {
-                        echo "errore nel determinare lo stato";
-                    }
-                    echo "<br><br>";
-                }
-            }
+            echo $_GLOBALS["eventiHTML"];
             ?>
         </div>
 
 
         <div class="buttons-container">
             <?php
-            echo '<a href="' . generaLinkRisorsa("src/logout.php") . '">Logout</a>';
-            echo '<a href="' . generaLinkRisorsa() . '">Index</a>';
+            if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                $data = date('Y-m-d', strtotime($_GLOBALS["data"] . PREVIOUS));
+            } else {
+                $data = date('Y-m-d', strtotime(date('Y-m-d') . PREVIOUS));
+            }
+            echo '<a href=' . MAINURL . generaLink($data) . '>';
             ?>
+            Giorno precedente</a>
+
+            <?php
+            if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                $data = date('Y-m-d', strtotime($_GLOBALS["data"] . NEXT));
+            } else {
+                $data = date('Y-m-d', strtotime(date('Y-m-d') . NEXT));
+            }
+            echo '<a href=' . MAINURL . generaLink($data) . '>';
+            ?>
+            Giorno successivo</a>
         </div>
+
     </div>
 </body>
 

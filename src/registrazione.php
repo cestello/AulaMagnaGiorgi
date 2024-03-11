@@ -1,19 +1,31 @@
 <?php
 
-function invalid_mail_message($code)
+/**
+ * Resistuisce messaggi in base al codice di errore
+ * riguardanti l'input dell'email
+ *
+ * @param int $codice codice di errore
+ */
+function messaggioMailNonValida($codice)
 {
-    if ($code == 1) {
+    if ($codice == 1) {
         $_SESSION['message'] = "La lunghezza dell'email deve essere tra 7 e 128 caratteri";
-    } else if ($code == 2) {
+    } elseif ($codice == 2) {
         $_SESSION['message'] = "L'email inserita non &egrave; valida";
     }
 }
 
-function invalid_password_message($code)
+/**
+ * Restituisce messaggi basati sul codice di errore
+ * sull'input della password
+ *
+ * @param int $code codice di errore
+ */
+function messaggioPasswordNonValida($codice)
 {
-    if ($code == 1) {
+    if ($codice == 1) {
         $_SESSION['message'] = "La lunghezza della password deve essere tra 8 e 32 caratteri";
-    } else if ($code == 2) {
+    } elseif ($codice == 2) {
         $_SESSION['message'] = "Parametri non rispettati:
             almeno una maiuscola,
             almeno una minuscola,
@@ -24,16 +36,36 @@ function invalid_password_message($code)
     }
 }
 
-function registra($conn, $email, $password, $nome, $cognome)
+/**
+ * Effettua la registrazione di un utente
+ *
+ * @param mysqli $conn oggetto connessione
+ * @param string $email dell'utente
+ * @param string $password dell'utente
+ * @param string $nome dell'utente
+ * @param string $cognome dell'utente
+ * @return bool se la registrazione è andata a buon fine
+ */
+function registra($email, $password, $nome, $cognome)
 {
-    $sql_query = "INSERT INTO utenti (email, password, nome, cognome, admin)
-    VALUES ('" . $email . "', '" . hash('sha256', $password) . "', '" . $nome . "', '" . $cognome . "', 0);";
-    $query_answer = $conn->query($sql_query);
-    if ($query_answer === FALSE) {
-        $_SESSION['message'] = "Errore non previsto nella registrazione";
-        return false;
+    $conn = connectToDatabase();
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
-    return true;
+
+    $stmt = $conn->prepare("INSERT INTO utenti (email, password, nome, cognome, admin) VALUES (?, ?, ?, ?, ?)");
+    $password = hash('sha256', $password);
+    $admin = 0;
+    $stmt->bind_param("ssssi", $email, $password, $nome, $cognome, $admin);
+
+    $isSuccessful = $stmt->execute();
+    if (!$isSuccessful) {
+        $_SESSION['message'] = "Errore non previsto nella registrazione";
+    }
+
+    $stmt->close();
+    $conn->close();
+    return $isSuccessful;
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -41,41 +73,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cognome = $_POST["Cognome"];
     $email = $_POST["Email"];
     $password = $_POST["Password"];
-    $confirm_password = $_POST["ConfermaPassword"];
-    $value = is_mail_valid($email);
+    $confermaPassword = $_POST["ConfermaPassword"];
+    $codiceErrore = isMailValid($email);
 
-    if ($value != 0) {
-        invalid_mail_message($value);
+    if ($codiceErrore != 0) {
+        messaggioMailNonValida($codiceErrore);
     } else {
-        $conn = connect_to_database();
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        $is_successful = false;
-        if (!is_mail_used($email, $conn)) {
-            $status_code = is_password_valid($password, $confirm_password);
+        $successo = false;
+        if (!isMailUsed($email)) {
+            $status_code = isPasswordValid($password, $confermaPassword);
             if ($status_code != 0) {
-                invalid_password_message($status_code);
+                messaggioPasswordNonValida($status_code);
             } else {
-                $is_successful = registra($conn, $email, $password, $nome, $cognome);
+                $successo = registra($email, $password, $nome, $cognome);
             }
         } else {
             $_SESSION["message"] = "Email gi&agrave utilizzata";
         }
-        $conn->close();
 
-        if ($is_successful) {
-            // $to = "francescosalvatore.rizzello.05@ittgiorgi.edu.it";
-            // $subject = "PHP Mail Test";
-            // $message = "Messaggio di test\r\n";
-            // $headers = "From: vincenzo.cardea.05@ittgiorgi.edu.it";
-            // if (mail($to, $subject, $message, $headers)) {
-            //     echo "Messaggio inviato con successo!";
-            // } else {
-            //     echo "Errore nell'invio del messaggio.";
-            // }
-            header("Location: " . MAINURL . "public/login.php");
+        if ($successo) {
+            header("Location: " . generaLinkRisorsa("public/login.php"));
         }
     }
 }

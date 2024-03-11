@@ -1,25 +1,27 @@
 /**
  * Aggiorna gli anni disponibili per la prenotazione
  * 
- * @param year anno corrente
+ * @param anno corrente
 */
-function sceltaAnni(year) {
-    const YEARS = 2;
-    let years = "";
+function sceltaAnni(anno) {
+    const ANNI = 2;
+    let opzioni = "";
 
     let i;
-    for (i = 0; i < YEARS; i++) {
-        years += `<option value=\"${year + i}\">${year + i}</option>\n`;
+    for (i = 0; i < ANNI; i++) {
+        opzioni += `<option value=\"${anno + i}\">${anno + i}</option>\n`;
     }
 
-    document.getElementById("year").innerHTML = years;
+    document.getElementById("year").innerHTML = opzioni;
 }
 
 /**
- * Genera i mesi e imposta l'attributo selected al mese corrente 
+ * Genera i mesi e imposta l'attributo selected al mese corrente
+ * 
+ * @param indiceMeseCorrente intervallo [0-12)
 */
-function sceltaMesi(currentMonthIndex) {
-    let months = [
+function sceltaMesi(indiceMeseCorrente) {
+    const MESI = [
         "Gennaio",
         "Febbraio",
         "Marzo",
@@ -34,37 +36,41 @@ function sceltaMesi(currentMonthIndex) {
         "Dicembre"
     ];
 
-    let options = "";
+    let opzioni = "";
     let i;
-    for (i = 0; i < months.length; i++) {
-        options += `<option value=\"${i}\"`;
-        if (i === currentMonthIndex) {
-            options += ` selected`;
+    for (i = 0; i < MESI.length; i++) {
+        opzioni += `<option value=\"${i}\"`;
+        if (i === indiceMeseCorrente) {
+            opzioni += ` selected`;
         }
-        options += `>${months[i]}</option>`
+        opzioni += `>${MESI[i]}</option>`
     }
 
-    document.getElementById("month").innerHTML = options;
+    document.getElementById("month").innerHTML = opzioni;
 }
 
 /**
  * Input per selezionare un giorno del dato mese
+ * 
+ * @param anno scelto
+ * @param mese scelto
+ * @param oggi giorno corrente
  */
-function sceltaGiorni(year, month, today) {
-    const numberOfDays = new Date(year, month, 0).getDate();
-    today = Math.min(today, numberOfDays);
+function sceltaGiorni(anno, mese, oggi) {
+    const numeroDiGiorni = new Date(anno, mese, 0).getDate();
+    oggi = Math.min(oggi, numeroDiGiorni);
 
-    let options = "";
+    let opzioni = "";
     let i;
-    for (i = 1; i <= numberOfDays; i++) {
-        options += `<option value="${i}"`;
-        if (i === today) {
-            options += ` selected`;
+    for (i = 1; i <= numeroDiGiorni; i++) {
+        opzioni += `<option value="${i}"`;
+        if (i === oggi) {
+            opzioni += ` selected`;
         }
-        options += `>${i}</option>`;
+        opzioni += `>${i}</option>`;
     }
 
-    document.getElementById("day").innerHTML = options;
+    document.getElementById("day").innerHTML = opzioni;
 }
 
 /**
@@ -72,8 +78,8 @@ function sceltaGiorni(year, month, today) {
  * dall'orario selezionato.
 */
 function visualizzaOrariValidi() {
-    let initialTime = parseInt(document.getElementById("from").value);
-    let times = [
+    let orarioInizio = parseInt(document.getElementById("from").value);
+    const ORARI = [
         "8:00",
         "8:30",
         "9:00",
@@ -89,21 +95,22 @@ function visualizzaOrariValidi() {
         "14:00"
     ];
 
-    let new_times = "";
+    let nuoviOrari = "";
     let i;
-    for (i = initialTime + 1; i < times.length; ++i) {
-        new_times += `<option value=\"${i}\">${times[i]}</option>`
+    for (i = orarioInizio + 1; i < ORARI.length; ++i) {
+        nuoviOrari += `<option value=\"${i}\"`;
+        nuoviOrari += `>${ORARI[i]}</option>`;
     }
-    document.getElementById("to").innerHTML = new_times;
+    document.getElementById("to").innerHTML = nuoviOrari;
 }
 
 /**
  * Richiesta asincrona per aggiornare il calendario
 */
 function aggiornaTabella() {
-    const year = document.getElementById("year").value;
-    const month = document.getElementById("month").value;
-    const URL = `http://138.41.20.100/~rizzello2400/src/gestione_calendario.php?year=${encodeURIComponent(year)}&month=${encodeURIComponent(month)}`;
+    const ANNO = document.getElementById("year").value;
+    const MESE = document.getElementById("month").value;
+    const URL = `http://138.41.20.100/~rizzello2400/src/gestione_calendario.php?year=${encodeURIComponent(ANNO)}&month=${encodeURIComponent(MESE)}`;
 
     fetch(URL)
         .then(response => {
@@ -130,8 +137,8 @@ function aggiornaTabella() {
 function aggiorna() {
     aggiornaTabella();
 
-    const year = parseInt(document.getElementById("year").value);
-    const month = parseInt(document.getElementById("month").value) + 1;
-    const day = parseInt(document.getElementById("day").value);
-    sceltaGiorni(year, month, day);
+    const ANNO = Number(document.getElementById("year").value);
+    const MESE = Number(document.getElementById("month").value);
+    const GIORNO = Number(document.getElementById("day").value);
+    sceltaGiorni(ANNO, MESE, GIORNO);
 }
