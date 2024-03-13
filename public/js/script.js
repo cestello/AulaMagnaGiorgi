@@ -137,8 +137,8 @@ function aggiornaTabella() {
 function aggiorna() {
     aggiornaTabella();
 
-    const ANNO = parseInt(document.getElementById("year").value);
-    const MESE = parseInt(document.getElementById("month").value) + 1;
-    const GIORNO = parseInt(document.getElementById("day").value);
+    const ANNO = Number(document.getElementById("year").value);
+    const MESE = Number(document.getElementById("month").value);
+    const GIORNO = Number(document.getElementById("day").value);
     sceltaGiorni(ANNO, MESE, GIORNO);
 }

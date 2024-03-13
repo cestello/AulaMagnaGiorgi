@@ -37,28 +37,27 @@ function calcolaMinutiOccupati($anno, $mese, $giorno)
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql_query = "SELECT * FROM eventi WHERE data='" . $anno . "-" . $mese . "-" . $giorno . "' AND stato=1;";
-    $query_answer = $conn->query($sql_query);
+    $stmt = $conn->prepare("SELECT ora_inizio, ora_fine FROM eventi WHERE data = ? AND stato = ?");
+    $data = completaData($anno . "-" . $mese . "-" . $giorno);
+    $stato = 1;
+    $stmt->bind_param("si", $data, $stato);
+
     $minutiOccupati = 0;
-    if ($query_answer === false) {
+    if ($stmt->execute()) {
+        $stmt->store_result();
+        $stmt->bind_result($ora_inizio, $ora_fine);
+        while ($stmt->fetch()) {
+            $minutiOccupati += contaDurata($ora_fine, $ora_inizio);
+        }
+    } else {
         $_SESSION['message'] = "Errore nel collegamento";
         $minutiOccupati = -1;
-    } else {
-        $records = array();
-        while ($row = $query_answer->fetch_assoc()) {
-            $records[] = $row;
-        }
-
-        if (!empty($records)) {
-            foreach ($records as $row) {
-                $minutiOccupati += contaDurata($row["ora_fine"], $row["ora_inizio"]);
-            }
-        }
     }
+    $stmt->close();
     $conn->close();
 
     $minutiTotali = 360;
-    return ($minutiOccupati * 100) / $minutiTotali;
+    return($minutiOccupati * 100) / $minutiTotali;
 }
 
 /**
@@ -70,13 +69,13 @@ function calcolaMinutiOccupati($anno, $mese, $giorno)
  */
 function impostaColore($percentualeOreOccupate)
 {
-    if ($percentualeOreOccupate >= 0 && $percentualeOreOccupate <= 15) {
+    if ($percentualeOreOccupate === 0) {
         $colore = 'verde';
-    } elseif ($percentualeOreOccupate > 15 && $percentualeOreOccupate <= 50) {
+    } elseif ($percentualeOreOccupate > 0 && $percentualeOreOccupate <= 50) {
         $colore = 'giallo';
     } elseif ($percentualeOreOccupate > 50 && $percentualeOreOccupate < 100) {
         $colore = 'arancione';
-    } elseif ($percentualeOreOccupate == 100) {
+    } elseif ($percentualeOreOccupate === 100) {
         $colore = 'rosso';
     } else {
         $colore = 'non-definito';
@@ -123,13 +122,13 @@ function generaCalendario($anno, $mese)
 
     $giorniInMese = cal_days_in_month(CAL_GREGORIAN, $mese, $anno);
 
-    $metaData = $anno . '-' . $mese;
+    $mezzaData = $anno . '-' . $mese;
     for ($i = 1; $i <= $giorniInMese; $i++) {
-        $date = $metaData . '-' . $i;
-        $calendarioHTML .= '<td id="' . $date . '" name="' . $date . '" class="';
+        $data = $mezzaData . '-' . $i;
+        $calendarioHTML .= '<td id="' . $data . '" name="' . $data . '" class="';
         $calendarioHTML .= impostaColore(calcolaMinutiOccupati($anno, $mese, $i));
         $calendarioHTML .= '">';
-        $calendarioHTML .= '<a href="' . MAINURL . 'public/eventi_giorno.php?anno=' . $anno . '&';
+        $calendarioHTML .= '<a href="' . generaLinkRisorsa("public/eventi_giorno.php") . '?anno=' . $anno . '&';
         $calendarioHTML .= 'mese=' . $mese . '&giorno=' . $i . '" target="_blank">';
         $calendarioHTML .= $i . '</a></td>';
         if (($i + $primoGiorno - 1) % 7 == 0) {

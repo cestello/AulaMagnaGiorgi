@@ -46,18 +46,26 @@ function messaggioPasswordNonValida($codice)
  * @param string $cognome dell'utente
  * @return bool se la registrazione è andata a buon fine
  */
-function registra($conn, $email, $password, $nome, $cognome)
+function registra($email, $password, $nome, $cognome)
 {
-    $sql_query = "INSERT INTO utenti (email, password, nome, cognome, admin)
-    VALUES ('" . $email . "', '" . hash('sha256', $password) . "', '" . $nome . "', '" . $cognome . "', 0);";
-
-    $query_answer = $conn->query($sql_query);
-    if ($query_answer === false) {
-        $_SESSION['message'] = "Errore non previsto nella registrazione";
-        return false;
+    $conn = connectToDatabase();
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
 
-    return true;
+    $stmt = $conn->prepare("INSERT INTO utenti (email, password, nome, cognome, admin) VALUES (?, ?, ?, ?, ?)");
+    $password = hash('sha256', $password);
+    $admin = 0;
+    $stmt->bind_param("ssssi", $email, $password, $nome, $cognome, $admin);
+
+    $isSuccessful = $stmt->execute();
+    if (!$isSuccessful) {
+        $_SESSION['message'] = "Errore non previsto nella registrazione";
+    }
+
+    $stmt->close();
+    $conn->close();
+    return $isSuccessful;
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -71,23 +79,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($codiceErrore != 0) {
         messaggioMailNonValida($codiceErrore);
     } else {
-        $conn = connectToDatabase();
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
         $successo = false;
-        if (!isMailUsed($email, $conn)) {
+        if (!isMailUsed($email)) {
             $status_code = isPasswordValid($password, $confermaPassword);
             if ($status_code != 0) {
                 messaggioPasswordNonValida($status_code);
             } else {
-                $successo = registra($conn, $email, $password, $nome, $cognome);
+                $successo = registra($email, $password, $nome, $cognome);
             }
         } else {
             $_SESSION["message"] = "Email gi&agrave utilizzata";
         }
-        $conn->close();
 
         if ($successo) {
             header("Location: " . generaLinkRisorsa("public/login.php"));

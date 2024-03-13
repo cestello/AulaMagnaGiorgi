@@ -10,27 +10,39 @@ $email = "";
  */
 function generaUtente()
 {
+    $nome = "";
+    $cognome = "";
+    $email = "";
+
     $conn = connectToDatabase();
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
+    $stmt = $conn->prepare("SELECT nome, cognome FROM utenti WHERE email = ?");
     $email = $_COOKIE["user"];
-    $nome = "";
-    $cognome = "";
+    $stmt->bind_param("s", $email);
 
-    $sql_query = "SELECT * FROM utenti WHERE email = '" . $email . "';";
-    $query_answer = $conn->query($sql_query);
-    if ($query_answer === false) {
-        $_SESSION['message'] = "Errore nel collegamento";
-    } else {
-        $row = $query_answer->fetch_assoc();
-        $nome = $row["nome"];
-        $cognome = $row["cognome"];
+    if (!$stmt->execute()) {
+        $_SESSION['message'] = "Errore non previsto nella query";
     }
 
+    $stmt->store_result();
+    if ($stmt->num_rows <= 0) {
+        $_SESSION["message"] = "Utente inesistente";
+    } else {
+        $stmt->bind_result($nome, $cognome);
+        $stmt->fetch();
+        $risultato = array(
+            "email" => $email,
+            "nome" => $nome,
+            "cognome" => $cognome
+        );
+    }
+
+    $stmt->close();
     $conn->close();
-    return array($email, $nome, $cognome);
+    return $risultato;
 }
 
 /**
@@ -46,18 +58,31 @@ function generaEventi()
     }
 
     $email = $_COOKIE["user"];
-    $sql_query = "SELECT * FROM eventi WHERE email = '" . $email . "';";
-    $records = array();
+    $stmt = $conn->prepare("SELECT * FROM eventi WHERE email = ?");
+    $stmt->bind_param("s", $email);
 
-    $query_answer = $conn->query($sql_query);
-    if ($query_answer === false) {
-        $_SESSION['message'] = "Errore nel collegamento";
-    } else {
-        while ($row = $query_answer->fetch_assoc()) {
-            $records[] = $row;
+    $result = array();
+    if ($stmt->execute()) {
+        $stmt->store_result();
+        $stmt->bind_result($id, $titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email_r, $stato);
+        while ($stmt->fetch()) {
+            $row = array(
+                "ID" => $id,
+                "titolo" => $titolo,
+                "data" => $data,
+                "ora_inizio" => $ora_inizio,
+                "ora_fine" => $ora_fine,
+                "descrizione" => $descrizione,
+                "email" => $email_r,
+                "stato" => $stato
+            );
+            $result[] = $row;
         }
+    } else {
+        $_SESSION['message'] = "Errore non previsto nella query";
     }
 
+    $stmt->close();
     $conn->close();
-    return $records;
+    return $result;
 }

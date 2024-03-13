@@ -21,143 +21,78 @@ include_once "../src/registrazione.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="registrazione.css" type="text/css">
+	<!-- css nella stessa cartella worka, perche'? boh, lasciatelo qui al momento !-->
+		<!-- modificato da napolitano, da provare -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>
         Registrazione Account
     </title>
-    <style>
-        body {
-            font-family: 'Open Sans', sans-serif;
-            background: linear-gradient(to left, #b9cfec, #b4c8d4);
-        }
-
-
-        #FormRegistrazione {
-            max-width: 600px;
-            margin: 4% auto;
-            background: linear-gradient(to bottom, #b4c8d4, #3979cc);
-            padding: 2%;
-            border-radius: 15px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        #FormRegistrazione h1 {
-            text-align: center;
-            color: #2370A6;
-            font-size: 36px;
-            margin-bottom: 33px;
-            font-family: 'Open Sans', sans-serif;
-        }
-
-        #FormRegistrazione label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-            font-size: 18px;
-            color: #ffffff;
-        }
-
-        #FormRegistrazione input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 6px;
-            box-sizing: border-box;
-            border: 1px solid #3979cc;
-        }
-
-        #FormRegistrazione input[type="submit"] {
-            background-color: #043370;
-            color: white;
-            font-weight: bold;
-            font-size: 17px;
-            padding: 10px 15px;
-            cursor: pointer;
-            border: none;
-            transition: .5s;
-
-        }
-
-        #FormRegistrazione input[type="submit"]:hover {
-            background-color: #BC2047;
-            transform: scale(1.03);
-        }
-
-
-        #FormRegistrazione img {
-            display: block;
-            margin: 0 auto;
-            width: 243px;
-            height: 138px;
-        }
-
-
-        .display {
-            display: inline-block;
-            margin-left: 10px;
-            font-size: 12px;
-            position: absolute;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            color: #4b4b4b;
-        }
-
-        .notDisplay {
-            display: none;
-        }
-
-        .fa-circle-question {
-            color: #2370A6;
-            transition: .5s;
-        }
-
-        .fa-circle-question:hover {
-            color: #BC2047;
-        }
-
-        @media (min-width: 768px) {}
-
-
-        @media (max-width: 767px) {
-            #FormRegistrazione {
-                max-width: 90%;
-            }
-
-            #FormRegistrazione img {
-                width: 45%;
-                height: 45%;
-            }
-
-            #FormRegistrazione h1 {
-                font-size: 30px;
-            }
-
-            #FormRegistrazione input {
-                width: 100%;
-                padding: 8px;
-                margin-bottom: 18px;
-                border-radius: 6px;
-                box-sizing: border-box;
-                border: 1px solid #3979cc;
-            }
-        }
-
-        a {
-            color: #BC2047;
-            font-weight: bold;
-
-        }
-    </style>
+   
 </head>
 
 <body>
-    <form method="post" id="FormRegistrazione">
+<div class="pre-header-container">
+        <header class="pre-header">
+            <h5>Sito dell'Aula Magna</h5>
+            <nav class="nav-bar-pre-header">
+                <?php
+                if($loggato) {
+                    echo '<a href="' . generaLinkRisorsa("public/profilo.php") . '" class="user-link"><img  src="resources/index/login.png" class="user-icon"></a>';
+                    echo '<a href="' . generaLinkRisorsa("src/logout.php") . '" class="user-link"><img src="resources/index/uscita.png" class="user-icon"></a>';
+                } else {
+                    echo '<a href="' . generaLinkRisorsa("public/login.php") . '" class="user-link"><img src="resources/index/login.png" class="user-icon"></a>';
+                }
+                ?>
+                
+            </nav>
+        </header>
+    </div>
+    
+    <div class="header-container">
+        <header class="header">
         <?php
         echo '<a href="' . generaLinkRisorsa() . '">';
         echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
         ?>
+            <nav class="nav-bar">
+                <?php
+                if ($loggato) {
+                    if ($admin) {
+                        echo '<a href="' . generaLinkRisorsa("public/prenotazioni_admin.php?ID=type-nonvisionati");
+                        echo '">Prenotazioni Admin</a>';
+                    }
+                    echo '<a href="' . generaLinkRisorsa("public/prenotazione.php") . '">Prenota</a>';
+                }
+                echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
+                ?>
+            </nav>
+            <div class="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+        </header>
+        <div class="mobile-menu" id="mobileMenu">
+            <?php
+            if ($loggato) {
+                if ($admin) {
+                    echo '<a href="' . generaLinkRisorsa("public/prenotazioni_admin.php?ID=type-nonvisionati");
+                    echo '">Prenotazioni <br>Admin</a>';
+                }
+                echo '<a href="' . generaLinkRisorsa("public/prenotazione.php") . '">Prenota</a>';
+                echo '<a href="' . generaLinkRisorsa("public/profilo.php") . '">Profilo</a>';
+                echo '<a href="' . generaLinkRisorsa("src/logout.php") . '">Esci</a>';
+            } else {
+                echo '<a href="' . generaLinkRisorsa("public/login.php") . '">Accedi</a>';
+                echo '<a href="' . generaLinkRisorsa("public/registrazione.php") . '">Registrati</a>';
+            }
+            ?>
+        </div>
+    </div>
+
+
+
+    <form method="post" id="FormRegistrazione">
+      
         </a>
 
         <h1>Registrazione</h1>
@@ -242,6 +177,23 @@ include_once "../src/registrazione.php";
             let element = document.getElementById("infopassword");
             element.classList.toggle("notDisplay");
         }
+
+
+        function toggleMobileMenu() {
+            var mobileMenu = document.getElementById("mobileMenu");
+            var menuToggle = document.querySelector(".menu-toggle");
+
+            if (mobileMenu.style.display === "block") {
+                mobileMenu.style.display = "none";
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>'; // Ripristina l'icona del menu
+                menuToggle.style.transform = "rotate(0deg)";
+            } else {
+                    mobileMenu.style.display = "block";
+                    menuToggle.innerHTML = '<i class="fas fa-times"></i>'; // Mostra la "x" per chiudere il menu
+                    menuToggle.style.transform = "rotate(90deg)";
+             }
+        }
+        
     </script>
     <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
 </body>

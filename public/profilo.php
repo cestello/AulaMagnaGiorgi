@@ -135,13 +135,13 @@ $lista_eventi = generaEventi();
         </a>
         <div class="profile-container">
             <h1>Email:
-                <?php echo $generalita[0]; ?>
+                <?php echo $generalita["email"]; ?>
             </h1>
             <h1>Nome:
-                <?php echo $generalita[1]; ?>
+                <?php echo $generalita["nome"]; ?>
             </h1>
             <h1>Cognome:
-                <?php echo $generalita[2]; ?>
+                <?php echo $generalita["cognome"]; ?>
             </h1>
         </div>
 
@@ -157,16 +157,18 @@ $lista_eventi = generaEventi();
                     echo "Ora inizio: " . $row["ora_inizio"] . "<br>";
                     echo "Ora fine: " . $row["ora_fine"] . "<br>";
                     echo "Stato: ";
-                    if ($row["stato"] === "0") {
+                    if ($row["stato"] === 0) {
                         echo "non visionato";
-                    } elseif ($row["stato"] === "1") {
+                    } elseif ($row["stato"] === 1) {
                         echo "accettato";
-                    } elseif ($row["stato"] === "2") {
+                    } elseif ($row["stato"] === 2) {
                         echo "rifiutato";
-                    } elseif ($row["stato"] === "3") {
+                    } elseif ($row["stato"] === 3) {
                         echo "annullato";
-                    } else {
+                    } elseif ($row["stato"] === 4) {
                         echo "scaduto";
+                    } else {
+                        echo "errore nel determinare lo stato";
                     }
                     echo "<br><br>";
                 }

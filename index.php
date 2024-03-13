@@ -14,24 +14,58 @@ if ($loggato) {
 ?>
 
 <!DOCTYPE html>
-<html lang="it-IT">
-
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="./public/css/index.css">
-    <title>
-        Index
-    </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./public/css/index.css" type="text/css">
+	<!-- css nella stessa cartella worka, perche'? boh, lasciatelo qui al momento !-->
+		<!-- modificato da napolitano, da provare -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Aula Magna</title>
 </head>
-
 <body>
-    <div id="paper-back">
-        <nav>
-            <div class="close"></div> <a href="./index.php">Home</a>
-            <a href="./public/calendario.php">Calendario</a>
+    <div class="pre-header-container">
+        <header class="pre-header">
+            <h5>Sito dell'Aula Magna</h5>
+            <nav class="nav-bar-pre-header">
+                <?php
+                if($loggato) {
+                    echo '<a href="' . generaLinkRisorsa("public/profilo.php") . '" class="user-link"><img  src="resources/index/login.png" class="user-icon"></a>';
+                    echo '<a href="' . generaLinkRisorsa("src/logout.php") . '" class="user-link"><img src="resources/index/uscita.png" class="user-icon"></a>';
+                } else {
+                    echo '<a href="' . generaLinkRisorsa("public/login.php") . '" class="user-link"><img src="resources/index/login.png" class="user-icon"></a>';
+                }
+                ?>
+                
+            </nav>
+        </header>
+    </div>
+    
+    <div class="header-container">
+        <header class="header">
+            <img src="resources/LogoGiorgi.png" alt=""><a href="#" class="logo"></a></img>
+            <nav class="nav-bar">
+                <?php
+                if ($loggato) {
+                    if ($admin) {
+                        echo '<a href="' . generaLinkRisorsa("public/prenotazioni_admin.php?ID=type-nonvisionati");
+                        echo '">Prenotazioni Admin</a>';
+                    }
+                    echo '<a href="' . generaLinkRisorsa("public/prenotazione.php") . '">Prenota</a>';
+                }
+                echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
+                ?>
+            </nav>
+            <div class="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+        </header>
+        <div class="mobile-menu" id="mobileMenu">
             <?php
             if ($loggato) {
                 if ($admin) {
-                    echo '<a href="' . generaLinkRisorsa("public/prenotazioni_admin.php");
+                    echo '<a href="' . generaLinkRisorsa("public/prenotazioni_admin.php?ID=type-nonvisionati");
                     echo '">Prenotazioni <br>Admin</a>';
                 }
                 echo '<a href="' . generaLinkRisorsa("public/prenotazione.php") . '">Prenota</a>';
@@ -42,98 +76,121 @@ if ($loggato) {
                 echo '<a href="' . generaLinkRisorsa("public/registrazione.php") . '">Registrati</a>';
             }
             ?>
-        </nav>
+        </div>
     </div>
-    <div id="paper-window">
-        <div id="paper-front">
-            <div class="hamburger"><span></span></div>
-            <div id="sectionFormat">
-                <h1>Aula Magna</h1>
-                <section>
-                    <div>
-                        <?php
-                        $linkMosaico = generaLinkRisorsa("resources/mosaico.gif");
+   
+    
+    <!-- <caurosel> -->
+    <div class="slideshow-container">
 
-                        $tag = '<a target="_blank" href="' . $linkMosaico;
-                        $tag .= '" class="image">';
-                        echo $tag;
-
-                        $tag = '<img src="' . $linkMosaico;
-                        $tag .= '" alt="Mosaico" width="800" height="200">';
-                        echo $tag;
-                        ?>
-                        </a>
-                    </div>
-                    <div>
-                        <h1>
-                            Particolare del mosaico dell'Aula Magna dell'I.T.T. "G. Giorgi"
-                            Dal 1975, l'Aula Magna dell'istituto ospita una pregiata opera d'arte, "Il mosaico del
-                            Progresso Scientifico e l'Uomo", fortemente significativa, ideata e progettata da Roberto
-                            Manni, eccellente artista salentino (1912-2003).
-                            L'opera fu eseguita da maestri musivi veneziani.
-                        </h1>
-                    </div>
-                </section>
-            </div>
+        <div class="mySlides fade">
+            <img src="resources/index/rsz_minimalist.jpg" style="width:100%">
+            <div class="text">Caption Text</div>
+        </div>
+    
+        <div class="mySlides fade">
+            <img src="resources/index/pexels-aleksandar-pasaric-325185.jpg" style="width:100%">
+            <div class="text">Caption Two</div>
+        </div>
+    
+        <div class="mySlides fade">
+            <img src="resources/index/pexels-bess-hamiti-36487.jpg" style="width:100%">
+            <div class="text">Caption Three</div>
         </div>
 
-        <!-- JAVASCRIPT -->
-        <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-        <script id="rendered-js">
-            let paperMenu = {
-                $window: $('#paper-window'),
-                $paperFront: $('#paper-front'),
-                $hamburger: $('.hamburger'),
-                offset: 1800,
-                pageHeight: $('#paper-front').outerHeight(),
-
-                open: function () {
-                    this.$window.addClass('tilt');
-                    this.$hamburger.off('click');
-                    $('#container, .hamburger').on('click', this.close.bind(this));
-                    this.hamburgerFix(true);
-                },
-                close: function () {
-                    this.$window.removeClass('tilt');
-                    $('#container, .hamburger').off('click');
-                    this.$hamburger.on('click', this.open.bind(this));
-                    this.hamburgerFix(false);
-                },
-                updateTransformOrigin: function () {
-                    let scrollTop = this.$window.scrollTop();
-                    let equation = (scrollTop + this.offset) / this.pageHeight * 100;
-                    this.$paperFront.css('transform-origin', 'center ' + equation + '%');
-                },
-                //hamburger icon fix to keep its position
-                hamburgerFix: function (opening) {
-                    if (opening) {
-                        $('.hamburger').css({
-                            position: 'absolute',
-                            top: this.$window.scrollTop() + 30 + 'px'
-                        });
-                    } else {
-                        setTimeout(function () {
-                            $('.hamburger').css({
-                                position: 'fixed',
-                                top: '30px'
-                            });
-                        }, 300);
-                    }
-                },
-                bindEvents: function () {
-                    this.$hamburger.on('click', this.open.bind(this));
-                    $('.close').on('click', this.close.bind(this));
-                    this.$window.on('scroll', this.updateTransformOrigin.bind(this));
-                },
-                init: function () {
-                    this.bindEvents();
-                    this.updateTransformOrigin();
-                },
-            };
-
-            paperMenu.init();
-        </script>
+        <div class="mySlides fade">
+            <img src="resources/index/pexels-james-wheeler-417074.jpg" style="width:100%">
+            <div class="text">Caption four</div>
+        </div>
+    
+        <a class="prev" onclick="plusSlides(-1)">❮</a>
+        <a class="next" onclick="plusSlides(1)">❯</a>
+    
     </div>
-</body>
+    <br>
+    
+    <div style="text-align:center">
+        <span class="dot" onclick="currentSlide(1)"></span> 
+        <span class="dot" onclick="currentSlide(2)"></span> 
+        <span class="dot" onclick="currentSlide(3)"></span> 
+        <span class="dot" onclick="currentSlide(4)"></span> 
+    </div>
 
+    <!-- <script> -->
+    <script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+    showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+    showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    let dots = document.getElementsByClassName("dot");
+    if (n > slides.length) {slideIndex = 1}    
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";  
+    }
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex-1].style.display = "block";  
+    dots[slideIndex-1].className += " active"; 
+    }
+
+    // Dichiarazione delle variabili globali per tenere traccia dell'indice della slide corrente
+
+let startX; // Posizione iniziale del tocco
+
+// Funzione per gestire l'evento di tocco iniziale
+function handleTouchStart(event) {
+  startX = event.touches[0].clientX; // Memorizza la posizione iniziale del tocco
+}
+
+// Funzione per gestire l'evento di tocco finale e determinare se deve essere effettuato uno swipe sinistro o destro
+function handleTouchEnd(event) {
+  let endX = event.changedTouches[0].clientX; // Posizione finale del tocco
+  let deltaX = startX - endX; // Distanza percorsa dal tocco
+
+  // Se la distanza percorsa è maggiore di un certo valore (ad esempio 50 pixel), considera il tocco come uno swipe
+  if (Math.abs(deltaX) > 50) {
+    if (deltaX > 0) {
+      // Swipe sinistro: vai alla slide successiva
+      plusSlides(1);
+    } else {
+      // Swipe destro: vai alla slide precedente
+      plusSlides(-1);
+    }
+  }
+}
+
+// Aggiungi gli eventi touchstart e touchend all'elemento slideshow-container
+document.querySelector('.slideshow-container').addEventListener('touchstart', handleTouchStart);
+document.querySelector('.slideshow-container').addEventListener('touchend', handleTouchEnd);
+    
+
+    function toggleMobileMenu() {
+    var mobileMenu = document.getElementById("mobileMenu");
+    var menuToggle = document.querySelector(".menu-toggle");
+
+    if (mobileMenu.style.display === "block") {
+        mobileMenu.style.display = "none";
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>'; // Ripristina l'icona del menu
+        menuToggle.style.transform = "rotate(0deg)";
+    } else {
+        mobileMenu.style.display = "block";
+        menuToggle.innerHTML = '<i class="fas fa-times"></i>'; // Mostra la "x" per chiudere il menu
+        menuToggle.style.transform = "rotate(90deg)";
+    }
+}
+</script> 
+    
+</body>
 </html>

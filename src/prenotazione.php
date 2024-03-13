@@ -17,15 +17,15 @@ function prenotaEvento($titolo, $data, $ora_inizio, $ora_fine, $descrizione, $em
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql_query = "INSERT INTO eventi(titolo, data, ora_inizio, ora_fine, descrizione, email)
-        VALUES('" . $titolo . "', DATE '" . $data . "','" . $ora_inizio . "', '" . $ora_fine . "', '"
-        . $descrizione . "', (SELECT email FROM utenti WHERE email='" . $email . "'));";
+    $stmt = $conn->prepare("INSERT INTO eventi(titolo, data, ora_inizio, ora_fine, descrizione, email)
+        VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email);
 
-    $query_answer = $conn->query($sql_query);
-    if ($query_answer === false) {
+    if (!$stmt->execute()) {
         $_SESSION['message'] = "Errore non previsto nella prenotazione";
     }
 
+    $stmt->close();
     $conn->close();
     header("Location: " . generaLinkRisorsa());
     die();
@@ -35,19 +35,16 @@ function prenotaEvento($titolo, $data, $ora_inizio, $ora_fine, $descrizione, $em
  * Controlla se esiste già un evento che si sovrappone con quello corrente.
  * Inoltre, restituisce i messaggi di errore in base al codice ricevuto.
  *
- * @param string $anno in cui ha luogo l'evento
- * @param string $mese in cui ha luogo l'evento
- * @param string $giorno in cui ha luogo l'evento
+ * @param string $data dell'evento
  * @param string $ora_inizio ora di inizio
  * @param string $ora_fine ora di fine
  * @param string $titolo dell'evento
  * @param string $descrizione dell'evento
  * @param string $email del richiedente
  */
-function eseguiPrenotazione($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo, $descrizione, $email)
+function eseguiPrenotazione($data, $ora_inizio, $ora_fine, $titolo, $descrizione, $email)
 {
-    $data = $anno . "-" . $mese . "-" . $giorno;
-    $status_code = inputIsValid($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo);
+    $status_code = inputIsValid($data, $ora_inizio, $ora_fine, $titolo);
     if (checkEventoEsistente($data, $ora_inizio, $ora_fine)) {
         if ($status_code === 0) {
             prenotaEvento($titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email);
@@ -105,12 +102,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descrizione = $_POST["descrizione"];
     $email = $_COOKIE['user'];
 
-    if ($year !== date("Y")) {
-        eseguiPrenotazione($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo, $descrizione, $email);
-    } elseif ($giorno >= date("l") && $mese >= date("m")) {
-        eseguiPrenotazione($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo, $descrizione, $email);
+    $data = completaData($anno . "-" . $mese . "-" . $giorno);
+    if (convalidaData($data)) {
+        if (controlloDataMaggiore($data) && controllaSeLoggato()) {
+            eseguiPrenotazione($data, $ora_inizio, $ora_fine, $titolo, $descrizione, $email);
+        } else {
+            $_SESSION['message'] = "Data " . $data . " non prenotabile";
+        }
     } else {
-        $_SESSION['message'] = "Non &egrave; possibile prenotare in un giorno precedente a quello corrente.";
+        $_SESSION['message'] = "Data inserita non valida";
     }
-    echo $_SESSION['messaggio'];
+    echo $_SESSION['message'];
 }

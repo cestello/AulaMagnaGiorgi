@@ -45,7 +45,7 @@ function generaLinkRisorsa($percorsoRisorsa = "")
  */
 function connectToDatabase()
 {
-    $servername = "mysql.giorgi.edu";
+    $servername = "mysql.giorgi.edu"; // NON DIVULGARE
     $username = "5aiu16";
     $password = "utenti";
     $dbname = "5ai23rizzello";
@@ -60,17 +60,22 @@ function connectToDatabase()
  * @param mysqli $conn connessione
  * @return bool se la mail viene già utilizzata
  */
-function isMailUsed($email, $conn)
+function isMailUsed($email)
 {
-    $sql_query = "SELECT email FROM utenti WHERE email = '" . $email . "';";
-
-    $query_answer = $conn->query($sql_query);
-    if ($query_answer->num_rows > 0) {
-        $conn->close();
-        return true;
+    $conn = connectToDatabase();
+    $stmt = $conn->prepare("SELECT email FROM utenti WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $isUsed = true;
+    if ($stmt->execute()) {
+        $stmt->store_result();
+        $isUsed = $stmt->num_rows > 0;
+    } else {
+        $_SESSION['message'] = "Errore non previsto durante il controllo dell&apos;email";
     }
 
-    return false;
+    $stmt->close();
+    $conn->close();
+    return $isUsed;
 }
 
 /**
@@ -136,6 +141,20 @@ function controlloDataCorrente($data)
 }
 
 /**
+ * Controlla se la data fornita sia maggiore o uguale alla data
+ * odierna
+ *
+ * @param string $data
+ * @return bool se la data è maggiore o uguale a quella giornaliera
+ */
+function controlloDataMaggiore($data)
+{
+    $differenza = date_diff(date_create(date("Y-m-d")), date_create($data));
+    $giorni = intval($differenza->format("%R%a"));
+    return $giorni > 0;
+}
+
+/**
  * Controlla che l'input abbia valori necessari validi
  *
  * @param int $anno dell'evento
@@ -146,16 +165,19 @@ function controlloDataCorrente($data)
  * @param string $titolo dell'evento
  * @return int codice di errore
  */
-function inputIsValid($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo)
+function inputIsValid($data, $ora_inizio, $ora_fine, $titolo)
 {
+    $anno = ottieniAnno($data);
     if (!isset($anno)) {
         return 1;
     }
-
+    
+    $mese = ottieniMese($data);
     if (!isset($mese)) {
         return 2;
     }
-
+    
+    $giorno = ottieniGiorno($data);
     if (!isset($giorno)) {
         return 3;
     }
@@ -172,7 +194,7 @@ function inputIsValid($anno, $mese, $giorno, $ora_inizio, $ora_fine, $titolo)
         return 6;
     }
 
-    if (!controlloDataCorrente($anno . "-" . $mese . "-" . $giorno)) {
+    if (!controlloDataCorrente($data)) {
         return 7;
     }
 
@@ -207,6 +229,68 @@ function controlloOra($ora_inizio_0, $ora_fine_0, $ora_inizio_1, $ora_fine_1)
 }
 
 /**
+ * Ottieni l'anno da una stringa rappresentante una data
+ * in un formato che inizi con l'anno (primi 4 caratteri)
+ *
+ * @param string $data data in formato stringa
+ * @return string i primi 4 caratteri rappresentanti l'anno
+ */
+function ottieniAnno($data)
+{
+    return substr($data, 0, 4);
+}
+
+/**
+ * Ottieni il mese da una stringa in un formato che possiede
+ * il mese nel mezzo (formato necessariamente da 2 caratteri)
+ *
+ * @param string $data in formato stringa
+ * @return string i 2 caratteri rappresentanti il mese
+ */
+function ottieniMese($data)
+{
+    return substr($data, 5, 2);
+}
+
+/**
+ * Ottieni il giorno da una stringa in un formato che possiede
+ * il giorno alla fine (necessariamente gli ultimi due caratteri)
+ *
+ * @param string $data in formato stringa
+ * @return string i 2 caratteri che rappresentano il giorno
+ */
+function ottieniGiorno($data)
+{
+    return substr($data, 8, 2);
+}
+
+/**
+ * Se la data fornita non è completa degli zeri prima di giorni
+ * e mesi, viene completata per facilitarne manipolazioni e confronti
+ *
+ * @param string $data in formato stringa
+ * @return string la data completa
+ */
+function completaData($data)
+{
+    $lunghezza = strlen($data);
+    if ($lunghezza === 8) {
+        $data = substr($data, 0, 5) . "0" . substr($data, 5, 2) . "0" . substr($data, 7, 2);
+    } elseif ($lunghezza === 9) {
+        // 0123456789
+        // 2222-11-00
+        if ($data[6] == "-") {
+            $data = substr($data, 0, 5) . "0" . substr($data, 5, 4);
+        } else {
+            $data = substr($data, 0, 7) . "0" . substr($data, 7, 2);
+        }
+    } elseif ($lunghezza !== 10) {
+        $data = "0000-00-00";
+    }
+    return $data;
+}
+
+/**
  * Controlla se esistono eventi che si sovrappongono a quello che si
  * vuole inserire
  *
@@ -214,7 +298,7 @@ function controlloOra($ora_inizio_0, $ora_fine_0, $ora_inizio_1, $ora_fine_1)
  * @param string $ora_inizio ora di inizio
  * @param string $ora_fine ora di fine
  * @param ?string $tipo di fine della funzione
- * @return bool|string
+ * @return bool|int
  */
 function checkEventoEsistente($data, $ora_inizio, $ora_fine, $tipo = false)
 {
@@ -222,34 +306,55 @@ function checkEventoEsistente($data, $ora_inizio, $ora_fine, $tipo = false)
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-
-    $sql_query = "SELECT * FROM eventi WHERE data='" . $data . "' AND stato=1;";
-    $query_answer = $conn->query($sql_query);
-    if ($query_answer === false) {
+    $data = completaData($data);
+    
+    $stmt = $conn->prepare("SELECT ID, ora_inizio, ora_fine FROM eventi WHERE data = ? AND stato = 1");
+    $stmt->bind_param("s", $data);
+    if (!$stmt->execute()) {
         $_SESSION['message'] = "Errore non previsto nella registrazione";
+        $stmt->close();
         $conn->close();
         return false;
     }
-
-    if ($query_answer->num_rows <= 0) {
+    
+    $stmt->store_result();
+    if ($stmt->num_rows <= 0) {
+        $stmt->close();
         $conn->close();
         return true;
     }
 
-    while ($row = $query_answer->fetch_assoc()) {
-        $row["ora_inizio"] = substr($row["ora_inizio"], 0, -3);
-        $row["ora_fine"] = substr($row["ora_fine"], 0, -3);
-        if (!controlloOra($row["ora_inizio"], $row["ora_fine"], $ora_inizio, $ora_fine)) {
+    $stmt->bind_result($id, $ora_inizio_altro, $ora_fine_altro);
+    while ($stmt->fetch()) {
+        $ora_inizio_altro = substr($ora_inizio_altro, 0, -3);
+        $ora_fine_altro = substr($ora_fine_altro, 0, -3);
+        if (!controlloOra($ora_inizio, $ora_fine, $ora_inizio_altro, $ora_fine_altro)) {
             $_SESSION['message'] = "Orario gi&agrave; prenotato";
+            $stmt->close();
             $conn->close();
             if ($tipo) {
-                return $row["ID"];
+                return $id;
             }
             return false;
         }
     }
+
+    $stmt->close();
     $conn->close();
     return true;
+}
+
+/**
+ * Controlla se una data sia valida (formato di default Y-m-d)
+ *
+ * @param string $data data sottoforma di stringa di 10 caratteri
+ * @param string $formato formato della data (opzionale)
+ * @return bool se la data è valida
+ */
+function convalidaData($data, $formato = 'Y-m-d')
+{
+    $d = DateTime::createFromFormat($formato, $data);
+    return $d && ($d->format($formato) === $data);
 }
 
 /**
@@ -266,21 +371,27 @@ function ottieniDataDaID($id)
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql_query = "SELECT * FROM eventi WHERE ID = " . $id . ";";
-    $query_answer = $conn->query($sql_query);
-    if ($query_answer === false || $query_answer->num_rows <= 0) {
+    $stmt = $conn->prepare("SELECT data, ora_inizio, ora_fine FROM eventi WHERE ID = ?");
+    $stmt->bind_param("i", $id);
+
+    if (!$stmt->execute()) {
         $_SESSION['message'] = "Errore non previsto nella query";
+        $stmt->close();
         $conn->close();
         return array(-1, -1, -1);
     }
-
-    if ($query_answer->num_rows <= 0) {
+    
+    $stmt->store_result();
+    if ($stmt->num_rows <= 0) {
+        $stmt->close();
         $conn->close();
         return array(0, 0, 0);
     }
 
-    $answer = $query_answer->fetch_assoc();
-    return array($answer["data"], $answer["ora_inizio"], $answer["ora_fine"]);
+    $stmt->bind_result($data, $ora_inizio, $ora_fine);
+    $stmt->close();
+    $conn->close();
+    return array($data, $ora_inizio, $ora_fine);
 }
 
 /**
@@ -330,38 +441,39 @@ function setupPrenotazioni($stato)
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql_query = "SELECT * FROM eventi WHERE stato = " . $stato . ";";
-    $query_answer = $conn->query($sql_query);
-    if ($query_answer === false) {
-        $_SESSION['message'] = "Errore nel collegamento";
+    $stmt = $conn->prepare("SELECT * FROM eventi WHERE stato = ?");
+    $stmt->bind_param("i", $stato);
+    if (!$stmt->execute()) {
+        $_SESSION['message'] = "Errore non previsto nella query";
+        $stmt->close();
         $conn->close();
         return;
     }
 
-    $records = array();
-    while ($row = $query_answer->fetch_assoc()) {
-        $records[] = $row;
-    }
-
-    if (empty($records)) {
+    $stmt->store_result();
+    if ($stmt->num_rows <= 0) {
         echo "Nessuna nuova prenotazione";
+        $stmt->close();
+        $conn->close();
         return;
     }
 
-    foreach ($records as $row) {
-        echo '<div class="events-container ' . $row["ID"] . '">';
-        echo "Nome: " . $row["titolo"] . "<br>" . "Richiesto da: " . $row["email"] . "<br>" .
-            "Data: " . $row["data"] . " Dalle ore: " . $row["ora_inizio"] . " alle " .
-            $row["ora_fine"] . "<br>";
+    $stmt->bind_result($id, $titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email, $stato);
+    while ($stmt->fetch()) {
+        echo '<div class="events-container ' . $id . '">';
+        echo "Nome: " . $titolo . "<br>" . "Richiesto da: " . $email . "<br>" .
+            "Data: " . $data . " Dalle ore: " . $ora_inizio . " alle " .
+            $ora_fine . "<br>";
 
-        if (isset($row["descrizione"]) && $row["descrizione"] !== "") {
-            echo "Descrizione: " . $row["descrizione"] . "<br>";
+        if (isset($descrizione) && $descrizione !== "") {
+            echo "Descrizione: " . $descrizione . "<br>";
         }
 
         echo "<br>";
-        setupTipoPrenotazioni($stato, $row["ID"]);
+        setupTipoPrenotazioni($stato, $id);
         echo "</div><br>";
     }
 
+    $stmt->close();
     $conn->close();
 }

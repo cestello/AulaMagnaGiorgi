@@ -1,26 +1,27 @@
 <?php
 
+include_once "../src/utils.php";
+
 /**
  * Effettua l'aggiornamento dello stato
  *
  * @param int $valore dello stato
  * @param int $id dell'evento
  */
-function aggiornaStato($valore, $id)
+function aggiornaStato($stato, $id)
 {
     $conn = connectToDatabase();
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql_query = "UPDATE eventi SET stato = " . $valore . " WHERE ID = " . $id . ";";
-    $query_answer = $conn->query($sql_query);
-    if ($query_answer === false) {
-        $_SESSION['message'] = "Errore nel collegamento";
-        $conn->close();
-        return;
+    $stmt = $conn->prepare("UPDATE eventi SET stato = ? WHERE ID = ?");
+    $stmt->bind_param("ii", $stato, $id);
+    if ($stmt->execute()) {
+        $_SESSION['message'] = "Errore non previsto durante l&apos;aggiornamento dello stato";
     }
 
+    $stmt->close();
     $conn->close();
 }
 
@@ -42,8 +43,8 @@ function gestisciPrenotazione($valore, $id)
 {
     if ($valore === 1) {
         $tmp = ottieniDataDaID($id);
-        $tmp[1] = substr($tmp[1], 0, -3);
-        $tmp[2] = substr($tmp[2], 0, -3); //ok
+        $tmp[1] = substr($tmp[1], 0, -3); //leva gli ultimi 3 caratteri
+        $tmp[2] = substr($tmp[2], 0, -3);
         if (!checkEventoEsistente($tmp[0], $tmp[1], $tmp[2])) {
             $_SESSION["message"] = "Giorno gia' prenotato";
         } else {
@@ -74,7 +75,7 @@ function gestisciInput($id, $tipo)
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
-    if (isset($_GET["ID"]) && isset($_GET["name"])) {
+    if (controllaSeLoggato() && controllaSeAdmin() && isset($_GET["ID"]) && isset($_GET["name"])) {
         gestisciInput($_REQUEST["ID"], $_REQUEST["name"]);
     }
 }

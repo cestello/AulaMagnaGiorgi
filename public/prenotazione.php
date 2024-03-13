@@ -178,12 +178,6 @@ include_once "../src/prenotazione.php";
             height: 138px;
         }
 
-        a {
-            color: #BC2047;
-            font-weight: bold;
-
-        }
-
         #from,
         #to,
         option {
@@ -263,7 +257,7 @@ include_once "../src/prenotazione.php";
         </div>
         <?php
         if (isset($_SESSION['message'])) {
-            echo "<h2>" . $_SESSION['message'] . "</h2>";
+            echo '<h2 style="color:white;">' . $_SESSION['message'] . '</h2>';
         }
         unset($_SESSION['message']);
         ?>
@@ -275,11 +269,13 @@ include_once "../src/prenotazione.php";
     <script>
         // Iniziale generazione del calendario per il mese e l'anno correnti
         const CURRENTDATE = new Date();
+        const ANNO = CURRENTDATE.getFullYear();
+        const MESE = CURRENTDATE.getMonth();
         visualizzaOrariValidi();
-        sceltaMesi(CURRENTDATE.getMonth());
-        sceltaAnni(CURRENTDATE.getFullYear());
+        sceltaAnni(ANNO);
+        sceltaMesi(MESE);
+        sceltaGiorni(ANNO, MESE, CURRENTDATE.getDate());
         aggiornaTabella();
-        sceltaGiorni(CURRENTDATE.getFullYear(), CURRENTDATE.getMonth(), CURRENTDATE.getDate());
     </script>
 </body>
 

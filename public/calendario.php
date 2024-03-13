@@ -84,7 +84,6 @@ include_once "../src/utils.php";
             border: 1px solid #ddd;
             padding: 20px;
             text-align: center;
-            cursor: pointer;
             font-weight: bold;
         }
 

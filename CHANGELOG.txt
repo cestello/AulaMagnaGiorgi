@@ -1,0 +1,3 @@
+11/03/2024	napolitano	modificato index.php (link file css)
+11/03/2024    	rizzello2400	inizio cambiamento menu con quello di michele
+13/03/2024      lafrance2400    modifiche in registrazione.php e creazione registrazione.css (ancora da completare)

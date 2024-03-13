@@ -8,34 +8,41 @@
  */
 function controllaSeLoggato()
 {
+    $loggato = false;
     if (isset($_COOKIE['user']) && isset($_COOKIE['pass'])) {
         $email = $_COOKIE['user'];
-        $password = $_COOKIE['pass'];
+        $hash_pwd = $_COOKIE['pass'];
+
         $conn = connectToDatabase();
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql_query = "SELECT password FROM utenti WHERE email = '" . $email . "';";
-        $query_answer = $conn->query($sql_query);
-        if ($query_answer === false || $query_answer->num_rows === 0) {
-            $_SESSION['message'] = "1 Nuh uh, 0 cookie vulnerability";
-            include_once "./logout.php";
-            $conn->close();
-        } else {
-            $row = $query_answer->fetch_assoc();
-            $db_password = $row["password"];
-            if ($password === $db_password) {
-                $conn->close();
-                return true;
+        $stmt = $conn->prepare("SELECT password FROM utenti WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        if ($stmt->execute()) {
+            if ($stmt->store_result() && $stmt->num_rows > 0) {
+                $stmt->bind_result($hash_pwd_db);
+                $stmt->fetch();
+                if ($hash_pwd === $hash_pwd_db) {
+                    $loggato = true;
+                } else {
+                    $_SESSION['message'] = "Cookie errato";
+                    $stmt->close();
+                    $conn->close();
+                    include_once "./logout.php";
+                }
             } else {
-                $_SESSION['message'] = "2 Nuh uh, 0 cookie vulnerability";
-                include_once "./logout.php";
+                $_SESSION['message'] = "Cookie errato";
+                $stmt->close();
                 $conn->close();
+                include_once "./logout.php";
             }
         }
+        $stmt->close();
+        $conn->close();
     }
-    return false;
+    return $loggato;
 }
 
 /**
@@ -47,20 +54,27 @@ function controllaSeLoggato()
 function controllaSeAdmin()
 {
     $email = $_COOKIE['user'];
+
     $conn = connectToDatabase();
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql_query = "SELECT admin FROM utenti WHERE email = '" . $email . "';";
-    $query_answer = $conn->query($sql_query);
-    if ($query_answer === false || $query_answer->num_rows === 0) {
-        $_SESSION['message'] = "1 Nuh uh, 0 cookie vulnerability";
-        include_once "./logout.php";
-        $conn->close();
-    } else {
-        $row = $query_answer->fetch_assoc();
-        return $row["admin"];
+    $stmt = $conn->prepare("SELECT admin FROM utenti WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $admin = false;
+    if ($stmt->execute()) {
+        if ($stmt->store_result() && $stmt->num_rows > 0) {
+            $stmt->bind_result($admin);
+            $stmt->fetch();
+        } else {
+            $_SESSION['message'] = "1 Nuh uh, 0 cookie vulnerability";
+            $conn->close();
+            $stmt->close();
+            include_once "./logout.php";
+        }
     }
-    return false;
+    $conn->close();
+    $stmt->close();
+    return $admin;
 }

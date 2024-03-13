@@ -25,7 +25,7 @@ function trovaTipo($tipo)
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
-    if (isset($_GET["ID"]) && $_GET["ID"] !== null) {
+    if (controllaSeLoggato() && controllaSeAdmin() && isset($_GET["ID"]) && $_GET["ID"] !== null) {
         trovaTipo($_REQUEST["ID"]);
     } else {
         echo "ID non valido";
