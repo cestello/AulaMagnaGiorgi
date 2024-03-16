@@ -58,7 +58,7 @@ function generaEventi()
     }
 
     $email = $_COOKIE["user"];
-    $stmt = $conn->prepare("SELECT * FROM eventi WHERE email = ?");
+    $stmt = $conn->prepare("SELECT * FROM eventi WHERE email = ? ORDER BY data DESC, ora_inizio ASC");
     $stmt->bind_param("s", $email);
 
     $result = array();

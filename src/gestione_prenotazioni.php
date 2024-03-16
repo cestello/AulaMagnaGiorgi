@@ -1,6 +1,7 @@
 <?php
 
 include_once "./utils.php";
+include_once "./check_cookie.php";
 
 /**
  * Trova il tipo di stato richiesto
@@ -12,7 +13,7 @@ function trovaTipo($tipo)
     if ($tipo === "type-nonvisionati") {
         setupPrenotazioni(0);
     } elseif ($tipo === "type-accettati") {
-        setupPrenotazioni(1);
+        setupPrenotazioni(1, true);
     } elseif ($tipo === "type-rifiutati") {
         setupPrenotazioni(2);
     } elseif ($tipo === "type-annullati") {

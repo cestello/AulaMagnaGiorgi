@@ -21,143 +21,58 @@ include_once "../src/registrazione.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/registrazione.css" type="text/css">
+    <!-- css nella stessa cartella worka, perche'? boh, lasciatelo qui al momento !-->
+    <!-- modificato da napolitano, da provare -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>
         Registrazione Account
     </title>
-    <style>
-        body {
-            font-family: 'Open Sans', sans-serif;
-            background: linear-gradient(to left, #b9cfec, #b4c8d4);
-        }
 
-
-        #FormRegistrazione {
-            max-width: 600px;
-            margin: 4% auto;
-            background: linear-gradient(to bottom, #b4c8d4, #3979cc);
-            padding: 2%;
-            border-radius: 15px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        #FormRegistrazione h1 {
-            text-align: center;
-            color: #2370A6;
-            font-size: 36px;
-            margin-bottom: 33px;
-            font-family: 'Open Sans', sans-serif;
-        }
-
-        #FormRegistrazione label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-            font-size: 18px;
-            color: #ffffff;
-        }
-
-        #FormRegistrazione input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 6px;
-            box-sizing: border-box;
-            border: 1px solid #3979cc;
-        }
-
-        #FormRegistrazione input[type="submit"] {
-            background-color: #043370;
-            color: white;
-            font-weight: bold;
-            font-size: 17px;
-            padding: 10px 15px;
-            cursor: pointer;
-            border: none;
-            transition: .5s;
-
-        }
-
-        #FormRegistrazione input[type="submit"]:hover {
-            background-color: #BC2047;
-            transform: scale(1.03);
-        }
-
-
-        #FormRegistrazione img {
-            display: block;
-            margin: 0 auto;
-            width: 243px;
-            height: 138px;
-        }
-
-
-        .display {
-            display: inline-block;
-            margin-left: 10px;
-            font-size: 12px;
-            position: absolute;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            color: #4b4b4b;
-        }
-
-        .notDisplay {
-            display: none;
-        }
-
-        .fa-circle-question {
-            color: #2370A6;
-            transition: .5s;
-        }
-
-        .fa-circle-question:hover {
-            color: #BC2047;
-        }
-
-        @media (min-width: 768px) {}
-
-
-        @media (max-width: 767px) {
-            #FormRegistrazione {
-                max-width: 90%;
-            }
-
-            #FormRegistrazione img {
-                width: 45%;
-                height: 45%;
-            }
-
-            #FormRegistrazione h1 {
-                font-size: 30px;
-            }
-
-            #FormRegistrazione input {
-                width: 100%;
-                padding: 8px;
-                margin-bottom: 18px;
-                border-radius: 6px;
-                box-sizing: border-box;
-                border: 1px solid #3979cc;
-            }
-        }
-
-        a {
-            color: #BC2047;
-            font-weight: bold;
-
-        }
-    </style>
 </head>
 
 <body>
+    <div class="pre-header-container">
+        <header class="pre-header">
+            <h5>Sito dell'Aula Magna</h5>
+            <nav class="nav-bar-pre-header">
+                <?php
+                echo '<a href="' . generaLinkRisorsa("public/login.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/index/login.png") . '" class="user-icon"></a>';
+                ?>
+
+            </nav>
+        </header>
+    </div>
+
+    <div class="header-container">
+        <header class="header">
+            <?php
+            echo '<a href="' . generaLinkRisorsa() . '">';
+            echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
+            ?>
+            <nav class="nav-bar">
+                <?php
+                echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
+                echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
+                ?>
+            </nav>
+            <div class="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+        </header>
+        <div class="mobile-menu" id="mobileMenu">
+            <?php
+            echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
+            echo '<a href="' . generaLinkRisorsa("public/login.php") . '">Accedi</a>';
+            echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
+            ?>
+        </div>
+    </div>
+
+
+
     <form method="post" id="FormRegistrazione">
-        <?php
-        echo '<a href="' . generaLinkRisorsa() . '">';
-        echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
-        ?>
+
         </a>
 
         <h1>Registrazione</h1>
@@ -183,8 +98,7 @@ include_once "../src/registrazione.php";
         </label>
         <input type="text" id="Cognome" name="Cognome" minlength="2" maxlength="64" required>
 
-        <label for="Email">Email: <span class="fa-regular fa-circle-question" onmouseover="emailinfo(true)"
-                onmouseout="emailinfo(false)"></span>
+        <label for="Email">Email: <span class="fa-regular fa-circle-question" onmouseover="emailinfo(true)" onmouseout="emailinfo(false)"></span>
             <span id="infoemail" class="display notDisplay">
                 Numero minimo di caratteri: 7<br>
                 Numero massimo di caratteri: 128
@@ -192,8 +106,7 @@ include_once "../src/registrazione.php";
         </label>
         <input type="email" id="Email" name="Email" minlength="7" maxlength="128" required>
 
-        <label for="Password">Password: <span class="fa-regular fa-circle-question" onmouseover="passwordinfo(true)"
-                onmouseout="passwordinfo(false)"></span>
+        <label for="Password">Password: <span class="fa-regular fa-circle-question" onmouseover="passwordinfo(true)" onmouseout="passwordinfo(false)"></span>
             <span id="infopassword" class="display notDisplay">
                 Numero minimo di caratteri: 8<br>
                 Numero massimo di caratteri: 64<br>
@@ -241,6 +154,22 @@ include_once "../src/registrazione.php";
         function passwordinfo() {
             let element = document.getElementById("infopassword");
             element.classList.toggle("notDisplay");
+        }
+
+
+        function toggleMobileMenu() {
+            var mobileMenu = document.getElementById("mobileMenu");
+            var menuToggle = document.querySelector(".menu-toggle");
+
+            if (mobileMenu.style.display === "block") {
+                mobileMenu.style.display = "none";
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>'; // Ripristina l'icona del menu
+                menuToggle.style.transform = "rotate(0deg)";
+            } else {
+                mobileMenu.style.display = "block";
+                menuToggle.innerHTML = '<i class="fas fa-times"></i>'; // Mostra la "x" per chiudere il menu
+                menuToggle.style.transform = "rotate(90deg)";
+            }
         }
     </script>
     <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
