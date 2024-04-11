@@ -21,49 +21,38 @@ include_once "../src/registrazione.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="registrazione.css" type="text/css">
-	<!-- css nella stessa cartella worka, perche'? boh, lasciatelo qui al momento !-->
-		<!-- modificato da napolitano, da provare -->
+    <link rel="stylesheet" href="./css/registrazione.css" type="text/css">
+    <!-- css nella stessa cartella worka, perche'? boh, lasciatelo qui al momento !-->
+    <!-- modificato da napolitano, da provare -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>
         Registrazione Account
     </title>
-   
+
 </head>
 
 <body>
-<div class="pre-header-container">
+    <div class="pre-header-container">
         <header class="pre-header">
             <h5>Sito dell'Aula Magna</h5>
             <nav class="nav-bar-pre-header">
                 <?php
-                if($loggato) {
-                    echo '<a href="' . generaLinkRisorsa("public/profilo.php") . '" class="user-link"><img  src="resources/index/login.png" class="user-icon"></a>';
-                    echo '<a href="' . generaLinkRisorsa("src/logout.php") . '" class="user-link"><img src="resources/index/uscita.png" class="user-icon"></a>';
-                } else {
-                    echo '<a href="' . generaLinkRisorsa("public/login.php") . '" class="user-link"><img src="resources/index/login.png" class="user-icon"></a>';
-                }
+                echo '<a href="' . generaLinkRisorsa("public/login.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/index/login.png") . '" class="user-icon"></a>';
                 ?>
-                
+
             </nav>
         </header>
     </div>
-    
+
     <div class="header-container">
         <header class="header">
-        <?php
-        echo '<a href="' . generaLinkRisorsa() . '">';
-        echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
-        ?>
+            <?php
+            echo '<a href="' . generaLinkRisorsa() . '">';
+            echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
+            ?>
             <nav class="nav-bar">
                 <?php
-                if ($loggato) {
-                    if ($admin) {
-                        echo '<a href="' . generaLinkRisorsa("public/prenotazioni_admin.php?ID=type-nonvisionati");
-                        echo '">Prenotazioni Admin</a>';
-                    }
-                    echo '<a href="' . generaLinkRisorsa("public/prenotazione.php") . '">Prenota</a>';
-                }
+                echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
                 echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
                 ?>
             </nav>
@@ -73,18 +62,9 @@ include_once "../src/registrazione.php";
         </header>
         <div class="mobile-menu" id="mobileMenu">
             <?php
-            if ($loggato) {
-                if ($admin) {
-                    echo '<a href="' . generaLinkRisorsa("public/prenotazioni_admin.php?ID=type-nonvisionati");
-                    echo '">Prenotazioni <br>Admin</a>';
-                }
-                echo '<a href="' . generaLinkRisorsa("public/prenotazione.php") . '">Prenota</a>';
-                echo '<a href="' . generaLinkRisorsa("public/profilo.php") . '">Profilo</a>';
-                echo '<a href="' . generaLinkRisorsa("src/logout.php") . '">Esci</a>';
-            } else {
-                echo '<a href="' . generaLinkRisorsa("public/login.php") . '">Accedi</a>';
-                echo '<a href="' . generaLinkRisorsa("public/registrazione.php") . '">Registrati</a>';
-            }
+            echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
+            echo '<a href="' . generaLinkRisorsa("public/login.php") . '">Accedi</a>';
+            echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
             ?>
         </div>
     </div>
@@ -92,7 +72,7 @@ include_once "../src/registrazione.php";
 
 
     <form method="post" id="FormRegistrazione">
-      
+
         </a>
 
         <h1>Registrazione</h1>
@@ -118,8 +98,7 @@ include_once "../src/registrazione.php";
         </label>
         <input type="text" id="Cognome" name="Cognome" minlength="2" maxlength="64" required>
 
-        <label for="Email">Email: <span class="fa-regular fa-circle-question" onmouseover="emailinfo(true)"
-                onmouseout="emailinfo(false)"></span>
+        <label for="Email">Email: <span class="fa-regular fa-circle-question" onmouseover="emailinfo(true)" onmouseout="emailinfo(false)"></span>
             <span id="infoemail" class="display notDisplay">
                 Numero minimo di caratteri: 7<br>
                 Numero massimo di caratteri: 128
@@ -127,8 +106,7 @@ include_once "../src/registrazione.php";
         </label>
         <input type="email" id="Email" name="Email" minlength="7" maxlength="128" required>
 
-        <label for="Password">Password: <span class="fa-regular fa-circle-question" onmouseover="passwordinfo(true)"
-                onmouseout="passwordinfo(false)"></span>
+        <label for="Password">Password: <span class="fa-regular fa-circle-question" onmouseover="passwordinfo(true)" onmouseout="passwordinfo(false)"></span>
             <span id="infopassword" class="display notDisplay">
                 Numero minimo di caratteri: 8<br>
                 Numero massimo di caratteri: 64<br>
@@ -188,12 +166,11 @@ include_once "../src/registrazione.php";
                 menuToggle.innerHTML = '<i class="fas fa-bars"></i>'; // Ripristina l'icona del menu
                 menuToggle.style.transform = "rotate(0deg)";
             } else {
-                    mobileMenu.style.display = "block";
-                    menuToggle.innerHTML = '<i class="fas fa-times"></i>'; // Mostra la "x" per chiudere il menu
-                    menuToggle.style.transform = "rotate(90deg)";
-             }
+                mobileMenu.style.display = "block";
+                menuToggle.innerHTML = '<i class="fas fa-times"></i>'; // Mostra la "x" per chiudere il menu
+                menuToggle.style.transform = "rotate(90deg)";
+            }
         }
-        
     </script>
     <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
 </body>
