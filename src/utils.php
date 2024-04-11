@@ -434,14 +434,21 @@ function setupTipoPrenotazioni($stato, $id)
  *
  * @param int $stato selezionato
  */
-function setupPrenotazioni($stato)
+function setupPrenotazioni($stato, $type = false)
 {
     $conn = connectToDatabase();
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $stmt = $conn->prepare("SELECT * FROM eventi WHERE stato = ?");
+    if(!$type) {
+        $stmt = $conn->prepare("SELECT * FROM eventi WHERE stato = ? ORDER BY data DESC, ora_inizio ASC");
+    }
+    else {  
+        $stmt = $conn->prepare("SELECT * FROM eventi WHERE stato = ? AND data >= CURDATE()
+        ORDER BY data DESC, ora_inizio ASC");
+    }
+
     $stmt->bind_param("i", $stato);
     if (!$stmt->execute()) {
         $_SESSION['message'] = "Errore non previsto nella query";

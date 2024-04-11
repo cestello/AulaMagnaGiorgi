@@ -1,0 +1,412 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Titillium Web,sans-serif;
+}
+
+.main-content {
+  margin-top: 100px; /* Assicura che il contenuto non venga sovrapposto dall'header */
+ 
+}
+
+
+.header-container {
+  position: fixed;
+  top: 60px; /* Altezza del pre-header */
+  width: 100%;
+  z-index: 1000;
+ 
+}
+
+.header {
+  width: 100%;
+  padding: 3px 150px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  margin-bottom: 20px;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.pre-header-container {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  
+}
+
+
+ .pre-header {
+    overflow: hidden;
+    width: 100%;
+    padding: 10px 150px;
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #51758d;
+    color: #ffffff;
+}
+
+span {
+  color: #ffffff;
+}
+
+.header img {
+  width: 121px;
+  height: 70px;
+}
+
+.user-icon {
+    width: 35px;
+    height: 35px;
+}
+
+.user-icon:hover {
+  transform: scale(1.1); 
+  transition: transform 0.8s ease;
+}
+
+.nav-bar-pre-header a{
+  position: relative;
+  font-size: 18px;
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 40px;
+}
+
+.nav-bar-pre-header a::before{
+  content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #000;
+    transition: .3s;
+}
+
+.nav-bar a {
+    position: relative;
+    font-size: 18px;
+    color: #000;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 40px;
+}
+
+.nav-bar a::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #000;
+    transition: .3s;
+}
+
+.pre-header .nav-bar a::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #ffffff;
+  transition: .3s;
+}
+
+.nav-bar a:hover::before {
+    width: 100%;
+}
+
+
+
+ 
+  .mobile-menu {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+
+/*registrazione*/
+
+  #FormRegistrazione {
+    margin: 0 auto;
+    margin-top: 150px;
+    max-width: 400px;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+}
+
+#FormRegistrazione h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#FormRegistrazione label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#FormRegistrazione input[type="text"],
+#FormRegistrazione input[type="email"],
+#FormRegistrazione input[type="password"] {
+    width: calc(100% - 10px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#FormRegistrazione input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #51758d;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#FormRegistrazione input[type="submit"]:hover {
+    background-color: #43667e;
+}
+
+#forgot-pass {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #51758d;
+}
+
+#forgot-pass:hover {
+    color: #43667e;
+}
+
+.display {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 12px;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  color: #4b4b4b;
+}
+
+.notDisplay {
+  display: none;
+}
+
+.fa-circle-question {
+  color: #2370A6;
+  transition: .5s;
+}
+
+.fa-circle-question:hover{
+  color: #BC2047;
+}
+  /* stile per laptop dimensioni s*/
+@media only screen and (max-width: 1050px) {
+  .header {
+    padding: 3px 70px;
+}
+
+.pre-header {
+    padding: 10px 70px;
+}
+
+}
+
+
+
+/* Stili per schermi di dimensioni massime (tablet) */
+@media only screen and (max-width: 890px) {
+  .header {
+      padding: 3px 30px;
+  }
+  
+  .pre-header {
+      padding: 10px 30px;
+  }
+
+  .nav-bar a {
+      margin-left: 20px;
+  }
+
+  .slideshow-container {
+      max-width: 600px;
+      margin: auto;
+      margin-top: 200px;
+  }
+
+  .nav-bar a {
+    display: none; 
+}
+
+.menu-toggle {
+  display: inline-block; 
+  margin: 2px; 
+  display: inline-block;
+  font-size: 45px; 
+  color: #333; 
+  cursor: pointer; 
+  transition: color 0.7s ease;
+  transition: transform 0.5s ease;
+
+}
+
+
+
+.menu-toggle:hover {
+  color: #51758d; 
+  
+}
+
+
+
+.mobile-menu {
+  position: relative ;
+  top: 100%; 
+  width: 100%; 
+  background-color: #51758d;
+  margin-bottom: 10px;
+  overflow-y: auto;
+}
+
+.mobile-menu a {
+  font-size: 18px;
+  display: block;
+  font-weight: normal;
+  padding: 12px;
+  margin: 2px;
+  text-align: center;
+  text-decoration: none;
+  border: solid;
+  color: #ffffff;
+  overflow:scroll;
+}
+
+
+.mobile-menu a:hover {
+  background-color: #43667e;
+}
+}
+
+@media only screen and (max-width: 479px){
+
+}
+
+/* Stili per schermi di piccole dimensioni (smartphone) */
+@media only screen and (max-width: 479px) {
+  .header {
+      padding: 3px  20px;
+  }
+  
+  .pre-header {
+      padding: 10px 20px;
+  }
+
+  .nav-bar {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .nav-bar a {
+      padding: 8px;
+  }
+
+  .nav-bar-pre-header{
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.nav-bar-pre-header a {
+    padding: 2px;
+    margin-left: 20px;
+}
+
+  .slideshow-container {
+      max-width: 300px;
+      max-height: 200px;
+      margin: auto;
+      margin-top: 200px;
+  }
+
+  .prev, .next {
+      font-size: 14px;
+  }
+
+  .dot{
+    height: 10px;
+    width: 10px;
+  }
+
+.nav-bar a {
+    display: none; 
+}
+
+.menu-toggle {
+  display: inline-block; 
+  margin: 2px; 
+  display: inline-block;
+  font-size: 45px; 
+  color: #333; 
+  cursor: pointer; 
+  transition: color 0.7s ease;
+  transition: transform 0.5s ease;
+
+}
+
+
+
+.menu-toggle:hover {
+  color: #51758d; 
+  
+}
+
+
+
+.mobile-menu {
+  position: relative ;
+  top: 100%; 
+  width: 100%; 
+  background-color: #51758d;
+  margin-bottom: 10px;
+}
+
+.mobile-menu a {
+  font-size: 18px;
+  display: block;
+  font-weight: normal;
+  padding: 12px;
+  margin: 2px;
+  text-align: center;
+  text-decoration: none;
+  border: solid;
+  color: #ffffff;
+  
+}
+
+
+.mobile-menu a:hover {
+  background-color: #43667e;
+}
+
+}
