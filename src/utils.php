@@ -442,7 +442,7 @@ function setupPrenotazioni($stato, $type = false)
     }
 
     if(!$type) {
-        $stmt = $conn->prepare("SELECT * FROM eventi WHERE stato = ? ORDER BY data DESC, ora_inizio ASC");
+        $stmt = $conn->prepare("SELECT * FROM eventi WHERE stato = ? ORDER BY data ASC, ora_inizio ASC");
     }
     else {  
         $stmt = $conn->prepare("SELECT * FROM eventi WHERE stato = ? AND data >= CURDATE()

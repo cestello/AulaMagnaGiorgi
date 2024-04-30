@@ -64,7 +64,7 @@ function generaEventi()
     $result = array();
     if ($stmt->execute()) {
         $stmt->store_result();
-        $stmt->bind_result($id, $titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email_r, $stato);
+        $stmt->bind_result($id, $titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email_r, $stato, $professore_referente, $posti);
         while ($stmt->fetch()) {
             $row = array(
                 "ID" => $id,
@@ -74,7 +74,9 @@ function generaEventi()
                 "ora_fine" => $ora_fine,
                 "descrizione" => $descrizione,
                 "email" => $email_r,
-                "stato" => $stato
+                "stato" => $stato,
+                "professore_referente" => $professore_referente,
+                "posti" => $posti
             );
             $result[] = $row;
         }

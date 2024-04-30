@@ -175,7 +175,11 @@ include_once "../src/prenotazioni_admin.php";
             <h2>
                 <div class="events-container" id="events-container">
                     <?php
-                    if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
+                    if ($_SERVER["REQUEST_METHOD"] == "GET" && empty($_GET)) {
+                        setupPrenotazioni(0);
+                    } else if($tipo = convertiTipo($_GET["ID"]) !== -1) {
+                        setupPrenotazioni($tipo);
+                    } else {
                         setupPrenotazioni(0);
                     }
 

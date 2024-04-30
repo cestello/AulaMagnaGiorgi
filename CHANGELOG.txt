@@ -19,3 +19,6 @@
 30/04/2024  rizzello2400
     -Aggiunto il controllo automatico degli eventi scaduti ad ogni ricarica della pagina public/prenotazioni_admin  #TEMPORANEAMENTE DISABILITATA
     -Aggiornamento insert di prenotazioni, ed aggiunta delle diverse strumentazioni richieste
+    -Diversi fix a prenotazioni_admin (nel caso i parametri nella get per visualizzare i diversi tipi di eventi fossero sbagliati
+    andra in non visualizzati; quando si fara' una qualsiasi azione: accettare, rifiutare, annullare, si verra' renderizzati a
+    non visionati)

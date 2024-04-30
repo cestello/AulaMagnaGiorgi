@@ -66,6 +66,25 @@ function gestisciInput($id, $tipo)
     }
 }
 
+function convertiTipo($tipo) {
+    if ($tipo === "type-nonvisionati")
+        return 0;
+    
+    if ($tipo === "type-accettati") 
+        return 1;
+    
+    if ($tipo === "type-rifiutati") 
+        return 2;
+    
+    if ($tipo === "type-annullati") 
+        return 3;
+    
+    if ($tipo === "type-scaduti") 
+        return 4;
+    
+    return -1;
+}
+
 function controllaScaduti() {
     $conn = connectToDatabase();
     if ($conn->connect_error) {
