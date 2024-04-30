@@ -22,94 +22,402 @@ include_once "../src/login.php";
 <head>
     <title>Login</title>
     <style>
-        body {
-            font-family: 'Open Sans', sans-serif;
-            background: linear-gradient(to left, #b9cfec, #b4c8d4);
-        }
+      * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Titillium Web, sans-serif;
+}
 
-        #form-container {
-            display: block;
-            justify-content: center;
-            align-items: center;
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 100px;
-        }
+#form-container {
+    margin: 0 auto;
+    margin-top: 200px;
+    max-width: 400px;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+}
 
-        #formLogin {
+#formLogin h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
-            margin: 4% auto;
-            background: linear-gradient(to bottom, #b4c8d4, #3979cc);
-            padding: 35px;
-            border-radius: 15px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+#formLogin label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#formLogin input[type="text"],
+#formLogin input[type="password"] {
+    width: calc(100% - 10px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#formLogin input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #51758d;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#formLogin input[type="submit"]:hover {
+    background-color: #43667e;
+}
+
+#formLogin a {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #51758d;
+}
+
+#formLogin a:hover {
+    color: #43667e;
+}
+
+span {
+    color: #ffffff;
+}
+
+.header-container {
+  position: fixed;
+  top: 60px; /* Altezza del pre-header */
+  width: 100%;
+  z-index: 1000;
+ 
+}
+
+.header {
+  width: 100%;
+  padding: 3px 150px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  margin-bottom: 20px;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.pre-header-container {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  
+}
 
 
-        }
+ .pre-header {
+    overflow: hidden;
+    width: 100%;
+    padding: 10px 150px;
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #51758d;
+    color: #ffffff;
+}
 
-        #formLogin h1 {
-            text-align: center;
-            color: #2370A6;
-            font-size: 36px;
-            margin-bottom: 33px;
-            font-family: 'Open Sans', sans-serif;
-        }
+span {
+  color: #ffffff;
+}
 
-        #formLogin label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-            font-size: 18px;
-            color: #ffffff;
-        }
+.header img {
+  width: 121px;
+  height: 70px;
+}
 
-        #formLogin input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-        }
+.user-icon {
+    width: 35px;
+    height: 35px;
+}
 
-        #formLogin input[type="submit"] {
-            background-color: #043370;
-            color: white;
-            font-weight: bold;
-            font-size: 17px;
-            padding: 10px 15px;
-            cursor: pointer;
-            border: none;
-            transition: .5s;
-        }
+.user-icon:hover {
+  transform: scale(1.1); 
+  transition: transform 0.8s ease;
+}
 
-        #formLogin input[type="submit"]:hover {
-            background-color: #BC2047;
-            transform: scale(1.03);
-        }
+.nav-bar-pre-header a{
+  position: relative;
+  font-size: 18px;
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 40px;
+}
+
+.nav-bar-pre-header a::before{
+  content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #000;
+    transition: .3s;
+}
+
+.nav-bar a {
+    position: relative;
+    font-size: 18px;
+    color: #000;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 40px;
+}
+
+.nav-bar a::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #000;
+    transition: .3s;
+}
+
+.pre-header .nav-bar a::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #ffffff;
+  transition: .3s;
+}
+
+.nav-bar a:hover::before {
+    width: 100%;
+}
 
 
-        #formLogin img {
-            display: block;
-            margin: 0 auto;
-            width: 243px;
-            height: 138px;
-        }
 
-        a {
-            color: #BC2047;
-            font-weight: bold;
+ 
+  .mobile-menu {
+    display: none;
+  }
 
-        }
+  .menu-toggle {
+    display: none;
+  }
+
+ /* stile per laptop dimensioni s*/
+ @media only screen and (max-width: 1050px) {
+  .header {
+    padding: 3px 70px;
+}
+
+.pre-header {
+    padding: 10px 70px;
+}
+
+}
+
+
+
+/* Stili per schermi di dimensioni massime (tablet) */
+@media only screen and (max-width: 890px) {
+  .header {
+      padding: 3px 30px;
+  }
+  
+  .pre-header {
+      padding: 10px 30px;
+  }
+
+  .nav-bar a {
+      margin-left: 20px;
+  }
+
+
+  .nav-bar a {
+    display: none; 
+}
+
+.menu-toggle {
+  display: inline-block; 
+  margin: 2px; 
+  display: inline-block;
+  font-size: 45px; 
+  color: #333; 
+  cursor: pointer; 
+  transition: color 0.7s ease;
+  transition: transform 0.5s ease;
+
+}
+
+
+
+
+.mobile-menu {
+  position: relative ;
+  top: 100%; 
+  width: 100%; 
+  background-color: #51758d;
+  margin-bottom: 10px;
+  overflow-y: auto;
+}
+
+.mobile-menu a {
+  font-size: 18px;
+  display: block;
+  font-weight: normal;
+  padding: 12px;
+  margin: 2px;
+  text-align: center;
+  text-decoration: none;
+  border: solid;
+  color: #ffffff;
+  overflow:scroll;
+}
+
+
+.mobile-menu a:hover {
+  background-color: #43667e;
+}
+}
+
+@media only screen and (max-width: 479px){
+
+}
+
+/* Stili per schermi di piccole dimensioni (smartphone) */
+@media only screen and (max-width: 479px) {
+  .header {
+      padding: 3px  20px;
+  }
+  
+  .pre-header {
+      padding: 10px 20px;
+  }
+
+  .nav-bar {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .nav-bar a {
+      padding: 8px;
+  }
+
+  .nav-bar-pre-header{
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.nav-bar-pre-header a {
+    padding: 2px;
+    margin-left: 20px;
+}
+
+
+
+.nav-bar a {
+    display: none; 
+}
+
+.menu-toggle {
+  display: inline-block; 
+  margin: 2px; 
+  display: inline-block;
+  font-size: 45px; 
+  color: #333; 
+  cursor: pointer; 
+  transition: color 0.7s ease;
+  transition: transform 0.5s ease;
+
+}
+
+
+
+
+.mobile-menu {
+  position: relative ;
+  top: 100%; 
+  width: 100%; 
+  background-color: #51758d;
+  margin-bottom: 10px;
+}
+
+.mobile-menu a {
+  font-size: 18px;
+  display: block;
+  font-weight: normal;
+  padding: 12px;
+  margin: 2px;
+  text-align: center;
+  text-decoration: none;
+  border: solid;
+  color: #ffffff;
+  
+}
+
+
+.mobile-menu a:hover {
+  background-color: #43667e;
+}
+
+}
     </style>
 </head>
 
 <body>
+    <div class="pre-header-container">
+        <header class="pre-header">
+            <h5>Sito dell'Aula Magna</h5>
+            <nav class="nav-bar-pre-header">
+                <?php
+                echo '<a href="' . generaLinkRisorsa("public/login.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/index/login.png") . '" class="user-icon"></a>';
+                ?>
+
+            </nav>
+        </header>
+    </div>
+
+    <div class="header-container">
+        <header class="header">
+            <?php
+            echo '<a href="' . generaLinkRisorsa() . '">';
+            echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
+            ?>
+            <nav class="nav-bar">
+                <?php
+                echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
+                echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
+                ?>
+            </nav>
+            <div class="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+        </header>
+        <div class="mobile-menu" id="mobileMenu">
+            <?php
+            echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
+            echo '<a href="' . generaLinkRisorsa("public/login.php") . '">Accedi</a>';
+            echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
+            ?>
+        </div>
+    </div>
+
     <div id="form-container">
         <form method="post" id="formLogin">
             <?php
             echo '<a href="' . generaLinkRisorsa() . '">';
-            echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
             ?>
             </a>
             <h1>Login</h1><br>
@@ -139,6 +447,24 @@ include_once "../src/login.php";
             </div>
         </form>
     </div>
+    <script>
+function toggleMobileMenu() {
+            var mobileMenu = document.getElementById("mobileMenu");
+            var menuToggle = document.querySelector(".menu-toggle");
+
+            if (mobileMenu.style.display === "block") {
+                mobileMenu.style.display = "none";
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>'; // Ripristina l'icona del menu
+                menuToggle.style.transform = "rotate(0deg)";
+            } else {
+                mobileMenu.style.display = "block";
+                menuToggle.innerHTML = '<i class="fas fa-times"></i>'; // Mostra la "x" per chiudere il menu
+                menuToggle.style.transform = "rotate(90deg)";
+            }
+        }
+</script>
+<script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
 </body>
+
 
 </html>

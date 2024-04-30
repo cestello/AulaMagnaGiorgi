@@ -23,6 +23,19 @@ if ($loggato) {
 		<!-- modificato da napolitano, da provare -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Aula Magna</title>
+    <style>
+            .slideshow-container {
+                width: 500px; /* larghezza del contenitore */
+                height: 600px; /* altezza del contenitore */
+                overflow: hidden; /* per assicurarsi che l'immagine non sfori il contenitore */
+            }
+
+            .slideshow-container img {
+                width: 100%; /* rende l'immagine larga quanto il contenitore */
+                height: auto; /* mantiene l'aspetto proporzionato */
+                display: block; /* assicura che l'immagine non abbia spazi vuoti intorno */
+            }
+</style>
 </head>
 <body>
     <div class="pre-header-container">
@@ -82,27 +95,51 @@ if ($loggato) {
     
     <!-- <caurosel> -->
     <div class="slideshow-container">
+    
+        <div class="mySlides fade">
+            <img src="resources/index/DJI_0572.jpg" style="width:100%">
+            <div class="text">"Nella porzione superiore del mosaico emerge la scena iconica del mito di Dedalo e Icaro, con Icaro che precipita dopo essersi avvicinato troppo al sole, simboleggiando il fallimento umano nell'ambizione eccessiva. Questo episodio rappresenta il nucleo narrativo del mosaico, intitolato 'Dallo Sviluppo della Scienza all'Uomo'.
+Nella sezione inferiore, si individua un affresco che richiama le pitture rupestri, ritraendo una tribù armata di archi in un'azione di caccia. 
+Questa combinazione di elementi offre una rappresentazione simbolica della trasformazione umana nel contesto dell'evoluzione scientifica e sociale."
+            </div>
+        </div>
+    
+        <div class="mySlides fade">
+            <img src="resources/index/DJI_0573.jpg" style="width:100%">
+            <div class="text">"In questa parte del mosaico, continua il progresso dell'umanità attraverso elementi distintivi. Innanzitutto, si osserva l'uomo nell'atto di addestrare il cavallo, segnando un momento cruciale in cui l'essere umano inizia a dominare gli animali per facilitare i propri spostamenti, con il cavallo che assume un ruolo fondamentale nei primi viaggi dell'uomo. In aggiunta, emerge la maestosità di un tempio greco, simbolo tangibile dell'evoluzione dell'architettura e della civiltà. Nell'apice dell'immagine, invece, si distingue un ulivo, icona di rigenerazione, vita e pace, aggiungendo una nota di speranza e tranquillità al quadro complessivo."
+            </div>
+        </div>
 
         <div class="mySlides fade">
-            <img src="resources/index/rsz_minimalist.jpg" style="width:100%">
-            <div class="text">Caption Text</div>
-        </div>
-    
-        <div class="mySlides fade">
-            <img src="resources/index/pexels-aleksandar-pasaric-325185.jpg" style="width:100%">
-            <div class="text">Caption Two</div>
-        </div>
-    
-        <div class="mySlides fade">
-            <img src="resources/index/pexels-bess-hamiti-36487.jpg" style="width:100%">
-            <div class="text">Caption Three</div>
+            <img src="resources/index/DJI_0576.jpg" style="width:100%">
+            <div class="text">"In questa sezione del mosaico, viene rappresentato il processo di urbanizzazione umana attraverso la costruzione di castelli, concepiti come fortezze difensive contro le incursioni dei Saraceni che, navigando nel Mar Tirreno, minacciavano le città italiane con atti di saccheggio. Si osserva la presenza di una croce, simbolo emblematico del cristianesimo, nato nel primo secolo dopo Cristo. Questi elementi delineano il contesto storico e culturale dell'epoca, con l'urbanizzazione che si accompagna alla diffusione del cristianesimo nella società medievale."
+            </div>
         </div>
 
         <div class="mySlides fade">
-            <img src="resources/index/pexels-james-wheeler-417074.jpg" style="width:100%">
-            <div class="text">Caption four</div>
+            <img src="resources/index/DJI_0575.jpg" style="width:100%">
+            <div class="text">"In questa parte del mosaico, ci troviamo tra il XV e il XVI secolo, un periodo di notevole avanzamento nelle discipline della medicina, dell'astronomia e della geometria, con Leonardo da Vinci in primo piano. Si evidenzia l'introduzione della prospettiva aerea, attribuita a Leonardo, che rivoluzionò l'arte e la rappresentazione visiva. Si osserva il serpente, simbolo dell'utilizzo del veleno nella preparazione di medicine, a indicare i progressi nella scienza medica. In alto, è raffigurato il teorema di Keplero, formulato dallo scienziato Johannes Kepler, che enunciò le tre leggi del moto planetario, confermando il modello eliocentrico del sistema solare. Questi elementi testimoniano il fervore intellettuale e scientifico del Rinascimento, con figure come Leonardo e Keplero che lasciarono un'impronta indelebile nello sviluppo del sapere umano."
+            </div>   
         </div>
-    
+
+        <div class="mySlides fade">
+            <img src="resources/index/DJI_0577.jpg" style="width:100%">
+            <div class="text">"In questa fase rappresentata nel mosaico, ci immergiamo nell'epoca della prima rivoluzione industriale, caratterizzata dall'invenzione della macchina rotativa a vapore e dall'espansione delle ferrovie grazie all'introduzione delle rotaie, determinando un notevole impulso allo sviluppo di nuove tecnologie tessili e metallurgiche. Da menzionare è anche la fondamentale invenzione dell'alambicco nel campo della chimica, insieme alla scoperta dell'atomo e alla formulazione delle prime teorie sperimentali sulla natura della materia. Questi progressi indicano un periodo di significativo cambiamento e avanzamento tecnologico, che avrebbe lasciato un'impronta indelebile sulle società e sull'economia del tempo."
+            </div>
+        </div>
+
+        <div class="mySlides fade">
+            <img src="resources/index/DJI_0578.jpg" style="width:100%">
+            <div class="text">"Nella sezione del mosaico ci troviamo all'inizio  della seconda rivoluzione industriale, si evidenziano due elementi emblematici: l'invenzione del razzo e la proliferazione dei grattacieli. Questi simboli incarnano il progresso nell'esplorazione spaziale e l'accelerata urbanizzazione delle metropoli. Al di sotto, le espressioni di tristezza e trasfigurazione sui volti umani sottolinea le sfide sociali e umane correlate alla rapida avanzata scientifica. Questa sezione del mosaico mira a una riflessione sulle intricate connessioni tra lo sviluppo tecnologico e le sue conseguenze socio-culturali, sottolineando l'urgenza di affrontare con serietà le implicazioni etiche e sociali di tali progressi."
+            </div>
+        </div>
+
+        <div class="mySlides fade">
+            <img src="resources/index/DJI_0580 (1).jpg" style="width:100%">
+            <div class="text">"Nella sezione finale del mosaico, ci immergiamo nel periodo dell'industrializzazione con la proliferazione delle fabbriche, elemento chiave che segna la diffusione dell'inquinamento globale. Oltre alle fabbriche, emergono figure mostruose che simboleggiano l'uomo e la sua malvagità nei confronti del pianeta madre che lo ha nutrito, mentre egli lo avvelena e lo distrugge. Questa rappresentazione drammatica intende evidenziare le conseguenze devastanti dell'industrializzazione senza controllo sull'ambiente e sottolineare l'urgente necessità di adottare pratiche più sostenibili e rispettose dell'ecosistema."
+            </div>
+        </div>
+
         <a class="prev" onclick="plusSlides(-1)">❮</a>
         <a class="next" onclick="plusSlides(1)">❯</a>
     
@@ -113,7 +150,10 @@ if ($loggato) {
         <span class="dot" onclick="currentSlide(1)"></span> 
         <span class="dot" onclick="currentSlide(2)"></span> 
         <span class="dot" onclick="currentSlide(3)"></span> 
-        <span class="dot" onclick="currentSlide(4)"></span> 
+        <span class="dot" onclick="currentSlide(4)"></span>
+        <span class="dot" onclick="currentSlide(5)"></span>
+        <span class="dot" onclick="currentSlide(6)"></span>
+        <span class="dot" onclick="currentSlide(7)"></span> 
     </div>
 
     <!-- <script> -->
@@ -194,3 +234,5 @@ document.querySelector('.slideshow-container').addEventListener('touchend', hand
     
 </body>
 </html>
+
+

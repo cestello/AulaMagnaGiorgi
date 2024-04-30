@@ -19,6 +19,8 @@ if (!controllaSeAdmin()) {
 
 include_once "../src/prenotazioni_admin.php";
 
+// controllaScaduti();
+
 ?>
 
 <!DOCTYPE html>

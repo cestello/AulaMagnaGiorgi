@@ -1,5 +1,21 @@
-11/03/2024	napolitano	modificato index.php (link file css)
-11/03/2024    	rizzello2400	inizio cambiamento menu con quello di michele
-13/03/2024      lafrance2400    modifiche in registrazione.php e creazione registrazione.css (ancora da completare)
-16/03/2024	rizzello2400	alcuni fix in registrazione.php (percorso immagine sbagliato, logica sul php riguardo al $loggato)
-16/03/2024	rizzello2400	diverse modifiche al php in prenotazioni_admin.php
+11/03/2024	napolitano
+    -Modificato index.php (link file css).
+
+11/03/2024  rizzello2400
+    -Inizio cambiamento menu con quello di michele
+    
+13/03/2024  lafrance2400
+    -Modifiche in registrazione.php e creazione registrazione.css (ancora da completare)
+
+16/03/2024	rizzello2400
+    -Alcuni fix in registrazione.php (percorso immagine sbagliato, logica sul php riguardo al $loggato)
+
+16/03/2024	cardea2400, rizzello2400
+    -Diverse modifiche al php in prenotazioni_admin.php
+
+03/04/2024	rizzello2400
+    -Backup delle tabelle eventi e utenti, creazione tabella strumentazioni (capire come fare l'insert)
+
+30/04/2024  rizzello2400
+    -Aggiunto il controllo automatico degli eventi scaduti ad ogni ricarica della pagina public/prenotazioni_admin  #TEMPORANEAMENTE DISABILITATA
+    -Aggiornamento insert di prenotazioni, ed aggiunta delle diverse strumentazioni richieste

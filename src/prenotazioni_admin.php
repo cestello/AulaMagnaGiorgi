@@ -26,14 +26,6 @@ function aggiornaStato($stato, $id)
 }
 
 /**
- *
- */
-function impostaScaduto($id)
-{
-    //TODO
-}
-
-/**
  * Gestisce una prenotazione
  *
  * @param int $valore dello stato
@@ -72,6 +64,25 @@ function gestisciInput($id, $tipo)
     } else {
         $_SESSION["message"] = "I valori della richiesta GET sono settati male";
     }
+}
+
+function controllaScaduti() {
+    $conn = connectToDatabase();
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $stato_nonvisionato = 0;
+    $stato_scaduto = 4;
+    
+    $stmt = $conn->prepare("UPDATE eventi SET stato = ? WHERE stato = ? && data <= CURDATE()");
+    $stmt->bind_param("ii", $stato_scaduto, $stato_nonvisionato);
+    if ($stmt->execute()) {
+        $_SESSION['message'] = "Errore non previsto durante l&apos;aggiornamento dello stato bismillah";
+    }
+
+    $stmt->close();
+    $conn->close();
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {

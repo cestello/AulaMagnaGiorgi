@@ -1,5 +1,23 @@
 <?php
 
+function inserisciStrumentazioni($ID, $pc_personale, $attacco_hdmi, $microfono, $adattatore_apple,
+                                $live, $rete, $proiettore, $mixer, $vga, $cavi_audio) {
+    
+    $conn = connectToDatabase();
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $stmt = $conn->prepare("INSERT INTO strumentazioni(ID, pc_personale, attacco_hdmi, microfono, adattatore_apple, 
+        live, rete, proiettore, mixer, vga, cavi_audio)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("iiiiiiiiiii", $ID, $pc_personale, $attacco_hdmi, $microfono, $adattatore_apple, $live, $rete, 
+                        $proiettore, $mixer, $vga, $cavi_audio);
+
+    if (!$stmt->execute()) {
+        $_SESSION['message'] = "Errore non previsto nella strumentazione";
+    }
+}
 /**
  * Esegue la prenotazione vera e propria
  *
@@ -10,26 +28,37 @@
  * @param string $descrizione dell'evento
  * @param string $email della persona che sta prenotando
  */
-function prenotaEvento($titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email)
-{
-    $conn = connectToDatabase();
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+    function prenotaEvento($titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email,
+                            $pc_personale, $attacco_hdmi, $microfono, $adattatore_apple,
+                            $live, $rete, $proiettore, $mixer, $vga, $cavi_audio)
+    {
+        $conn = connectToDatabase();
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $stmt = $conn->prepare("INSERT INTO eventi(titolo, data, ora_inizio, ora_fine, descrizione, email)
+            VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssss", $titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email);
+
+        if (!$stmt->execute()) {
+            $_SESSION['message'] = "Errore non previsto nella prenotazione";
+            return;
+        }
+        $ID = $stmt->insert_id;
+        if($ID) {
+            inserisciStrumentazioni($ID, $pc_personale, $attacco_hdmi, $microfono, $adattatore_apple, $live, 
+            $rete, $proiettore, $mixer, $vga, $cavi_audio);
+        } else {
+            die("Query failed: " . $ID);
+        }
+
+        $stmt->close();
+        $conn->close();
+
+        header("Location: " . generaLinkRisorsa());
+        die();
     }
-
-    $stmt = $conn->prepare("INSERT INTO eventi(titolo, data, ora_inizio, ora_fine, descrizione, email)
-        VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email);
-
-    if (!$stmt->execute()) {
-        $_SESSION['message'] = "Errore non previsto nella prenotazione";
-    }
-
-    $stmt->close();
-    $conn->close();
-    header("Location: " . generaLinkRisorsa());
-    die();
-}
 
 /**
  * Controlla se esiste già un evento che si sovrappone con quello corrente.
@@ -42,12 +71,16 @@ function prenotaEvento($titolo, $data, $ora_inizio, $ora_fine, $descrizione, $em
  * @param string $descrizione dell'evento
  * @param string $email del richiedente
  */
-function eseguiPrenotazione($data, $ora_inizio, $ora_fine, $titolo, $descrizione, $email)
+function eseguiPrenotazione($data, $ora_inizio, $ora_fine, $titolo, $descrizione, $email,
+                            $pc_personale, $attacco_hdmi, $microfono, $adattatore_apple, 
+                            $live, $rete, $proiettore, $mixer, $vga, $cavi_audio)
 {
     $status_code = inputIsValid($data, $ora_inizio, $ora_fine, $titolo);
     if (checkEventoEsistente($data, $ora_inizio, $ora_fine)) {
         if ($status_code === 0) {
-            prenotaEvento($titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email);
+            prenotaEvento($titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email,
+                            $pc_personale, $attacco_hdmi, $microfono, $adattatore_apple,
+                            $live, $rete, $proiettore, $mixer, $vga, $cavi_audio);
         } elseif ($status_code === 1) {
             $_SESSION['message'] = "Anno non valido";
         } elseif ($status_code === 2) {
@@ -100,17 +133,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ora_fine = convertiOrario($_POST["to"]);
     $titolo = $_POST["titolo"];
     $descrizione = $_POST["descrizione"];
+    $pc_personale = $_POST["pc_personale"] === 'on';
+    $attacco_hdmi = $_POST["attacco_hdmi"] === 'on';
+    $microfono = $_POST["microfono"] === 'on';
+    $adattatore_apple = $_POST["adattatore_apple"] === 'on';
+    $live = $_POST["live"] === 'on';
+    $rete = $_POST["rete"] === 'on';
+    $proiettore = $_POST["proiettore"] === 'on';
+    $mixer = $_POST["mixer"] === 'on';
+    $vga = $_POST["vga"] === 'on';
+    $cavi_audio = $_POST["cavi_audio"] === 'on';
     $email = $_COOKIE['user'];
 
     $data = completaData($anno . "-" . $mese . "-" . $giorno);
     if (convalidaData($data)) {
         if (controlloDataMaggiore($data) && controllaSeLoggato()) {
-            eseguiPrenotazione($data, $ora_inizio, $ora_fine, $titolo, $descrizione, $email);
+            eseguiPrenotazione($data, $ora_inizio, $ora_fine, $titolo, $descrizione, $email,
+            $pc_personale, $attacco_hdmi, $microfono, $adattatore_apple, $live, $rete, $proiettore, $mixer, $vga, $cavi_audio);
         } else {
             $_SESSION['message'] = "Data " . $data . " non prenotabile";
         }
     } else {
         $_SESSION['message'] = "Data inserita non valida";
     }
-    echo $_SESSION['message'];
+    // echo $_SESSION['message'];
 }

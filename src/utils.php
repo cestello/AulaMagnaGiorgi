@@ -465,12 +465,13 @@ function setupPrenotazioni($stato, $type = false)
         return;
     }
 
-    $stmt->bind_result($id, $titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email, $stato);
+    $stmt->bind_result($id, $titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email, $stato, $professore_referente, $posti);
     while ($stmt->fetch()) {
         echo '<div class="events-container ' . $id . '">';
         echo "Nome: " . $titolo . "<br>" . "Richiesto da: " . $email . "<br>" .
             "Data: " . $data . " Dalle ore: " . $ora_inizio . " alle " .
-            $ora_fine . "<br>";
+            $ora_fine . "<br>" . "Professore referente: " . $professore_referente . "<br>"
+            . "Posti: " . $posti . "<br>";
 
         if (isset($descrizione) && $descrizione !== "") {
             echo "Descrizione: " . $descrizione . "<br>";

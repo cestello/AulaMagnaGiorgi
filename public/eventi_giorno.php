@@ -32,9 +32,9 @@ const NEXT = '+1 day';
 function generaHTML($titolo, $data, $oraInizio, $oraFine, $descrizione, $email, $stato)
 {
     $codiceHTML = "<p>";
-    $codiceHTML .= $titolo . " " . $data . " " . $oraInizio . " ";
-    $codiceHTML .= $oraFine . " " . $descrizione . " " . $email . " ";
-    $codiceHTML .= $stato;
+    $codiceHTML .= "<br><B>" . $titolo . " </B>" . substr($oraInizio, 0, 5) . " - ";
+    $codiceHTML .= substr($oraFine, 0, 5) . " <br><hr>" . $descrizione . " <br><hr>" . $email . " ";
+    //$codiceHTML .= $stato;
     $codiceHTML .= "</p>";
     return $codiceHTML;
 }
@@ -45,133 +45,233 @@ function generaHTML($titolo, $data, $oraInizio, $oraFine, $descrizione, $email, 
 <html lang="it-IT">
 
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./public/css/index.css" type="text/css">
+	<!-- css nella stessa cartella worka, perche'? boh, lasciatelo qui al momento !-->
+		<!-- modificato da napolitano, da provare -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <title>
         Eventi giorno
     </title>
-
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to left, #b9cfec, #b4c8d4);
-            margin: 0;
-            padding: 0;
+        * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Titillium Web,sans-serif;
+    }
+
+        .main-content {
+        margin-top: 100px; /* Assicura che il contenuto non venga sovrapposto dall'header */
+        
         }
 
-        .main-container {
-            background: linear-gradient(to bottom, #b4c8d4, #3979cc);
-            max-width: 800px;
-            margin: 20px auto;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-radius: 8px;
+        B{
+            color: rgb(32, 32, 32);
         }
 
-        .profile-container,
-        .events-container {
-            background-color: #F5F5F5;
-            margin-bottom: 20px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+        hr{
+            margin-left:45%;
+            width:10%;
+
+        }
+        .main-container{
+            position: fixed ;
+            top: 200px;
+            width:100%;
+            text-align: center;
+            font-size: larger;
+
         }
 
-        h1,
-        h2 {
-            color: #333;
+        .buttons-container{
+            margin-top: 20px;
+
         }
 
-        .profile-container h1 {
-            margin-bottom: 10px;
+        
+        .buttons-container>a{
+            border: 1px solid black;
+            padding: 4px;
+            background-color:  lightGray;
+            border-radius: 10px;
+            text-decoration: none;
+            color: black;
+            margin: 0 5px;
         }
 
-        .events-container h2 {
-            margin-bottom: 10px;
+        .header-container {
+        position: fixed;
+        top: 60px; /* Altezza del pre-header */
+        width: 100%;
+        z-index: 1000;
+       
+        
         }
 
-        .events-container p {
-            margin: 0;
+        .header {
+        width: 100%;
+        padding: 3px 150px;
+        background-color: #ffffff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        margin-bottom: 20px;
+        box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+        }.
+
+        .pre-header-container {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        
         }
 
-        .buttons-container {
+
+        .pre-header {
+            overflow: hidden;
+            width: 100%;
+            padding: 10px 150px;
+            background-color: transparent;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            background-color: #51758d;
+            color: #ffffff;
         }
 
-        .buttons-container form {
-            margin: 0;
-            /* Remove default form margin */
+        span {
+        color: #ffffff;
         }
 
-        img {
-            display: block;
-            margin: 0 auto;
-            width: 243px;
-            height: 138px;
-            padding: 5px;
-            margin-bottom: 10px;
+        .header img {
+        width: 121px;
+        height: 70px;
         }
 
-        a {
-            background-color: #043370;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: .5s;
-            margin-right: 5px;
+        .user-icon {
+            width: 35px;
+            height: 35px;
+        }
+
+        .user-icon:hover {
+        transform: scale(1.1); 
+        transition: transform 0.8s ease;
+        }
+
+        .nav-bar-pre-header a{
+        position: relative;
+        font-size: 18px;
+        color: #000;
+        text-decoration: none;
+        font-weight: 500;
+        margin-left: 40px;
+        }
+
+        .nav-bar-pre-header a::before{
+        content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #000;
+            transition: .3s;
+        }
+
+        .nav-bar a {
+            position: relative;
+            font-size: 18px;
+            color: #000;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 500;
+            margin-left: 40px;
         }
 
-        a:hover {
-            background-color: #BC2047;
-            transform: scale(1.02);
+        .nav-bar a::before {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #000;
+            transition: .3s;
         }
 
-        input[type="submit"] {
-            background-color: #043370;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: .5s;
+        .pre-header .nav-bar a::before {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #ffffff;
+        transition: .3s;
         }
 
-        input[type="submit"]:hover {
-            background-color: #BC2047;
-            transform: scale(1.03);
+        .nav-bar a:hover::before {
+            width: 100%;
         }
 
-        @media screen and (max-width: 600px) {
-            .main-container {
-                padding: 10px;
-            }
 
-            .buttons-container {
-                flex-direction: column;
-            }
 
-            a {
-                width: 100%;
-                margin: 10px 0;
-            }
+        
+        .mobile-menu {
+            display: none;
         }
-    </style>
+
+        .menu-toggle {
+            display: none;
+        }
+</style>
 </head>
 
 <body>
+<div class="pre-header-container">
+        <header class="pre-header">
+            <h5>Sito dell'Aula Magna</h5>
+            <nav class="nav-bar-pre-header">
+                <?php
+                echo '<a href="' . generaLinkRisorsa("public/login.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/index/login.png") . '" class="user-icon"></a>';
+                ?>
+
+            </nav>
+        </header>
+    </div>
+
+    <div class="header-container">
+        <header class="header">
+            <?php
+            echo '<a href="' . generaLinkRisorsa() . '">';
+            echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
+            ?>
+            <nav class="nav-bar">
+                <?php
+                echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
+                echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
+                ?>
+            </nav>
+            <div class="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+        </header>
+        <div class="mobile-menu" id="mobileMenu">
+            <?php
+            echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
+            echo '<a href="' . generaLinkRisorsa("public/login.php") . '">Accedi</a>';
+            echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
+            ?>
+        </div>
+    </div>
+ 
     <div class="main-container">
         <?php
         echo '<a style="all: unset; cursor: pointer;" href="' . generaLinkRisorsa() . '">';
-        echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
         ?>
         </a>
         <div class="profile-container">
