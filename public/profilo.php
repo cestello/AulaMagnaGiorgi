@@ -170,6 +170,9 @@ $lista_eventi = generaEventi();
                     } else {
                         echo "errore nel determinare lo stato";
                     }
+                    echo "<br>";
+                    echo "Professore Referente: " . $row["professore_referente"] . "<br>";
+                    echo "Posti: " . $row["posti"] . "<br>";
                     echo "<br><br>";
                 }
             }

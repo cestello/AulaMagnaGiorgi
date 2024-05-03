@@ -251,10 +251,41 @@ include_once "../src/prenotazione.php";
         <textarea name="descrizione" id="descrizione" rows="6" cols="78" maxlength="50"
             style="resize: none;"></textarea>
         <br>
+        
+        Pc Personale 
+        <input type="checkbox" id="pc_personale" name="pc_personale"></input>
+        
+        Attacco HDMI
+        <input type="checkbox" id="attacco_hdmi" name="attacco_hdmi"></input>
+        
+        Microfono
+        <input type="checkbox" id="microfono" name="microfono"></input>
+        
+        Adattatore_Apple
+        <input type="checkbox" id="adattatore_apple" name="adattatore_apple"></input>
+        
+        Live 
+        <input type="checkbox" id="live" name="live"></input>
+        
+        Internet
+        <input type="checkbox" id="rete" name="rete"></input>
+        
+        Proiettore
+        <input type="checkbox" id="proiettore" name="proiettore"></input>
+        
+        Mixer
+        <input type="checkbox" id="mixer" name="mixer"></input>
+        
+        VGA
+        <input type="checkbox" id="vga" name="vga"></input>
+                
+        Cavi Audio
+        <input type="checkbox" id="cavi_audio" name="cavi_audio"></input>
 
         <div id="submit">
             <input type="submit" value="Prenota">
         </div>
+        
         <?php
         if (isset($_SESSION['message'])) {
             echo '<h2 style="color:white;">' . $_SESSION['message'] . '</h2>';
