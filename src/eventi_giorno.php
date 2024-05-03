@@ -3,13 +3,14 @@
 include_once "../src/utils.php";
 
 /**
+ * DEPRECATA
  * Restituisce una stringa HTML contenente tutti gli eventi
  * della data contenuta nel parametro
  *
  * @param string $data da controllare
  * @return string codice HTML
  */
-function generaEventi($data)
+function generaEventiOld($data)
 {
     $conn = connectToDatabase();
     if ($conn->connect_error) {
@@ -21,7 +22,7 @@ function generaEventi($data)
     $data = completaData($data);
     $stato = 1;
     $stmt->bind_param("si", $data, $stato);
-
+    
     if ($stmt->execute()) {
         $stmt->store_result();
         $stmt->bind_result($titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email, $stato);
@@ -36,6 +37,69 @@ function generaEventi($data)
                     $email,
                     $stato
                 );
+            }
+        } else {
+            $risposta = "Nessun evento presente";
+        }
+    } else {
+        $risposta = "Errore imprevisto nella query";
+    }
+
+    $stmt->close();
+    $conn->close();
+    return $risposta;
+}
+
+/**
+ * Restituisce una stringa HTML contenente tutti gli eventi
+ * della data contenuta nel parametro
+ *
+ * @param string $data da controllare
+ * @return string codice HTML
+ */
+function generaEventi($data)
+{
+    $conn = connectToDatabase();
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $stmt = $conn->prepare("SELECT titolo, data, ora_inizio, ora_fine, descrizione, email, stato,
+        docente_referente, posti, pc_personale, attacco_hdmi, microfono, adattatore_apple, live,
+        rete, proiettore, mixer, vga, cavi_audio 
+        FROM eventi NATURAL JOIN strumentazioni WHERE data = ? AND stato = ?");
+    $data = completaData($data);
+    $stato = 1;
+    $stmt->bind_param("si", $data, $stato);
+    $row = array(
+        "data" => "1970-01-01",
+        "ora_inizio" => "08:00",
+        "ora_fine" => "08:30",
+        "docente_referente" => "default",
+        "posti" => 80,
+        "titolo" => "default",
+        "descrizione" => "default",
+        "email" => "default",
+        "pc_personale" => 0,
+        "attacco_hdmi" => 0,
+        "microfono" => 0,
+        "adattatore_apple" => 0,
+        "live" => 0,
+        "rete" => 0,
+        "proiettore" => 0,
+        "mixer" => 0,
+        "vga" => 0,
+        "cavi_audio" => 0
+    );
+    if ($stmt->execute()) {
+        $stmt->store_result();
+        $stmt->bind_result($row["titolo"], $row["data"], $row["ora_inizio"], $row["ora_fine"], $row["descrizione"], $row["email"], $row["stato"],
+            $row["docente_referente"], $row["posti"], $row["pc_personale"], $row["attacco_hdmi"], $row["microfono"], $row["adattatore_apple"], $row["live"],
+            $row["rete"], $row["proiettore"], $row["mixer"], $row["vga"], $row["cavi_audio"]
+        );
+        if ($stmt->num_rows > 0) {
+            while ($stmt->fetch()) {
+                $risposta = generaHTML($row);
             }
         } else {
             $risposta = "Nessun evento presente";

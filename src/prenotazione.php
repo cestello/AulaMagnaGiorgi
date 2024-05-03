@@ -34,9 +34,10 @@ function inserisciStrumentazioni($ID, $row) {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $stmt = $conn->prepare("INSERT INTO eventi(titolo, data, ora_inizio, ora_fine, descrizione, email)
-            VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $row["titolo"], $row["data"], $row["ora_inizio"], $row["ora_fine"], $row["descrizione"], $row["email"]);
+        $stmt = $conn->prepare("INSERT INTO eventi(titolo, data, ora_inizio, ora_fine, descrizione, email, docente_referente, posti)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssssi", $row["titolo"], $row["data"], $row["ora_inizio"], $row["ora_fine"], $row["descrizione"], $row["email"],
+                            $row["docente_referente"], $row["posti"]);
 
         if (!$stmt->execute()) {
             $_SESSION['message'] = "Errore non previsto nella prenotazione";
@@ -120,6 +121,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "data" => completaData($_POST["year"] . "-" . (intval($_POST["month"]) + 1) . "-" . $_POST["day"]),
                 "ora_inizio" => convertiOrario($_POST["from"]),
                 "ora_fine" => convertiOrario($_POST["to"]),
+                "docente_referente" => $_POST["docente_referente"],
+                "posti" => intval($_POST["posti"]),
                 "titolo" => $_POST["titolo"],
                 "descrizione" => $_POST["descrizione"],
                 "pc_personale" => $_POST["pc_personale"] === 'on',
@@ -144,5 +147,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $_SESSION['message'] = "Data inserita non valida";
     }
-    // echo $_SESSION['message'];
 }

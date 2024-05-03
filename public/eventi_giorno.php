@@ -20,20 +20,13 @@ const NEXT = '+1 day';
  * Gestisce la generazione del codice HTML da inserire nella lista degli eventi
  * giornalieri
  *
- * @param string $titolo dell'evento
- * @param string $data dell'evento
- * @param string $oraInizio orario di inizio
- * @param string $oraFine orario di fine
- * @param string $descrizione dell'evento
- * @param string $email dell'utente richiedente
- * @param string $stato dell'evento
- * @return string codice HTML rappresentante un evento
+ * @param array $row array con tutti i diversi valori
  */
-function generaHTML($titolo, $data, $oraInizio, $oraFine, $descrizione, $email, $stato)
+function generaHTML($row)
 {
     $codiceHTML = "<p>";
-    $codiceHTML .= "<br><B>" . $titolo . " </B>" . substr($oraInizio, 0, 5) . " - ";
-    $codiceHTML .= substr($oraFine, 0, 5) . " <br><hr>" . $descrizione . " <br><hr>" . $email . " ";
+    $codiceHTML .= "<br><B>" . $row["titolo"] . " </B>" . substr($row["ora_inizio"], 0, 5) . " - ";
+    $codiceHTML .= substr($row["ora_fine"], 0, 5) . " <br><hr>" . $row["descrizione"] . " <br><hr>" . $row["email"] . " ";
     //$codiceHTML .= $stato;
     $codiceHTML .= "</p>";
     return $codiceHTML;

@@ -95,7 +95,7 @@ if ($loggato) {
     
     <!-- <caurosel> -->
     <div class="slideshow-container">
-    
+    <button class="info-btn" onclick="toggleDescription()">ℹ️</button>
         <div class="mySlides fade">
             <img src="resources/index/DJI_0572.jpg" style="width:100%">
             <div class="text">"Nella porzione superiore del mosaico emerge la scena iconica del mito di Dedalo e Icaro, con Icaro che precipita dopo essersi avvicinato troppo al sole, simboleggiando il fallimento umano nell'ambizione eccessiva. Questo episodio rappresenta il nucleo narrativo del mosaico, intitolato 'Dallo Sviluppo della Scienza all'Uomo'.
@@ -106,8 +106,11 @@ Questa combinazione di elementi offre una rappresentazione simbolica della trasf
     
         <div class="mySlides fade">
             <img src="resources/index/DJI_0573.jpg" style="width:100%">
-            <div class="text">"In questa parte del mosaico, continua il progresso dell'umanità attraverso elementi distintivi. Innanzitutto, si osserva l'uomo nell'atto di addestrare il cavallo, segnando un momento cruciale in cui l'essere umano inizia a dominare gli animali per facilitare i propri spostamenti, con il cavallo che assume un ruolo fondamentale nei primi viaggi dell'uomo. In aggiunta, emerge la maestosità di un tempio greco, simbolo tangibile dell'evoluzione dell'architettura e della civiltà. Nell'apice dell'immagine, invece, si distingue un ulivo, icona di rigenerazione, vita e pace, aggiungendo una nota di speranza e tranquillità al quadro complessivo."
+            <div id="description-box">
+                <span class="close-btn" onclick="hideDescription()">×</span>
+                <p>In questa parte del mosaico, continua il progresso dell'umanità attraverso elementi distintivi. Innanzitutto, si osserva l'uomo nell'atto di addestrare il cavallo, segnando un momento cruciale in cui l'essere umano inizia a dominare gli animali per facilitare i propri spostamenti, con il cavallo che assume un ruolo fondamentale nei primi viaggi dell'uomo. In aggiunta, emerge la maestosità di un tempio greco, simbolo tangibile dell'evoluzione dell'architettura e della civiltà. Nell'apice dell'immagine, invece, si distingue un ulivo, icona di rigenerazione, vita e pace, aggiungendo una nota di speranza e tranquillità al quadro complessivo.</p>
             </div>
+            
         </div>
 
         <div class="mySlides fade">
@@ -184,6 +187,27 @@ Questa combinazione di elementi offre una rappresentazione simbolica della trasf
     slides[slideIndex-1].style.display = "block";  
     dots[slideIndex-1].className += " active"; 
     }
+
+
+    function toggleDescription() {
+    let descriptionBox = document.getElementById("description-box");
+    if (descriptionBox.style.display === "block") {
+        hideDescription();
+    } else {
+        showDescription();
+    }
+}
+
+function showDescription() {
+    let descriptionBox = document.getElementById("description-box");
+    descriptionBox.style.display = "block";
+}
+
+function hideDescription() {
+    let descriptionBox = document.getElementById("description-box");
+    descriptionBox.style.display = "none";
+}
+
 
     // Dichiarazione delle variabili globali per tenere traccia dell'indice della slide corrente
 

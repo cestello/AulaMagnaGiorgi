@@ -251,7 +251,13 @@ include_once "../src/prenotazione.php";
         <textarea name="descrizione" id="descrizione" rows="6" cols="78" maxlength="50"
             style="resize: none;"></textarea>
         <br>
-        
+
+        <label for="docente_referente">Professore referente dell'evento:</label>
+        <input type="text" name="docente_referente" id="docente_referente" minlength="4" maxlength="64" required>
+
+        <label for="posti">Quanti posti servono all'evento:</label>
+        <input type="number" name="posti" id="posti" min="0" max="160" value="80" required>
+
         Pc Personale 
         <input type="checkbox" id="pc_personale" name="pc_personale"></input>
         

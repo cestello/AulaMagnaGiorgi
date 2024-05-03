@@ -22,3 +22,7 @@
     -Diversi fix a prenotazioni_admin (nel caso i parametri nella get per visualizzare i diversi tipi di eventi fossero sbagliati
     andra in non visualizzati; quando si fara' una qualsiasi azione: accettare, rifiutare, annullare, si verra' renderizzati a
     non visionati)
+
+02/04/2024  rizzello2400
+    -Aggiunti docente referente e posti alla prenotazione
+    -Aggiunta alle diverse pagine di visualizzazione di prenotazioni le strumentazioni e le diverse aggiunte

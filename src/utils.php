@@ -442,10 +442,10 @@ function setupPrenotazioni($stato, $type = false)
     }
 
     if(!$type) {
-        $stmt = $conn->prepare("SELECT * FROM eventi WHERE stato = ? ORDER BY data ASC, ora_inizio ASC");
+        $stmt = $conn->prepare("SELECT * FROM eventi NATURAL JOIN strumentazioni WHERE stato = ? ORDER BY data ASC, ora_inizio ASC");
     }
     else {  
-        $stmt = $conn->prepare("SELECT * FROM eventi WHERE stato = ? AND data >= CURDATE()
+        $stmt = $conn->prepare("SELECT * FROM eventi NATURAL JOIN strumentazioni WHERE stato = ? AND data >= CURDATE()
         ORDER BY data DESC, ora_inizio ASC");
     }
 
@@ -465,20 +465,58 @@ function setupPrenotazioni($stato, $type = false)
         return;
     }
 
-    $stmt->bind_result($id, $titolo, $data, $ora_inizio, $ora_fine, $descrizione, $email, $stato, $professore_referente, $posti);
+    $row = array(
+        "id" => "0",
+        "data" => "1970-01-01",
+        "ora_inizio" => "08:00",
+        "ora_fine" => "08:30",
+        "docente_referente" => "default",
+        "posti" => -1,
+        "titolo" => "default",
+        "descrizione" => "default",
+        "email" => "default",
+        "pc_personale" => 0,
+        "attacco_hdmi" => 0,
+        "microfono" => 0,
+        "adattatore_apple" => 0,
+        "live" => 0,
+        "rete" => 0,
+        "proiettore" => 0,
+        "mixer" => 0,
+        "vga" => 0,
+        "cavi_audio" => 0
+    );
+
+    $stmt->bind_result($row["id"], $row["titolo"], $row["data"], $row["ora_inizio"], $row["ora_fine"], $row["descrizione"], $row["email"], $row["stato"],
+        $row["docente_referente"], $row["posti"], $row["pc_personale"], $row["attacco_hdmi"], $row["microfono"], $row["adattatore_apple"], $row["live"],
+        $row["rete"], $row["proiettore"], $row["mixer"], $row["vga"], $row["cavi_audio"]
+    );
+    
     while ($stmt->fetch()) {
-        echo '<div class="events-container ' . $id . '">';
-        echo "Nome: " . $titolo . "<br>" . "Richiesto da: " . $email . "<br>" .
-            "Data: " . $data . " Dalle ore: " . $ora_inizio . " alle " .
-            $ora_fine . "<br>" . "Professore referente: " . $professore_referente . "<br>"
-            . "Posti: " . $posti . "<br>";
+        foreach($row as &$i) {
+            if($i === 0) {
+                $i = "No";
+            } elseif($i === 1) {
+                $i = "Si";
+            }
+        }
+        echo '<div class="events-container ' . $row["id"] . '">';
+        echo "Nome: " . $row["titolo"] . "<br>" . "Richiesto da: " . $row["email"] . "<br>" .
+            "Data: " . $row["data"] . " Dalle ore: " . $row["ora_inizio"] . " alle " .
+            $row["ora_fine"] . "<br>" . "Docente referente: " . $row["docente_referente"] . "<br>"
+            . "Posti: " . $row["posti"] . "<br>" . "Pc personale: " . $row["pc_personale"] . "<br>"
+            . "Attacco HDMI: " . $row["attacco_hdmi"] . "<br>" . "Microfono: " . $row["microfono"] . "<br>"
+            . "Adattatore Apple: " . $row["adattatore_apple"] . "<br>" . "live: " . $row["live"] . "<br>"
+            . "Rete: " . $row["rete"] . "<br>" . "Proiettore: " . $row["proiettore"] . "<br>"
+            . "Mixer: " . $row["mixer"] . "<br>" . "Vga: " . $row["vga"] . "<br>"
+            . "Cavi audio: " . $row["cavi_audio"] . "<br>";
 
         if (isset($descrizione) && $descrizione !== "") {
             echo "Descrizione: " . $descrizione . "<br>";
         }
 
         echo "<br>";
-        setupTipoPrenotazioni($stato, $id);
+        setupTipoPrenotazioni($stato, $row["id"]);
         echo "</div><br>";
     }
 
