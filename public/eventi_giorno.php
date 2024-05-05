@@ -3,6 +3,7 @@ session_abort();
 session_start();
 
 include_once "../src/utils.php";
+include_once "../src/check_cookie.php";
 include_once "../src/eventi_giorno.php";
 
 /**
@@ -24,11 +25,13 @@ const NEXT = '+1 day';
  */
 function generaHTML($row)
 {
-    $codiceHTML = "<p>";
-    $codiceHTML .= "<br><B>" . $row["titolo"] . " </B>" . substr($row["ora_inizio"], 0, 5) . " - ";
-    $codiceHTML .= substr($row["ora_fine"], 0, 5) . " <br><hr>" . $row["descrizione"] . " <br><hr>" . $row["email"] . " ";
-    //$codiceHTML .= $stato;
-    $codiceHTML .= "</p>";
+    $codiceHTML = "<div class='event-card'>";
+    $codiceHTML .= "<h2>" . $row["titolo"] . "</h2>";
+    $codiceHTML .= "<p><strong>Ora:</strong> " . substr($row["ora_inizio"], 0, 5) . " - " . substr($row["ora_fine"], 0, 5) . "</p>";
+    $codiceHTML .= "<p><strong>Descrizione:</strong> " . $row["descrizione"] . "</p>";
+    $codiceHTML .= "<p class='event-docente_referente'><strong>Docente referente:</strong> " . $row["docente_referente"] . "</p>";
+    $codiceHTML .= "</div>";
+
     return $codiceHTML;
 }
 
@@ -38,11 +41,11 @@ function generaHTML($row)
 <html lang="it-IT">
 
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./public/css/index.css" type="text/css">
-	<!-- css nella stessa cartella worka, perche'? boh, lasciatelo qui al momento !-->
-		<!-- modificato da napolitano, da provare -->
+    <!-- css nella stessa cartella worka, perche'? boh, lasciatelo qui al momento !-->
+    <!-- modificato da napolitano, da provare -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <title>
@@ -50,78 +53,119 @@ function generaHTML($row)
     </title>
     <style>
         * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Titillium Web,sans-serif;
-    }
-
-        .main-content {
-        margin-top: 100px; /* Assicura che il contenuto non venga sovrapposto dall'header */
-        
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Titillium Web, sans-serif;
         }
 
-        B{
+        .main-content {
+            margin-top: 100px;
+            /* Assicura che il contenuto non venga sovrapposto dall'header */
+
+        }
+
+        B {
             color: rgb(32, 32, 32);
         }
 
-        hr{
-            margin-left:45%;
-            width:10%;
+        hr {
+            margin-left: 45%;
+            width: 10%;
 
         }
-        .main-container{
-            position: fixed ;
-            top: 200px;
-            width:100%;
+
+        .main-container {
+            max-width: 800px;
+            margin: 200px auto 0;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            font-size: larger;
-
         }
 
-        .buttons-container{
+        .event-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .event-card h2 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .event-card p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .event-card strong {
+            font-weight: bold;
+        }
+
+        .event-card .event-email {
+            color: #777;
+        }
+
+        .profile-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .buttons-container {
             margin-top: 20px;
 
         }
 
-        
-        .buttons-container>a{
-            border: 1px solid black;
-            padding: 4px;
-            background-color:  lightGray;
-            border-radius: 10px;
-            text-decoration: none;
-            color: black;
-            margin: 0 5px;
+
+        .buttons-container>a {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #51758d;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
 
         .header-container {
-        position: fixed;
-        top: 60px; /* Altezza del pre-header */
-        width: 100%;
-        z-index: 1000;
-       
-        
+            position: fixed;
+            top: 60px;
+            /* Altezza del pre-header */
+            width: 100%;
+            z-index: 1000;
+
+
         }
 
         .header {
-        width: 100%;
-        padding: 3px 150px;
-        background-color: #ffffff;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        z-index: 1000;
-        margin-bottom: 20px;
-        box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
-        }.
+            width: 100%;
+            padding: 3px 150px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            margin-bottom: 20px;
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+        }
 
-        .pre-header-container {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
-        
+        . .pre-header-container {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+
         }
 
 
@@ -138,12 +182,12 @@ function generaHTML($row)
         }
 
         span {
-        color: #ffffff;
+            color: #ffffff;
         }
 
         .header img {
-        width: 121px;
-        height: 70px;
+            width: 121px;
+            height: 70px;
         }
 
         .user-icon {
@@ -152,21 +196,21 @@ function generaHTML($row)
         }
 
         .user-icon:hover {
-        transform: scale(1.1); 
-        transition: transform 0.8s ease;
+            transform: scale(1.1);
+            transition: transform 0.8s ease;
         }
 
-        .nav-bar-pre-header a{
-        position: relative;
-        font-size: 18px;
-        color: #000;
-        text-decoration: none;
-        font-weight: 500;
-        margin-left: 40px;
+        .nav-bar-pre-header a {
+            position: relative;
+            font-size: 18px;
+            color: #000;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 40px;
         }
 
-        .nav-bar-pre-header a::before{
-        content: '';
+        .nav-bar-pre-header a::before {
+            content: '';
             position: absolute;
             top: 100%;
             left: 0;
@@ -197,14 +241,14 @@ function generaHTML($row)
         }
 
         .pre-header .nav-bar a::before {
-        content: '';
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: #ffffff;
-        transition: .3s;
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ffffff;
+            transition: .3s;
         }
 
         .nav-bar a:hover::before {
@@ -213,7 +257,7 @@ function generaHTML($row)
 
 
 
-        
+
         .mobile-menu {
             display: none;
         }
@@ -221,18 +265,22 @@ function generaHTML($row)
         .menu-toggle {
             display: none;
         }
-</style>
+    </style>
 </head>
 
 <body>
-<div class="pre-header-container">
+    <div class="pre-header-container">
         <header class="pre-header">
             <h5>Sito dell'Aula Magna</h5>
             <nav class="nav-bar-pre-header">
                 <?php
-                echo '<a href="' . generaLinkRisorsa("public/login.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/index/login.png") . '" class="user-icon"></a>';
+                if (controllaSeLoggato()) {
+                    echo '<a href="' . generaLinkRisorsa("public/profilo.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/icons/user.png") . '" class="user-icon"></a>';
+                    echo '<a href="' . generaLinkRisorsa("public/logout.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/icons/logout.png") . '" class="user-icon"></a>';
+                } else {
+                    echo '<a href="' . generaLinkRisorsa("public/login.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/icons/login.png") . '" class="user-icon"></a>';
+                }
                 ?>
-
             </nav>
         </header>
     </div>
@@ -246,6 +294,12 @@ function generaHTML($row)
             <nav class="nav-bar">
                 <?php
                 echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
+                if (controllaSeLoggato()) {
+                    if (controllaSeAdmin()) {
+                        echo '<a href="' . generaLinkRisorsa("public/prenotazioni_admin.php") . '">Prenotazioni Admin</a>';
+                    }
+                    echo '<a href="' . generaLinkRisorsa("public/prenotazione.php") . '">Prenota</a>';
+                }
                 echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
                 ?>
             </nav>
@@ -256,12 +310,17 @@ function generaHTML($row)
         <div class="mobile-menu" id="mobileMenu">
             <?php
             echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
-            echo '<a href="' . generaLinkRisorsa("public/login.php") . '">Accedi</a>';
+            if (controllaSeLoggato()) {
+                if (controllaSeAdmin()) {
+                    echo '<a href="' . generaLinkRisorsa("public/prenotazioni_admin.php") . '">Prenotazioni Admin</a>';
+                }
+                echo '<a href="' . generaLinkRisorsa("public/prenotazione.php") . '">Prenota</a>';
+            }
             echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
             ?>
         </div>
     </div>
- 
+
     <div class="main-container">
         <?php
         echo '<a style="all: unset; cursor: pointer;" href="' . generaLinkRisorsa() . '">';

@@ -19,7 +19,7 @@ if (!controllaSeAdmin()) {
 
 include_once "../src/prenotazioni_admin.php";
 
-// controllaScaduti();
+controllaScaduti();
 
 ?>
 
@@ -161,22 +161,20 @@ include_once "../src/prenotazioni_admin.php";
 
         <form>
             <div class="type-events-container" id="type-events-container">
-                <input type="button" name="nonvisionati" value="Non visionati" id="type-nonvisionati"
-                    onClick="gestisci_tipo_richiesta(this.id)">
-                <input type="button" name="accettati" value="Accettati" id="type-accettati"
-                    onClick="gestisci_tipo_richiesta(this.id)">
-                <input type="button" name="rifiutati" value="Rifiutati" id="type-rifiutati"
-                    onClick="gestisci_tipo_richiesta(this.id)">
-                <input type="button" name="annullati" value="Annullati" id="type-annullati"
-                    onClick="gestisci_tipo_richiesta(this.id)">
-                <input type="button" name="scaduti" value="Scaduti" id="type-scaduti"
-                    onClick="gestisci_tipo_richiesta(this.id)">
+                <input type="button" name="nonvisionati" value="Non visionati" id="type-nonvisionati" onClick="gestisci_tipo_richiesta(this.id)">
+                <input type="button" name="accettati" value="Accettati" id="type-accettati" onClick="gestisci_tipo_richiesta(this.id)">
+                <input type="button" name="rifiutati" value="Rifiutati" id="type-rifiutati" onClick="gestisci_tipo_richiesta(this.id)">
+                <input type="button" name="annullati" value="Annullati" id="type-annullati" onClick="gestisci_tipo_richiesta(this.id)">
+                <input type="button" name="scaduti" value="Scaduti" id="type-scaduti" onClick="gestisci_tipo_richiesta(this.id)">
             </div>
             <h2>
                 <div class="events-container" id="events-container">
                     <?php
-                    if($_SERVER["REQUEST_METHOD"] == "GET" && ($tipo = convertiTipo($_GET["ID"])) !== -1) {
-                        setupPrenotazioni($tipo);
+                    if ($_SERVER["REQUEST_METHOD"] == "GET" && ($tipo = convertiTipo($_GET["ID"])) !== -1) {
+                        if($tipo === 1)
+                            setupPrenotazioni($tipo, true);
+                        else
+                            setupPrenotazioni($tipo);
                     } else {
                         setupPrenotazioni(0);
                     }
@@ -196,9 +194,12 @@ include_once "../src/prenotazioni_admin.php";
         ?>
     </div>
     <script>
+        var current_url = new URL(window.location.href);
+        var last_url = current_url.searchParams.get("ID");
+
         function gestisci_richiesta(ID, name) {
-            const URL = `http://138.41.20.100/~rizzello2400/public/prenotazioni_admin.php?
-                ID=${encodeURIComponent(ID)}&name=${encodeURIComponent(name)}`;
+            const URL = `http://138.41.20.100/~rizzello2400/public/prenotazioni_admin.php?ID=${encodeURIComponent(ID)}&name=${encodeURIComponent(name)}`;
+            const URL2 = `http://138.41.20.100/~rizzello2400/public/prenotazioni_admin.php?ID=${encodeURIComponent(last_url)}`;
             fetch(URL)
                 .then(response => {
                     if (!response.ok) {
@@ -206,8 +207,8 @@ include_once "../src/prenotazioni_admin.php";
                     }
                     return response.text();
                 })
-                .then(data => { 
-                    location.replace("http://138.41.20.100/~rizzello2400/public/prenotazioni_admin.php");
+                .then(data => {
+                    location.replace(URL2);
                 })
                 .catch(error => {
                     if (error.name === 'TypeError') {
@@ -219,8 +220,8 @@ include_once "../src/prenotazioni_admin.php";
         }
 
         function gestisci_tipo_richiesta(ID) {
-            const URL = `http://138.41.20.100/~rizzello2400/src/gestione_prenotazioni.php?
-                ID=${encodeURIComponent(ID)}`;
+            last_url = ID;
+            const URL = `http://138.41.20.100/~rizzello2400/src/gestione_prenotazioni.php?ID=${encodeURIComponent(ID)}`;
             fetch(URL)
                 .then(response => {
                     if (!response.ok) {

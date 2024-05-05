@@ -94,9 +94,9 @@ function controllaScaduti() {
     $stato_nonvisionato = 0;
     $stato_scaduto = 4;
     
-    $stmt = $conn->prepare("UPDATE eventi SET stato = ? WHERE stato = ? && data <= CURDATE()");
+    $stmt = $conn->prepare("UPDATE eventi SET stato = ? WHERE stato = ? AND data <= CURDATE()");
     $stmt->bind_param("ii", $stato_scaduto, $stato_nonvisionato);
-    if ($stmt->execute()) {
+    if (!$stmt->execute()) {
         $_SESSION['message'] = "Errore non previsto durante l&apos;aggiornamento dello stato bismillah";
     }
 

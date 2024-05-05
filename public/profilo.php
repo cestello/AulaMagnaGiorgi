@@ -151,29 +151,8 @@ $lista_eventi = generaEventi();
             if (sizeof($lista_eventi) <= 0) {
                 echo "Nessun evento prenotato";
             } else {
-                foreach ($lista_eventi as $row) {
-                    echo "Nome: " . $row["titolo"] . "<br>";
-                    echo "Data: " . $row["data"] . "<br>";
-                    echo "Ora inizio: " . $row["ora_inizio"] . "<br>";
-                    echo "Ora fine: " . $row["ora_fine"] . "<br>";
-                    echo "Stato: ";
-                    if ($row["stato"] === 0) {
-                        echo "non visionato";
-                    } elseif ($row["stato"] === 1) {
-                        echo "accettato";
-                    } elseif ($row["stato"] === 2) {
-                        echo "rifiutato";
-                    } elseif ($row["stato"] === 3) {
-                        echo "annullato";
-                    } elseif ($row["stato"] === 4) {
-                        echo "scaduto";
-                    } else {
-                        echo "errore nel determinare lo stato";
-                    }
-                    echo "<br>";
-                    echo "Professore Referente: " . $row["professore_referente"] . "<br>";
-                    echo "Posti: " . $row["posti"] . "<br>";
-                    echo "<br><br>";
+                foreach ($lista_eventi as $evento) {
+                    echo $evento;
                 }
             }
             ?>

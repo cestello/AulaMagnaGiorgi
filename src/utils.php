@@ -52,6 +52,14 @@ function connectToDatabase()
     return new mysqli($servername, $username, $password, $dbname);
 }
 
+function logout() {
+    setcookie('email', '', -1, '/');
+    setcookie('session', '', -1, '/');
+    
+    header("Location: " . MAINURL);
+    die();
+}
+
 /**
  * Controlla se l'email passata viene già utilizzata
  * da un account
@@ -119,7 +127,7 @@ function isMailValid($email)
         return 1;
     }
 
-    if (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $email)) {
+    if (!preg_match('/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $email)) {
         return 2;
     }
 
@@ -444,7 +452,7 @@ function setupPrenotazioni($stato, $type = false)
     if(!$type) {
         $stmt = $conn->prepare("SELECT * FROM eventi NATURAL JOIN strumentazioni WHERE stato = ? ORDER BY data ASC, ora_inizio ASC");
     }
-    else {  
+    else {
         $stmt = $conn->prepare("SELECT * FROM eventi NATURAL JOIN strumentazioni WHERE stato = ? AND data >= CURDATE()
         ORDER BY data DESC, ora_inizio ASC");
     }

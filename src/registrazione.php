@@ -54,7 +54,7 @@ function registra($email, $password, $nome, $cognome)
     }
 
     $stmt = $conn->prepare("INSERT INTO utenti (email, password, nome, cognome, admin) VALUES (?, ?, ?, ?, ?)");
-    $password = hash('sha256', $password);
+    $password = creaHash($password);
     $admin = 0;
     $stmt->bind_param("ssssi", $email, $password, $nome, $cognome, $admin);
 

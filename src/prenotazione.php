@@ -115,28 +115,28 @@ function convertiOrario($orario)
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $row = array(
-                "anno" => $_POST["year"],
-                "mese" => (intval($_POST["month"]) + 1),
-                "giorno" => $_POST["day"],
-                "data" => completaData($_POST["year"] . "-" . (intval($_POST["month"]) + 1) . "-" . $_POST["day"]),
-                "ora_inizio" => convertiOrario($_POST["from"]),
-                "ora_fine" => convertiOrario($_POST["to"]),
-                "docente_referente" => $_POST["docente_referente"],
-                "posti" => intval($_POST["posti"]),
-                "titolo" => $_POST["titolo"],
-                "descrizione" => $_POST["descrizione"],
-                "pc_personale" => $_POST["pc_personale"] === 'on',
-                "attacco_hdmi" => $_POST["attacco_hdmi"] === 'on',
-                "microfono" => $_POST["microfono"] === 'on',
-                "adattatore_apple" => $_POST["adattatore_apple"] === 'on',
-                "live" => $_POST["live"] === 'on',
-                "rete" => $_POST["rete"] === 'on',
-                "proiettore" => $_POST["proiettore"] === 'on',
-                "mixer" => $_POST["mixer"] === 'on',
-                "vga" => $_POST["vga"] === 'on',
-                "cavi_audio" => $_POST["cavi_audio"] === 'on',
-                "email" => $_COOKIE['user']
-            );
+        "anno" => $_POST["year"],
+        "mese" => (intval($_POST["month"]) + 1),
+        "giorno" => $_POST["day"],
+        "data" => completaData($_POST["year"] . "-" . (intval($_POST["month"]) + 1) . "-" . $_POST["day"]),
+        "ora_inizio" => convertiOrario($_POST["from"]),
+        "ora_fine" => convertiOrario($_POST["to"]),
+        "docente_referente" => $_POST["docente_referente"],
+        "posti" => intval($_POST["posti"]),
+        "titolo" => $_POST["titolo"],
+        "descrizione" => $_POST["descrizione"],
+        "pc_personale" => $_POST["pc_personale"] === 'on',
+        "attacco_hdmi" => $_POST["attacco_hdmi"] === 'on',
+        "microfono" => $_POST["microfono"] === 'on',
+        "adattatore_apple" => $_POST["adattatore_apple"] === 'on',
+        "live" => $_POST["live"] === 'on',
+        "rete" => $_POST["rete"] === 'on',
+        "proiettore" => $_POST["proiettore"] === 'on',
+        "mixer" => $_POST["mixer"] === 'on',
+        "vga" => $_POST["vga"] === 'on',
+        "cavi_audio" => $_POST["cavi_audio"] === 'on',
+        "email" => $_COOKIE['email']
+    );
 
     if (convalidaData($row["data"])) {
         if (controlloDataMaggiore($row["data"]) && controllaSeLoggato()) {

@@ -91,15 +91,16 @@ function generaEventi($data)
         "vga" => 0,
         "cavi_audio" => 0
     );
+
+    $risposta = "";
     if ($stmt->execute()) {
         $stmt->store_result();
         $stmt->bind_result($row["titolo"], $row["data"], $row["ora_inizio"], $row["ora_fine"], $row["descrizione"], $row["email"], $row["stato"],
             $row["docente_referente"], $row["posti"], $row["pc_personale"], $row["attacco_hdmi"], $row["microfono"], $row["adattatore_apple"], $row["live"],
-            $row["rete"], $row["proiettore"], $row["mixer"], $row["vga"], $row["cavi_audio"]
-        );
+            $row["rete"], $row["proiettore"], $row["mixer"], $row["vga"], $row["cavi_audio"]);
         if ($stmt->num_rows > 0) {
             while ($stmt->fetch()) {
-                $risposta = generaHTML($row);
+                $risposta .= generaHTML($row);
             }
         } else {
             $risposta = "Nessun evento presente";

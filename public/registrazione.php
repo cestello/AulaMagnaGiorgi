@@ -37,7 +37,12 @@ include_once "../src/registrazione.php";
             <h5>Sito dell'Aula Magna</h5>
             <nav class="nav-bar-pre-header">
                 <?php
-                echo '<a href="' . generaLinkRisorsa("public/login.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/index/login.png") . '" class="user-icon"></a>';
+                if (controllaSeLoggato()) {
+                    echo '<a href="' . generaLinkRisorsa("public/profilo.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/icons/user.png") . '" class="user-icon"></a>';
+                    echo '<a href="' . generaLinkRisorsa("public/logout.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/icons/logout.png") . '" class="user-icon"></a>';
+                } else {
+                    echo '<a href="' . generaLinkRisorsa("public/login.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/icons/login.png") . '" class="user-icon"></a>';
+                }
                 ?>
 
             </nav>
@@ -53,6 +58,12 @@ include_once "../src/registrazione.php";
             <nav class="nav-bar">
                 <?php
                 echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
+                if (controllaSeLoggato()) {
+                    if (controllaSeAdmin()) {
+                        echo '<a href="' . generaLinkRisorsa("public/prenotazioni_admin.php") . '">Prenotazioni Admin</a>';
+                    }
+                    echo '<a href="' . generaLinkRisorsa("public/prenotazione.php") . '">Prenota</a>';
+                }
                 echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
                 ?>
             </nav>
@@ -63,7 +74,12 @@ include_once "../src/registrazione.php";
         <div class="mobile-menu" id="mobileMenu">
             <?php
             echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
-            echo '<a href="' . generaLinkRisorsa("public/login.php") . '">Accedi</a>';
+            if (controllaSeLoggato()) {
+                if (controllaSeAdmin()) {
+                    echo '<a href="' . generaLinkRisorsa("public/prenotazioni_admin.php") . '">Prenotazioni Admin</a>';
+                }
+                echo '<a href="' . generaLinkRisorsa("public/prenotazione.php") . '">Prenota</a>';
+            }
             echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
             ?>
         </div>

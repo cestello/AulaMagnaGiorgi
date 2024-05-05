@@ -21,9 +21,12 @@ function effettuaLogin($email, $password)
         $stmt->store_result();
         $stmt->bind_result($hash_pwd);
         $stmt->fetch();
-        if (hash('sha256', $password) === $hash_pwd) {
-            setcookie("user", $email, time() + 86400 * 30, "/");
-            setcookie("pass", $hash_pwd, time() + 86400 * 30, "/");
+
+        $hashed_password = creaHash($password);
+        if ($hashed_password === $hash_pwd) {
+            $time = time() + 86400 * 30;
+            setcookie("email", $email, $time, "/");
+            setcookie("session", creaCookie($email, $hashed_password), $time, "/");
             $stmt->close();
             $conn->close();
             header("Location: " . generaLinkRisorsa());

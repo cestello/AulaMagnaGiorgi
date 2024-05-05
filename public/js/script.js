@@ -57,7 +57,7 @@ function sceltaMesi(indiceMeseCorrente) {
  * @param oggi giorno corrente
  */
 function sceltaGiorni(anno, mese, oggi) {
-    const numeroDiGiorni = new Date(anno, mese, 0).getDate();
+    const numeroDiGiorni = new Date(anno, mese + 1, 0).getDate();
     oggi = Math.min(oggi, numeroDiGiorni);
 
     let opzioni = "";
