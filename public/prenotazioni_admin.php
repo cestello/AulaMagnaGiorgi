@@ -30,6 +30,11 @@ controllaScaduti();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <?php
+    echo collegaCSS("style");
+    echo collegaCSS("index");
+    ?>
+
     <title>
         Prenotazioni Admin
     </title>
@@ -37,41 +42,37 @@ controllaScaduti();
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(to left, #b9cfec, #b4c8d4);
+            background-color: #F5F5F5;
             margin: 0;
             padding: 0;
         }
 
         .main-container {
-            background: linear-gradient(to bottom, #b4c8d4, #3979cc);
-            max-width: 800px;
-            margin: 20px auto;
+            margin: auto;
+            margin-top: 150px;
+            background-color: #F5F5F5;
+            max-width: 1200px;
+            align-items: center;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             border-radius: 8px;
-        }
-
-        img {
-            display: block;
-            margin: 0 auto;
-            width: 243px;
-            height: 138px;
-            padding: 5px;
             margin-bottom: 10px;
         }
 
+
         h2 {
-            color: #333;
+            color: #000;
             margin-bottom: 20px;
         }
 
         .events-container {
-            background-color: rgba(245, 245, 245, 0.7);
-            margin-bottom: 20px;
+            background-color: #fff;
+            margin-bottom: 5px;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .events-container h2 {
@@ -92,9 +93,9 @@ controllaScaduti();
             margin: 0;
         }
 
-        input[type="button"] {
-            background-color: #043370;
-            color: #fff;
+        .button-page[type="button"] {
+            background-color: #51758d;
+            color: white;
             border: none;
             padding: 10px 20px;
             font-size: 16px;
@@ -102,16 +103,17 @@ controllaScaduti();
             border-radius: 5px;
             transition: .5s;
             margin-right: 5px;
+            margin-bottom: 5px;
         }
 
-        input[type="button"]:hover {
-            background-color: #BC2047;
+        .button-page[type="button"]:hover {
+            background-color: #43667e;
             transform: scale(1.02);
         }
 
-        a {
-            background-color: #043370;
-            color: #fff;
+        .main-container a {
+            background-color: #51758d;
+            color: black;
             border: none;
             padding: 10px 20px;
             font-size: 16px;
@@ -120,11 +122,11 @@ controllaScaduti();
             transition: .5s;
             margin-right: 5px;
             text-decoration: none;
-            font-weight: bold;
+
         }
 
-        a:hover {
-            background-color: #BC2047;
+        .main-container a:hover {
+            background-color: #43667e;
             transform: scale(1.02);
         }
 
@@ -151,30 +153,31 @@ controllaScaduti();
 </head>
 
 <body>
+    <?php include_once "header.php"; ?>
     <div class="main-container">
-        <?php
-        echo '<a style="all: unset; cursor: pointer;" href="' . generaLinkRisorsa() . '">';
-        echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
-        ?>
-        </a>
-        <br>
 
         <form>
             <div class="type-events-container" id="type-events-container">
-                <input type="button" name="nonvisionati" value="Non visionati" id="type-nonvisionati" onClick="gestisci_tipo_richiesta(this.id)">
-                <input type="button" name="accettati" value="Accettati" id="type-accettati" onClick="gestisci_tipo_richiesta(this.id)">
-                <input type="button" name="rifiutati" value="Rifiutati" id="type-rifiutati" onClick="gestisci_tipo_richiesta(this.id)">
-                <input type="button" name="annullati" value="Annullati" id="type-annullati" onClick="gestisci_tipo_richiesta(this.id)">
-                <input type="button" name="scaduti" value="Scaduti" id="type-scaduti" onClick="gestisci_tipo_richiesta(this.id)">
-            </div>
+                <input class="button-page" type="button" name="nonvisionati" value="Non visionati"
+                    id="type-nonvisionati" onClick="gestisci_tipo_richiesta(this.id)">
+                <input class="button-page" type="button" name="accettati" value="Accettati" id="type-accettati"
+                    onClick="gestisci_tipo_richiesta(this.id)">
+                <input class="button-page" type="button" name="rifiutati" value="Rifiutati" id="type-rifiutati"
+                    onClick="gestisci_tipo_richiesta(this.id)">
+                <input class="button-page" type="button" name="annullati" value="Annullati" id="type-annullati"
+                    onClick="gestisci_tipo_richiesta(this.id)">
+                <input class="button-page" type="button" name="scaduti" value="Scaduti" id="type-scaduti"
+                    onClick="gestisci_tipo_richiesta(this.id)">
+            </div><br>
             <h2>
                 <div class="events-container" id="events-container">
                     <?php
                     if ($_SERVER["REQUEST_METHOD"] == "GET" && ($tipo = convertiTipo($_GET["ID"])) !== -1) {
-                        if($tipo === 1)
+                        if ($tipo === 1) {
                             setupPrenotazioni($tipo, true);
-                        else
+                        } else {
                             setupPrenotazioni($tipo);
+                        }
                     } else {
                         setupPrenotazioni(0);
                     }
@@ -188,11 +191,10 @@ controllaScaduti();
                 <h1 id="closer"></h1>
             </h2><br>
         </form>
-
-        <?php
-        echo '<a href="' . generaLinkRisorsa() . '">Index</a>';
-        ?>
     </div>
+
+
+
     <script>
         var current_url = new URL(window.location.href);
         var last_url = current_url.searchParams.get("ID");
@@ -242,7 +244,6 @@ controllaScaduti();
                 });
         }
     </script>
-
 </body>
 
 </html>

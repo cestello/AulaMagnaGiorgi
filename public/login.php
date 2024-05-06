@@ -20,7 +20,12 @@ include_once "../src/login.php";
 <html lang="it-IT">
 
 <head>
+    <?php
+    echo collegaCSS("style");
+    ?>
+
     <title>Login</title>
+    
     <style>
         * {
             margin: 0;
@@ -376,42 +381,7 @@ include_once "../src/login.php";
 </head>
 
 <body>
-    <div class="pre-header-container">
-        <header class="pre-header">
-            <h5>Sito dell'Aula Magna</h5>
-            <nav class="nav-bar-pre-header">
-                <?php
-                echo '<a href="' . generaLinkRisorsa("public/login.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/icons/login.png") . '" class="user-icon"></a>';
-                ?>
-
-            </nav>
-        </header>
-    </div>
-
-    <div class="header-container">
-        <header class="header">
-            <?php
-            echo '<a href="' . generaLinkRisorsa() . '">';
-            echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
-            ?>
-            <nav class="nav-bar">
-                <?php
-                echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
-                echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
-                ?>
-            </nav>
-            <div class="menu-toggle" onclick="toggleMobileMenu()">
-                <i class="fas fa-bars"></i>
-            </div>
-        </header>
-        <div class="mobile-menu" id="mobileMenu">
-            <?php
-            echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
-            echo '<a href="' . generaLinkRisorsa("public/login.php") . '">Accedi</a>';
-            echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
-            ?>
-        </div>
-    </div>
+    <?php include_once "./header.php"; ?>
 
     <div id="form-container">
         <form method="post" id="formLogin">
@@ -446,6 +416,10 @@ include_once "../src/login.php";
             </div>
         </form>
     </div>
+
+    <?php //include_once "./footer.php"; ?>
+
+    <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
     <script>
         function toggleMobileMenu() {
             var mobileMenu = document.getElementById("mobileMenu");
@@ -462,8 +436,6 @@ include_once "../src/login.php";
             }
         }
     </script>
-    <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
 </body>
-
 
 </html>

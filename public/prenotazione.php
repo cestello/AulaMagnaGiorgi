@@ -23,6 +23,9 @@ include_once "../src/prenotazione.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="http://138.41.20.100/~rizzello2400/public/css/style.css">
+    <?php
+    echo collegaCSS("style");
+    ?>
 
     <title>
         Prenotazione
@@ -342,6 +345,7 @@ include_once "../src/prenotazione.php";
 
         #submit input[type="submit"]:hover {
             background-color: #43667e;
+            transform: scale(1.02);
         }
 
         /* Stile per i messaggi di errore o successo */
@@ -468,9 +472,9 @@ include_once "../src/prenotazione.php";
             width: 100%;
         }
 
-        h5 {
+        /* h5 {
             text-decoration: underline;
-        }
+        } */
 
 
         .close-btn {
@@ -790,7 +794,7 @@ include_once "../src/prenotazione.php";
                 <input type="text" name="titolo" id="titolo" minlength="4" maxlength="64" required>
 
                 <label for="descrizione">Descrizione:</label>
-                <textarea name="descrizione" id="descrizione" rows="6" cols="78" maxlength="50"
+                <textarea name="descrizione" id="descrizione" rows="6" cols="78" maxlength="1024"
                     style="resize: none;"></textarea>
 
                 <label for="docente_referente">Professore referente dell'evento:</label>
@@ -866,6 +870,8 @@ include_once "../src/prenotazione.php";
         unset($_SESSION['message']);
         ?>
     </form>
+
+    <?php include_once "./footer.php"; ?>
 
     <?php
     echo '<script src="' . generaLinkRisorsa("public/js/script.js") . '"></script>';

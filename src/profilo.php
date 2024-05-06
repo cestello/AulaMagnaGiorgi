@@ -46,11 +46,75 @@ function generaUtente()
 }
 
 /**
+ * Genera il codice HTML di ogni evento
+ *
+ * @param array row tupla dell'evento
+ * @param string stato della richiesta dell'evento
+ * @return string il codice HTML dell'evento
+ */
+function generaHTMLEvento($row, $stato) {
+    foreach ($row as &$i) {
+        if ($i === 0) {
+            $i = "No";
+        } elseif ($i === 1) {
+            $i = "Si";
+        }
+    }
+
+    $html = "Stato: " . $stato . "<br>";
+    $html .= "Nome: " . $row["titolo"] . "<br>";
+    $html .= "Richiesto da: " . $row["email"] . "<br>";
+    $html .= "Data: " . $row["data"] . "<br>";
+    $html .= " Dalle ore: " . $row["ora_inizio"] . " alle " . $row["ora_fine"] . "<br>";
+    $html .= "Docente referente: " . $row["docente_referente"] . "<br>";
+    $html .= "Posti: " . $row["posti"] . "<br>";
+
+    // Strumentazione
+    if ($row["pc_personale"] === "Si") {
+        $html .= "Pc personale: " . $row["pc_personale"] . "<br>";
+    }
+    if ($row["attacco_hdmi"] === "Si") {
+        $html .= "Attacco HDMI: " . $row["attacco_hdmi"] . "<br>";
+    }
+    if ($row["microfono"] === "Si") {
+        $html .= "Microfono: " . $row["microfono"] . "<br>";
+    }
+    if ($row["adattatore_apple"] === "Si") {
+        $html .= "Adattatore Apple: " . $row["adattatore_apple"] . "<br>";
+    }
+    if ($row["live"] === "Si") {
+        $html .= "live: " . $row["live"] . "<br>";
+    }
+    if ($row["rete"] === "Si") {
+        $html .= "Rete: " . $row["rete"] . "<br>";
+    }
+    if ($row["proiettore"] === "Si") {
+        $html .= "Proiettore: " . $row["proiettore"] . "<br>";
+    }
+    if ($row["mixer"] === "Si") {
+        $html .= "Mixer: " . $row["mixer"] . "<br>";
+    }
+    if ($row["vga"] === "Si") {
+        $html .= "Vga: " . $row["vga"] . "<br>";
+    }
+    if ($row["cavi_audio"] === "Si") {
+        $html .= "Cavi audio: " . $row["cavi_audio"] . "<br>";
+    }
+ 
+    if (isset($descrizione) && $descrizione !== "") {
+        $html .= "Descrizione: " . $descrizione . "<br>";
+    }
+
+    $html .= "<br>";
+    
+    return $html;
+}
+
+/**
  * Raccoglie gli eventi legati all'utente per disporli sul proprio profilo
  *
  * @return array record di eventi
  */
-
 function generaEventi()
 {
     $conn = connectToDatabase();
@@ -58,7 +122,9 @@ function generaEventi()
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $stmt = $conn->prepare("SELECT * FROM eventi NATURAL JOIN strumentazioni ORDER BY data ASC, ora_inizio ASC");
+    $stmt = $conn->prepare("SELECT * FROM eventi NATURAL JOIN strumentazioni WHERE email = ? ORDER BY data DESC, ora_inizio ASC");
+    $email = $_COOKIE['email'];
+    $stmt->bind_param("s", $email);
 
     if (!$stmt->execute()) {
         $stmt->close();
@@ -140,30 +206,8 @@ function generaEventi()
             $stato = "errore nel determinare lo stato";
         }
 
-        foreach ($row as &$i) {
-            if ($i === 0) {
-                $i = "No";
-            } elseif ($i === 1) {
-                $i = "Si";
-            }
-        }
-
-        $stringa = "Stato: " . $stato . "<br>" . "Nome: " . $row["titolo"] . "<br>" . "Richiesto da: " . $row["email"] . "<br>" .
-            "Data: " . $row["data"] . " Dalle ore: " . $row["ora_inizio"] . " alle " .
-            $row["ora_fine"] . "<br>" . "Docente referente: " . $row["docente_referente"] . "<br>"
-            . "Posti: " . $row["posti"] . "<br>" . "Pc personale: " . $row["pc_personale"] . "<br>"
-            . "Attacco HDMI: " . $row["attacco_hdmi"] . "<br>" . "Microfono: " . $row["microfono"] . "<br>"
-            . "Adattatore Apple: " . $row["adattatore_apple"] . "<br>" . "live: " . $row["live"] . "<br>"
-            . "Rete: " . $row["rete"] . "<br>" . "Proiettore: " . $row["proiettore"] . "<br>"
-            . "Mixer: " . $row["mixer"] . "<br>" . "Vga: " . $row["vga"] . "<br>"
-            . "Cavi audio: " . $row["cavi_audio"] . "<br>";
-
-        if (isset($descrizione) && $descrizione !== "") {
-            $stringa .= "Descrizione: " . $descrizione . "<br>";
-        }
-
-        $stringa .= "<br>";
-        array_push($result, $stringa);
+        $codiceHTML = generaHTMLEvento($row, $stato);
+        array_push($result, $codiceHTML);
     }
 
     $stmt->close();

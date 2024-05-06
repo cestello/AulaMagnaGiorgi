@@ -4,6 +4,9 @@ session_start();
 
 include_once "../src/utils.php";
 include_once "../src/check_cookie.php";
+
+controllaSeLoggato();
+
 include_once "../src/eventi_giorno.php";
 
 /**
@@ -28,7 +31,9 @@ function generaHTML($row)
     $codiceHTML = "<div class='event-card'>";
     $codiceHTML .= "<h2>" . $row["titolo"] . "</h2>";
     $codiceHTML .= "<p><strong>Ora:</strong> " . substr($row["ora_inizio"], 0, 5) . " - " . substr($row["ora_fine"], 0, 5) . "</p>";
-    $codiceHTML .= "<p><strong>Descrizione:</strong> " . $row["descrizione"] . "</p>";
+    if (isset($row['descrizione']) && $row['descrizione'] !== "") {
+        $codiceHTML .= "<p><strong>Descrizione:</strong> " . $row["descrizione"] . "</p>";
+    }
     $codiceHTML .= "<p class='event-docente_referente'><strong>Docente referente:</strong> " . $row["docente_referente"] . "</p>";
     $codiceHTML .= "</div>";
 
@@ -43,20 +48,27 @@ function generaHTML($row)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./public/css/index.css" type="text/css">
-    <!-- css nella stessa cartella worka, perche'? boh, lasciatelo qui al momento !-->
-    <!-- modificato da napolitano, da provare -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <?php
+    echo collegaCSS("style");
+    echo collegaCSS("index");
+    ?>
 
     <title>
         Eventi giorno
     </title>
+    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: Titillium Web, sans-serif;
+        }
+
+        body {
+            background-color: #F5F5F5;
         }
 
         .main-content {
@@ -77,7 +89,7 @@ function generaHTML($row)
 
         .main-container {
             max-width: 800px;
-            margin: 200px auto 0;
+            margin: 150px auto 0;
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
@@ -119,14 +131,14 @@ function generaHTML($row)
         }
 
         .buttons-container {
-            margin-top: 20px;
+            margin-top: 30px;
 
         }
 
 
         .buttons-container>a {
             width: 100%;
-            padding: 10px;
+            padding: 15px;
             margin-top: 10px;
             border: none;
             border-radius: 5px;
@@ -136,6 +148,10 @@ function generaHTML($row)
             cursor: pointer;
             margin-bottom: 10px;
             font-weight: bold;
+        }
+
+        .buttons-container>a:hover {
+            background-color: #415c72;
         }
 
         .header-container {
@@ -255,9 +271,6 @@ function generaHTML($row)
             width: 100%;
         }
 
-
-
-
         .mobile-menu {
             display: none;
         }
@@ -269,57 +282,7 @@ function generaHTML($row)
 </head>
 
 <body>
-    <div class="pre-header-container">
-        <header class="pre-header">
-            <h5>Sito dell'Aula Magna</h5>
-            <nav class="nav-bar-pre-header">
-                <?php
-                if (controllaSeLoggato()) {
-                    echo '<a href="' . generaLinkRisorsa("public/profilo.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/icons/user.png") . '" class="user-icon"></a>';
-                    echo '<a href="' . generaLinkRisorsa("public/logout.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/icons/logout.png") . '" class="user-icon"></a>';
-                } else {
-                    echo '<a href="' . generaLinkRisorsa("public/login.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/icons/login.png") . '" class="user-icon"></a>';
-                }
-                ?>
-            </nav>
-        </header>
-    </div>
-
-    <div class="header-container">
-        <header class="header">
-            <?php
-            echo '<a href="' . generaLinkRisorsa() . '">';
-            echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
-            ?>
-            <nav class="nav-bar">
-                <?php
-                echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
-                if (controllaSeLoggato()) {
-                    if (controllaSeAdmin()) {
-                        echo '<a href="' . generaLinkRisorsa("public/prenotazioni_admin.php") . '">Prenotazioni Admin</a>';
-                    }
-                    echo '<a href="' . generaLinkRisorsa("public/prenotazione.php") . '">Prenota</a>';
-                }
-                echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
-                ?>
-            </nav>
-            <div class="menu-toggle" onclick="toggleMobileMenu()">
-                <i class="fas fa-bars"></i>
-            </div>
-        </header>
-        <div class="mobile-menu" id="mobileMenu">
-            <?php
-            echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
-            if (controllaSeLoggato()) {
-                if (controllaSeAdmin()) {
-                    echo '<a href="' . generaLinkRisorsa("public/prenotazioni_admin.php") . '">Prenotazioni Admin</a>';
-                }
-                echo '<a href="' . generaLinkRisorsa("public/prenotazione.php") . '">Prenota</a>';
-            }
-            echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
-            ?>
-        </div>
-    </div>
+    <?php include_once "./header.php"; ?>
 
     <div class="main-container">
         <?php
@@ -363,6 +326,8 @@ function generaHTML($row)
         </div>
 
     </div>
+
+    <?php //include_once "./footer.php"; ?>
 </body>
 
 </html>

@@ -21,76 +21,23 @@ include_once "../src/registrazione.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/registrazione.css" type="text/css">
-    <!-- css nella stessa cartella worka, perche'? boh, lasciatelo qui al momento !-->
-    <!-- modificato da napolitano, da provare -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <?php
+    echo collegaCSS("registrazione");
+    echo collegaCSS("style");
+    echo collegaCSS("index");
+    ?>
+    
     <title>
         Registrazione Account
     </title>
-
 </head>
 
 <body>
-    <div class="pre-header-container">
-        <header class="pre-header">
-            <h5>Sito dell'Aula Magna</h5>
-            <nav class="nav-bar-pre-header">
-                <?php
-                if (controllaSeLoggato()) {
-                    echo '<a href="' . generaLinkRisorsa("public/profilo.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/icons/user.png") . '" class="user-icon"></a>';
-                    echo '<a href="' . generaLinkRisorsa("public/logout.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/icons/logout.png") . '" class="user-icon"></a>';
-                } else {
-                    echo '<a href="' . generaLinkRisorsa("public/login.php") . '" class="user-link"><img src="' . generaLinkRisorsa("resources/icons/login.png") . '" class="user-icon"></a>';
-                }
-                ?>
-
-            </nav>
-        </header>
-    </div>
-
-    <div class="header-container">
-        <header class="header">
-            <?php
-            echo '<a href="' . generaLinkRisorsa() . '">';
-            echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
-            ?>
-            <nav class="nav-bar">
-                <?php
-                echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
-                if (controllaSeLoggato()) {
-                    if (controllaSeAdmin()) {
-                        echo '<a href="' . generaLinkRisorsa("public/prenotazioni_admin.php") . '">Prenotazioni Admin</a>';
-                    }
-                    echo '<a href="' . generaLinkRisorsa("public/prenotazione.php") . '">Prenota</a>';
-                }
-                echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
-                ?>
-            </nav>
-            <div class="menu-toggle" onclick="toggleMobileMenu()">
-                <i class="fas fa-bars"></i>
-            </div>
-        </header>
-        <div class="mobile-menu" id="mobileMenu">
-            <?php
-            echo '<a href="' . generaLinkRisorsa("") . '">Home</a>';
-            if (controllaSeLoggato()) {
-                if (controllaSeAdmin()) {
-                    echo '<a href="' . generaLinkRisorsa("public/prenotazioni_admin.php") . '">Prenotazioni Admin</a>';
-                }
-                echo '<a href="' . generaLinkRisorsa("public/prenotazione.php") . '">Prenota</a>';
-            }
-            echo '<a href="' . generaLinkRisorsa("public/calendario.php") . '">Calendario</a>';
-            ?>
-        </div>
-    </div>
-
-
+    <?php include_once "./header.php"; ?>
 
     <form method="post" id="FormRegistrazione">
-
-        </a>
-
         <h1>Registrazione</h1>
 
         <label for="Nome">Nome:
@@ -151,6 +98,8 @@ include_once "../src/registrazione.php";
         unset($_SESSION['message']);
         ?>
     </form>
+
+    <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
     <script>
         function nomeinfo() {
             let element = document.getElementById("infonome");
@@ -188,7 +137,6 @@ include_once "../src/registrazione.php";
             }
         }
     </script>
-    <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

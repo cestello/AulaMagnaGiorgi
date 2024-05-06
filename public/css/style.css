@@ -27,3 +27,21 @@
 .non-definito {
     background: var(--NON-DEFINITO);
 }
+
+
+.footer {
+    width: 100%;
+    padding: 3px 150px;
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 50px;
+    background-color: #51758d;
+    color: #ffffff;
+  }
+  
+  .testo-footer {
+    margin: auto;
+  }
+  

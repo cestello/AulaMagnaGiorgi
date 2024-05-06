@@ -66,26 +66,33 @@ function gestisciInput($id, $tipo)
     }
 }
 
-function convertiTipo($tipo) {
-    if ($tipo === "type-nonvisionati")
+function convertiTipo($tipo)
+{
+    if ($tipo === "type-nonvisionati") {
         return 0;
-    
-    if ($tipo === "type-accettati") 
+    }
+
+    if ($tipo === "type-accettati") {
         return 1;
-    
-    if ($tipo === "type-rifiutati") 
+    }
+
+    if ($tipo === "type-rifiutati") {
         return 2;
-    
-    if ($tipo === "type-annullati") 
+    }
+
+    if ($tipo === "type-annullati") {
         return 3;
-    
-    if ($tipo === "type-scaduti") 
+    }
+
+    if ($tipo === "type-scaduti") {
         return 4;
-    
+    }
+
     return -1;
 }
 
-function controllaScaduti() {
+function controllaScaduti()
+{
     $conn = connectToDatabase();
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -93,7 +100,7 @@ function controllaScaduti() {
 
     $stato_nonvisionato = 0;
     $stato_scaduto = 4;
-    
+
     $stmt = $conn->prepare("UPDATE eventi SET stato = ? WHERE stato = ? AND data <= CURDATE()");
     $stmt->bind_param("ii", $stato_scaduto, $stato_nonvisionato);
     if (!$stmt->execute()) {

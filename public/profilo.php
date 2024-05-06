@@ -25,40 +25,217 @@ $lista_eventi = generaEventi();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <?php
+    echo collegaCSS("style");
+    ?>
+
     <title>
         Profilo
     </title>
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(to left, #b9cfec, #b4c8d4);
+
             margin: 0;
             padding: 0;
         }
 
-        .main-container {
-            background: linear-gradient(to bottom, #b4c8d4, #3979cc);
-            max-width: 800px;
-            margin: 20px auto;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-radius: 8px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Titillium Web, sans-serif;
         }
 
-        .profile-container,
-        .events-container {
-            background-color: #F5F5F5;
+        .main-content {
+            margin-top: 100px;
+            /* Assicura che il contenuto non venga sovrapposto dall'header */
+        }
+
+        .header-container {
+            position: fixed;
+            top: 60px;
+            /* Altezza del pre-header */
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header {
+            width: 100%;
+            padding: 3px 150px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
             margin-bottom: 20px;
-            padding: 20px;
-            border: 1px solid #ddd;
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .pre-header-container {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .pre-header {
+            overflow: hidden;
+            width: 100%;
+            padding: 10px 150px;
+            background-color: transparent;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #51758d;
+            color: #ffffff;
+        }
+
+        span {
+            color: #ffffff;
+        }
+
+        .header img {
+            width: 121px;
+            height: 70px;
+        }
+
+        .user-icon {
+            width: 35px;
+            height: 35px;
+        }
+
+        .user-icon:hover {
+            transform: scale(1.1);
+            transition: transform 0.8s ease;
+        }
+
+        .nav-bar-pre-header a {
+            position: relative;
+            font-size: 18px;
+            color: #000;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 40px;
+        }
+
+        .nav-bar-pre-header a::before {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #000;
+            transition: 0.3s;
+        }
+
+        .nav-bar a {
+            position: relative;
+            font-size: 18px;
+            color: #000;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 40px;
+        }
+
+        .nav-bar a::before {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #000;
+            transition: 0.3s;
+        }
+
+        .pre-header .nav-bar a::before {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ffffff;
+            transition: 0.3s;
+        }
+
+        .nav-bar a:hover::before {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+
+        .menu-toggle {
+            display: none;
+        }
+
+        .main-container {
+
+            width: 100%;
+            display: flex;
+            margin: auto 0;
+            background-color: #F5F5F5;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
             border-radius: 8px;
         }
 
-        h1,
-        h2 {
-            color: #333;
+        .profile-container {
+            width: 30%;
+            background-color: #F5F5F5;
+
+
+            border: 1px solid #ddd;
+
         }
+
+        .events-container {
+            width: 70%;
+            background-color: #F5F5F5;
+            margin-top: 160px;
+            
+            display: grid;
+            padding: 10px 40px;;
+            /* border: 1px solid #ddd; */
+
+            grid-template-columns: repeat(4, 1fr);
+            /* Distribuisce gli eventi su 4 colonne */
+            gap: 20px;
+            justify-content: center;
+            
+        }
+
+        .testo-profilo {
+            position: sticky;
+            margin: 250px 30px;
+            
+            padding: 20px;
+            justify-content: center;
+            text-align: center;
+            background-color: #51758d;
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .evento {
+            height: 400px;
+            background-color: #fff;
+            justify-content: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            margin: auto 0;
+            width: 250px;
+            border-radius: 5px;
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
 
         .profile-container h1 {
             margin-bottom: 10px;
@@ -81,91 +258,43 @@ $lista_eventi = generaEventi();
             margin: 0;
             /* Remove default form margin */
         }
-
-        img {
-            display: block;
-            margin: 0 auto;
-            width: 243px;
-            height: 138px;
-            padding: 5px;
-            margin-bottom: 10px;
-        }
-
-        a {
-            background-color: #043370;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: .5s;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        a:hover {
-            background-color: #BC2047;
-            transform: scale(1.03);
-        }
-
-        @media screen and (max-width: 600px) {
-            .main-container {
-                padding: 10px;
-            }
-
-            .buttons-container {
-                flex-direction: column;
-            }
-
-            a {
-                width: 100%;
-                margin: 10px 0;
-            }
-        }
     </style>
 </head>
 
 <body>
+    <?php include_once "./header.php"; ?>
+
     <div class="main-container">
-        <?php
-        echo '<a style="all: unset; cursor: pointer;" href="' . generaLinkRisorsa() . '">';
-        echo '<img src="' . generaLinkRisorsa("resources/LogoGiorgi.png") . '" alt="LogoGiorgi">';
-        ?>
-        </a>
         <div class="profile-container">
-            <h1>Email:
-                <?php echo $generalita["email"]; ?>
-            </h1>
-            <h1>Nome:
-                <?php echo $generalita["nome"]; ?>
-            </h1>
-            <h1>Cognome:
-                <?php echo $generalita["cognome"]; ?>
-            </h1>
+            <div class="testo-profilo">
+                <h1>Email:
+                    <?php echo $generalita["email"]; ?>
+                </h1>
+                <h1>Nome:
+                    <?php echo $generalita["nome"]; ?>
+                </h1>
+                <h1>Cognome:
+                    <?php echo $generalita["cognome"]; ?>
+                </h1>
+            </div>
         </div>
 
         <div class="events-container">
-            <h2>Lista Prenotazioni</h2>
+
             <?php
             if (sizeof($lista_eventi) <= 0) {
                 echo "Nessun evento prenotato";
             } else {
                 foreach ($lista_eventi as $evento) {
-                    echo $evento;
+                    echo "<div class='evento'>" . $evento . "</div>";
                 }
             }
             ?>
         </div>
 
-
-        <div class="buttons-container">
-            <?php
-            echo '<a href="' . generaLinkRisorsa("src/logout.php") . '">Logout</a>';
-            echo '<a href="' . generaLinkRisorsa() . '">Index</a>';
-            ?>
-        </div>
     </div>
+
+    <?php include_once "./footer.php"; ?>
 </body>
 
 </html>

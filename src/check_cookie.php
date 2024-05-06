@@ -33,9 +33,9 @@ function creaCookie($email, $hashed_password)
 {
     $data = array(
         "email" => $email,
-        "hashed_spassword" => $hashed_password
+        "hashed_password" => $hashed_password
     );
-    return base64_encode(hash('sha256', json_encode($data)));
+    return hash('sha256', json_encode($data));
 }
 
 /**
@@ -79,11 +79,11 @@ function controllaSeLoggato()
             }
         }
         
-        echo $_SESSION['message'];
+        // echo $_SESSION['message'];
         $stmt->close();
         $conn->close();
     } elseif (isset($_COOKIE['email']) || isset($_COOKIE['session'])) {
-        // setcookie('flag', 'flag{cosa_stai_facendo_con_i_cookie?}', time() + 5, '/');
+        setcookie('>:(', 'flag{cosa_stai_facendo_con_i_cookie?}', time() + 10, '/');
         logout();
     }
     return $loggato;

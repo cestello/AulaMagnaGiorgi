@@ -26,6 +26,17 @@ const MIN_LUNGHEZZA_EMAIL = 7;
 const MAX_LUNGHEZZA_EMAIL = 128;
 
 /**
+ * Genera il codice HTML per il collegamento dei fogli di stile
+ *
+ * @param string nome del file CSS SENZA l'estensione (si assume che si trovi in '/public/css/')
+ * @return string codice HTML del tag <link \>
+ */
+function collegaCSS($nomeFile = "style")
+{
+    return '<link rel="stylesheet" href="' . generaLinkRisorsa("public/css/" . $nomeFile . ".css") . '" type="text/css">';
+}
+
+/**
  * Ritorna un link ad una risorsa il cui percorso
  * è concatenato alla root (src/utils.php -> MAINURL)
  *
@@ -52,10 +63,11 @@ function connectToDatabase()
     return new mysqli($servername, $username, $password, $dbname);
 }
 
-function logout() {
+function logout()
+{
     setcookie('email', '', -1, '/');
     setcookie('session', '', -1, '/');
-    
+
     header("Location: " . MAINURL);
     die();
 }
@@ -179,12 +191,12 @@ function inputIsValid($data, $ora_inizio, $ora_fine, $titolo)
     if (!isset($anno)) {
         return 1;
     }
-    
+
     $mese = ottieniMese($data);
     if (!isset($mese)) {
         return 2;
     }
-    
+
     $giorno = ottieniGiorno($data);
     if (!isset($giorno)) {
         return 3;
@@ -315,7 +327,7 @@ function checkEventoEsistente($data, $ora_inizio, $ora_fine, $tipo = false)
         die("Connection failed: " . $conn->connect_error);
     }
     $data = completaData($data);
-    
+
     $stmt = $conn->prepare("SELECT ID, ora_inizio, ora_fine FROM eventi WHERE data = ? AND stato = 1");
     $stmt->bind_param("s", $data);
     if (!$stmt->execute()) {
@@ -324,7 +336,7 @@ function checkEventoEsistente($data, $ora_inizio, $ora_fine, $tipo = false)
         $conn->close();
         return false;
     }
-    
+
     $stmt->store_result();
     if ($stmt->num_rows <= 0) {
         $stmt->close();
@@ -388,7 +400,7 @@ function ottieniDataDaID($id)
         $conn->close();
         return array(-1, -1, -1);
     }
-    
+
     $stmt->store_result();
     if ($stmt->num_rows <= 0) {
         $stmt->close();
@@ -412,7 +424,7 @@ function ottieniDataDaID($id)
  */
 function pulsante($tipo, $id)
 {
-    return '<input type="button" name="' . $tipo . '" value="' . $tipo .
+    return '<input class="button-page" type="button" name="' . $tipo . '" value="' . $tipo .
         '" id="' . $id . '" onClick="gestisci_richiesta(this.id, this.name)">';
 }
 
@@ -422,19 +434,22 @@ function pulsante($tipo, $id)
  *
  * @param int $stato dell'evento
  * @param int $id dell'evento
+ * @return string codice HTML del pulsante
  */
 function setupTipoPrenotazioni($stato, $id)
 {
+    $pulsante = "";
     if ($stato === 0) {
-        echo pulsante("accetta", $id);
-        echo pulsante("rifiuta", $id);
+        $pulsante .= pulsante("accetta", $id);
+        $pulsante .= pulsante("rifiuta", $id);
     } elseif ($stato === 1) {
-        echo pulsante("annulla", $id);
+        $pulsante .= pulsante("annulla", $id);
     } elseif ($stato === 2) {
-        echo pulsante("accetta", $id);
+        $pulsante .= pulsante("accetta", $id);
     } elseif ($stato === 3) {
-        echo pulsante("accetta", $id);
+        $pulsante .= pulsante("accetta", $id);
     }
+    return $pulsante;
 }
 
 /**
@@ -449,10 +464,9 @@ function setupPrenotazioni($stato, $type = false)
         die("Connection failed: " . $conn->connect_error);
     }
 
-    if(!$type) {
+    if (!$type) {
         $stmt = $conn->prepare("SELECT * FROM eventi NATURAL JOIN strumentazioni WHERE stato = ? ORDER BY data ASC, ora_inizio ASC");
-    }
-    else {
+    } else {
         $stmt = $conn->prepare("SELECT * FROM eventi NATURAL JOIN strumentazioni WHERE stato = ? AND data >= CURDATE()
         ORDER BY data DESC, ora_inizio ASC");
     }
@@ -495,37 +509,87 @@ function setupPrenotazioni($stato, $type = false)
         "cavi_audio" => 0
     );
 
-    $stmt->bind_result($row["id"], $row["titolo"], $row["data"], $row["ora_inizio"], $row["ora_fine"], $row["descrizione"], $row["email"], $row["stato"],
-        $row["docente_referente"], $row["posti"], $row["pc_personale"], $row["attacco_hdmi"], $row["microfono"], $row["adattatore_apple"], $row["live"],
-        $row["rete"], $row["proiettore"], $row["mixer"], $row["vga"], $row["cavi_audio"]
+    $stmt->bind_result(
+        $row["id"],
+        $row["titolo"],
+        $row["data"],
+        $row["ora_inizio"],
+        $row["ora_fine"],
+        $row["descrizione"],
+        $row["email"],
+        $row["stato"],
+        $row["docente_referente"],
+        $row["posti"],
+        $row["pc_personale"],
+        $row["attacco_hdmi"],
+        $row["microfono"],
+        $row["adattatore_apple"],
+        $row["live"],
+        $row["rete"],
+        $row["proiettore"],
+        $row["mixer"],
+        $row["vga"],
+        $row["cavi_audio"]
     );
-    
+
     while ($stmt->fetch()) {
-        foreach($row as &$i) {
-            if($i === 0) {
+        foreach ($row as &$i) {
+            if ($i === 0) {
                 $i = "No";
-            } elseif($i === 1) {
+            } elseif ($i === 1) {
                 $i = "Si";
             }
         }
-        echo '<div class="events-container ' . $row["id"] . '">';
-        echo "Nome: " . $row["titolo"] . "<br>" . "Richiesto da: " . $row["email"] . "<br>" .
-            "Data: " . $row["data"] . " Dalle ore: " . $row["ora_inizio"] . " alle " .
-            $row["ora_fine"] . "<br>" . "Docente referente: " . $row["docente_referente"] . "<br>"
-            . "Posti: " . $row["posti"] . "<br>" . "Pc personale: " . $row["pc_personale"] . "<br>"
-            . "Attacco HDMI: " . $row["attacco_hdmi"] . "<br>" . "Microfono: " . $row["microfono"] . "<br>"
-            . "Adattatore Apple: " . $row["adattatore_apple"] . "<br>" . "live: " . $row["live"] . "<br>"
-            . "Rete: " . $row["rete"] . "<br>" . "Proiettore: " . $row["proiettore"] . "<br>"
-            . "Mixer: " . $row["mixer"] . "<br>" . "Vga: " . $row["vga"] . "<br>"
-            . "Cavi audio: " . $row["cavi_audio"] . "<br>";
 
-        if (isset($descrizione) && $descrizione !== "") {
-            echo "Descrizione: " . $descrizione . "<br>";
+        $html = '<div class="events-container ' . $row["id"] . '">';
+        $html .= "Nome: " . $row["titolo"] . "<br>";
+        $html .= "Richiesto da: " . $row["email"] . "<br>";
+        $html .= "Data: " . $row["data"] . "<br>";
+        $html .= " Dalle ore: " . $row["ora_inizio"] . " alle " . $row["ora_fine"] . "<br>";
+        $html .= "Docente referente: " . $row["docente_referente"] . "<br>";
+        $html .= "Posti: " . $row["posti"] . "<br>";
+
+        // Strumentazione
+        if ($row["pc_personale"] === "Si") {
+            $html .= "Pc personale: " . $row["pc_personale"] . "<br>";
+        }
+        if ($row["attacco_hdmi"] === "Si") {
+            $html .= "Attacco HDMI: " . $row["attacco_hdmi"] . "<br>";
+        }
+        if ($row["microfono"] === "Si") {
+            $html .= "Microfono: " . $row["microfono"] . "<br>";
+        }
+        if ($row["adattatore_apple"] === "Si") {
+            $html .= "Adattatore Apple: " . $row["adattatore_apple"] . "<br>";
+        }
+        if ($row["live"] === "Si") {
+            $html .= "live: " . $row["live"] . "<br>";
+        }
+        if ($row["rete"] === "Si") {
+            $html .= "Rete: " . $row["rete"] . "<br>";
+        }
+        if ($row["proiettore"] === "Si") {
+            $html .= "Proiettore: " . $row["proiettore"] . "<br>";
+        }
+        if ($row["mixer"] === "Si") {
+            $html .= "Mixer: " . $row["mixer"] . "<br>";
+        }
+        if ($row["vga"] === "Si") {
+            $html .= "Vga: " . $row["vga"] . "<br>";
+        }
+        if ($row["cavi_audio"] === "Si") {
+            $html .= "Cavi audio: " . $row["cavi_audio"] . "<br>";
         }
 
-        echo "<br>";
-        setupTipoPrenotazioni($stato, $row["id"]);
-        echo "</div><br>";
+        if (isset($descrizione) && $descrizione !== "") {
+            $html .= "Descrizione: " . $descrizione . "<br>";
+        }
+
+        $html .= "<br>";
+        $html .= setupTipoPrenotazioni($stato, $row["id"]);
+        $html .= "</div><br>";
+        
+        echo $html;
     }
 
     $stmt->close();
