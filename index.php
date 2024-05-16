@@ -144,7 +144,7 @@ controllaSeLoggato();
                 </div>
                 <div class="right">
                     <div class="item active">
-                        <img src="resources/webp/DJI_0572.webp" alt="" />
+                        <img src="resources/webp/DJI_0572.webp" alt="">
                     </div>
 
                     <div class="item">
@@ -180,7 +180,6 @@ controllaSeLoggato();
     <script>
         let items = document.querySelectorAll(".item");
         let carousel = document.querySelector(".carousel");
-
         document.addEventListener("scroll", () => {
             let proportion =
                 carousel.getBoundingClientRect().top / window.innerHeight;

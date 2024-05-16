@@ -417,7 +417,7 @@ include_once "../src/login.php";
         </form>
     </div>
 
-    <?php //include_once "./footer.php"; ?>
+    <?php include_once "./footer.php"; ?>
 
     <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
     <script>

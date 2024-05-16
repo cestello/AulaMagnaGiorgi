@@ -47,6 +47,7 @@ function creaCookie($email, $hashed_password)
 function controllaSeLoggato()
 {
     $loggato = false;
+    
     if (isset($_COOKIE['email']) && isset($_COOKIE['session'])) {
         $email = $_COOKIE['email'];
         $cookie = $_COOKIE['session'];

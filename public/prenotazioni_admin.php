@@ -191,8 +191,10 @@ controllaScaduti();
                 <h1 id="closer"></h1>
             </h2><br>
         </form>
+        <?php //include_once "./footer.php"; ?>
     </div>
-
+    
+    
 
 
     <script>

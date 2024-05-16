@@ -32,11 +32,14 @@ include_once "../src/registrazione.php";
     <title>
         Registrazione Account
     </title>
+
+
 </head>
 
 <body>
     <?php include_once "./header.php"; ?>
 
+    
     <form method="post" id="FormRegistrazione">
         <h1>Registrazione</h1>
 
@@ -88,7 +91,7 @@ include_once "../src/registrazione.php";
         echo '<a id="forgot-pass" href="' . generaLinkRisorsa("public/login.php");
         echo '">Hai gi&agrave; un account? Accedi</a>';
         ?>
-        <br><br>
+        <br>
 
         <input type="submit" name="Invia">
         <?php
@@ -98,7 +101,9 @@ include_once "../src/registrazione.php";
         unset($_SESSION['message']);
         ?>
     </form>
-
+    
+        <?php //include_once "./footer.php"; ?>
+    
     <script src="https://kit.fontawesome.com/a8d5f6e743.js" crossorigin="anonymous"></script>
     <script>
         function nomeinfo() {
@@ -137,6 +142,8 @@ include_once "../src/registrazione.php";
             }
         }
     </script>
+
+    
 </body>
 
 </html>

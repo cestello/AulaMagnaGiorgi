@@ -17,7 +17,7 @@ function effettuaLogin($email, $password)
     $stmt = $conn->prepare("SELECT password FROM utenti WHERE email = ?");
     $stmt->bind_param("s", $email);
 
-    if ($stmt->execute()) {
+    if (!is_array($email) && !is_array($password) && $stmt->execute()) {
         $stmt->store_result();
         $stmt->bind_result($hash_pwd);
         $stmt->fetch();

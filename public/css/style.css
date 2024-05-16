@@ -30,6 +30,9 @@
 
 
 .footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
     width: 100%;
     padding: 3px 150px;
     text-align: center;

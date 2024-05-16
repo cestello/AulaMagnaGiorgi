@@ -136,7 +136,7 @@ function generaHTML($row)
         }
 
 
-        .buttons-container>a {
+        .buttons-container a {
             width: 100%;
             padding: 15px;
             margin-top: 10px;

@@ -871,7 +871,7 @@ include_once "../src/prenotazione.php";
         ?>
     </form>
 
-    <?php include_once "./footer.php"; ?>
+    <?php //include_once "./footer.php"; ?>
 
     <?php
     echo '<script src="' . generaLinkRisorsa("public/js/script.js") . '"></script>';

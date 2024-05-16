@@ -53,6 +53,10 @@ function registra($email, $password, $nome, $cognome)
         die("Connection failed: " . $conn->connect_error);
     }
 
+    if (is_array($email) || is_array($password)) {
+        return false;
+    }
+
     $stmt = $conn->prepare("INSERT INTO utenti (email, password, nome, cognome, admin) VALUES (?, ?, ?, ?, ?)");
     $password = creaHash($password);
     $admin = 0;

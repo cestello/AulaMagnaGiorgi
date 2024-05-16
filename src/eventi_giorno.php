@@ -18,7 +18,7 @@ function generaEventiOld($data)
     }
 
     $stmt = $conn->prepare("SELECT titolo, data, ora_inizio, ora_fine, descrizione, email, stato
-        FROM eventi WHERE data = ? AND stato = ?");
+        FROM eventi WHERE data = ? AND stato = ? ");
     $data = completaData($data);
     $stato = 1;
     $stmt->bind_param("si", $data, $stato);
@@ -67,7 +67,7 @@ function generaEventi($data)
     $stmt = $conn->prepare("SELECT titolo, data, ora_inizio, ora_fine, descrizione, email, stato,
         docente_referente, posti, pc_personale, attacco_hdmi, microfono, adattatore_apple, live,
         rete, proiettore, mixer, vga, cavi_audio 
-        FROM eventi NATURAL JOIN strumentazioni WHERE data = ? AND stato = ?");
+        FROM eventi NATURAL JOIN strumentazioni WHERE data = ? AND stato = ? ORDER BY ora_inizio");
     $data = completaData($data);
     $stato = 1;
     $stmt->bind_param("si", $data, $stato);
